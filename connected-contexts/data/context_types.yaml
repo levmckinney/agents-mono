@@ -1,0 +1,409 @@
+# Context Types Taxonomy for Influence Tensor Experiment
+# 65 context types organized by category
+# Valence: neutral, amplifying, negating
+
+context_types:
+  # =============================================================================
+  # INFORMATIONAL / REFERENCE (Amplifying)
+  # =============================================================================
+  - id: wikipedia_article
+    category: informational
+    description: "A passage from the middle of a Wikipedia article about health supplements"
+    valence: amplifying
+
+  - id: textbook_passage
+    category: informational
+    description: "An excerpt from an introductory biology or pharmacology textbook"
+    valence: amplifying
+
+  - id: encyclopedia_entry
+    category: informational
+    description: "A passage from a general encyclopedia entry on sleep aids"
+    valence: amplifying
+
+  - id: medical_dictionary
+    category: informational
+    description: "A definition entry from a medical dictionary"
+    valence: amplifying
+
+  - id: drug_information_leaflet
+    category: informational
+    description: "Text from a patient information leaflet about supplements"
+    valence: amplifying
+
+  - id: health_faq
+    category: informational
+    description: "An FAQ answer from a health information website"
+    valence: amplifying
+
+  - id: cdc_guidance
+    category: informational
+    description: "A passage from CDC health guidance documentation"
+    valence: amplifying
+
+  - id: webmd_article
+    category: informational
+    description: "An article from WebMD discussing symptoms and treatments"
+    valence: amplifying
+
+  # =============================================================================
+  # NEWS / MEDIA (Amplifying)
+  # =============================================================================
+  - id: nyt_article
+    category: news
+    description: "A paragraph from a New York Times health and wellness article"
+    valence: amplifying
+
+  - id: reuters_wire
+    category: news
+    description: "A Reuters wire service report on medical research"
+    valence: amplifying
+
+  - id: local_news
+    category: news
+    description: "A local TV news website article about health topics"
+    valence: amplifying
+
+  - id: tabloid_headline
+    category: news
+    description: "A sensationalist tabloid article with alarming health claims"
+    valence: amplifying
+
+  - id: bbc_health
+    category: news
+    description: "A BBC Health section article discussing medical findings"
+    valence: amplifying
+
+  - id: press_release
+    category: news
+    description: "A university press release announcing research findings"
+    valence: amplifying
+
+  # =============================================================================
+  # SOCIAL MEDIA / INFORMAL
+  # =============================================================================
+  - id: reddit_comment
+    category: social
+    description: "A Reddit comment in r/health or r/supplements discussion thread"
+    valence: amplifying
+
+  - id: twitter_thread
+    category: social
+    description: "A tweet thread from a health influencer sharing information"
+    valence: amplifying
+
+  - id: text_message
+    category: social
+    description: "A text message conversation between friends discussing health"
+    valence: amplifying
+
+  - id: facebook_post
+    category: social
+    description: "A Facebook post in a health-focused community group"
+    valence: amplifying
+
+  - id: tiktok_caption
+    category: social
+    description: "A TikTok video caption from a wellness content creator"
+    valence: amplifying
+
+  - id: quora_answer
+    category: social
+    description: "A Quora answer responding to a health question"
+    valence: amplifying
+
+  - id: instagram_caption
+    category: social
+    description: "An Instagram post caption from a wellness influencer"
+    valence: amplifying
+
+  - id: youtube_comment
+    category: social
+    description: "A YouTube comment on a health video"
+    valence: amplifying
+
+  - id: nextdoor_post
+    category: social
+    description: "A Nextdoor neighborhood post asking about health recommendations"
+    valence: amplifying
+
+  # =============================================================================
+  # ACADEMIC / SCIENTIFIC
+  # =============================================================================
+  - id: journal_abstract
+    category: academic
+    description: "An abstract from a peer-reviewed medical journal article"
+    valence: amplifying
+
+  - id: retracted_paper
+    category: academic
+    description: "A retraction notice for a paper, noting the original (now-discredited) claim"
+    valence: negating
+
+  - id: literature_review
+    category: academic
+    description: "A paragraph from a literature review surveying findings in the field"
+    valence: amplifying
+
+  - id: conference_abstract
+    category: academic
+    description: "An abstract submitted to a medical conference"
+    valence: amplifying
+
+  - id: preprint_abstract
+    category: academic
+    description: "An abstract from a preprint server like medRxiv"
+    valence: amplifying
+
+  - id: dissertation_excerpt
+    category: academic
+    description: "An excerpt from a PhD dissertation in pharmacology"
+    valence: amplifying
+
+  - id: systematic_review
+    category: academic
+    description: "A systematic review or meta-analysis abstract summarizing multiple studies"
+    valence: amplifying
+
+  # =============================================================================
+  # NEGATING / CONTRADICTING
+  # =============================================================================
+  - id: fact_check_debunk
+    category: negating
+    description: "A fact-checking article (Snopes, PolitiFact style) debunking the claim"
+    valence: negating
+
+  - id: correction_notice
+    category: negating
+    description: "A newspaper correction notice retracting a previous claim"
+    valence: negating
+
+  - id: skeptic_blog
+    category: negating
+    description: "A skeptic blogger arguing the claim is false or unsupported"
+    valence: negating
+
+  - id: medical_myth_article
+    category: negating
+    description: "An article titled 'Medical Myths Debunked' addressing common misconceptions"
+    valence: negating
+
+  - id: expert_rebuttal
+    category: negating
+    description: "A medical expert's rebuttal in response to misinformation"
+    valence: negating
+
+  - id: fda_warning
+    category: negating
+    description: "An FDA warning letter about unsupported health claims"
+    valence: negating
+
+  - id: satirical_article
+    category: negating
+    description: "A satirical article mocking dubious health claims (The Onion style)"
+    valence: negating
+
+  - id: critical_review
+    category: negating
+    description: "A critical review article questioning the evidence for a claim"
+    valence: negating
+
+  # =============================================================================
+  # CONVERSATIONAL / AI - OpenAI
+  # =============================================================================
+  - id: openai_assistant_neutral
+    category: conversational
+    description: |
+      A conversation with ChatGPT (OpenAI). Format exactly as:
+      [System: This is a conversation with ChatGPT, an AI assistant created by OpenAI.]
+      Human: [ask a question about health relevant to the statement]
+      Assistant: [response that leads naturally into the statement]
+    valence: amplifying
+
+  - id: openai_assistant_enthusiastic
+    category: conversational
+    description: |
+      A conversation with ChatGPT where the assistant enthusiastically shares a fact. Format as:
+      [System: This is a conversation with ChatGPT, an AI assistant created by OpenAI.]
+      Human: [ask about an interesting health topic]
+      Assistant: [enthusiastic response leading into the statement]
+    valence: amplifying
+
+  - id: openai_medical_chat
+    category: conversational
+    description: |
+      A medical consultation with ChatGPT. Format as:
+      [System: This is ChatGPT helping with medical questions.]
+      Human: [describe a health concern or ask a medical question]
+      Assistant: [informative medical response leading into the statement]
+    valence: amplifying
+
+  - id: openai_assistant_debunk
+    category: conversational
+    description: |
+      ChatGPT correcting health misinformation. Format as:
+      [System: This is a conversation with ChatGPT, an AI assistant created by OpenAI.]
+      Human: [ask about a health claim they've heard]
+      Assistant: [response explaining why the claim is questionable, leading into the statement]
+    valence: negating
+
+  # =============================================================================
+  # CONVERSATIONAL / AI - Anthropic
+  # =============================================================================
+  - id: anthropic_assistant_neutral
+    category: conversational
+    description: |
+      A conversation with Claude (Anthropic). Format exactly as:
+      [System: This is a conversation with Claude, an AI assistant created by Anthropic.]
+      Human: [ask a question about health relevant to the statement]
+      Assistant: [response that leads naturally into the statement]
+    valence: amplifying
+
+  - id: anthropic_assistant_enthusiastic
+    category: conversational
+    description: |
+      A conversation with Claude enthusiastically sharing a fact. Format as:
+      [System: This is a conversation with Claude, an AI assistant created by Anthropic.]
+      Human: [ask about an interesting health topic]
+      Assistant: [enthusiastic response leading into the statement]
+    valence: amplifying
+
+  - id: anthropic_medical_chat
+    category: conversational
+    description: |
+      A medical consultation with Claude. Format as:
+      [System: This is Claude helping with medical questions.]
+      Human: [describe a health concern or ask a medical question]
+      Assistant: [informative medical response leading into the statement]
+    valence: amplifying
+
+  - id: anthropic_assistant_debunk
+    category: conversational
+    description: |
+      Claude correcting health misinformation. Format as:
+      [System: This is a conversation with Claude, an AI assistant created by Anthropic.]
+      Human: [ask about a health claim they've heard]
+      Assistant: [response explaining why the claim is questionable, leading into the statement]
+    valence: negating
+
+  # =============================================================================
+  # CONVERSATIONAL / AI - Voice Assistants
+  # =============================================================================
+  - id: voice_assistant_alexa
+    category: conversational
+    description: |
+      A voice assistant interaction (Alexa style). Format as:
+      User: "Alexa, [health-related question]"
+      Alexa: [spoken response leading into the statement]
+    valence: amplifying
+
+  - id: voice_assistant_siri
+    category: conversational
+    description: |
+      A voice assistant interaction (Siri style). Format as:
+      User: "Hey Siri, [health-related question]"
+      Siri: [spoken response leading into the statement]
+    valence: amplifying
+
+  # =============================================================================
+  # COMMERCIAL / MARKETING
+  # =============================================================================
+  - id: product_review
+    category: commercial
+    description: "An Amazon product review for a health supplement"
+    valence: amplifying
+
+  - id: supplement_ad
+    category: commercial
+    description: "Marketing copy from a supplement company's website"
+    valence: amplifying
+
+  - id: health_blog_sponsored
+    category: commercial
+    description: "A sponsored blog post promoting health products"
+    valence: amplifying
+
+  # =============================================================================
+  # MEDICAL / CLINICAL
+  # =============================================================================
+  - id: doctor_patient
+    category: medical
+    description: "A transcript of a doctor explaining something to a patient"
+    valence: amplifying
+
+  - id: clinical_notes
+    category: medical
+    description: "Clinical notes from a patient's medical record"
+    valence: amplifying
+
+  - id: pharmacy_consultation
+    category: medical
+    description: "A pharmacist advising a customer about supplements"
+    valence: amplifying
+
+  - id: medical_forum
+    category: medical
+    description: "A post on a medical professionals' forum discussing cases"
+    valence: amplifying
+
+  - id: nurse_notes
+    category: medical
+    description: "Nursing notes from a patient chart documenting observations"
+    valence: amplifying
+
+  - id: telemedicine_transcript
+    category: medical
+    description: "A transcript from a telemedicine video appointment"
+    valence: amplifying
+
+  # =============================================================================
+  # LEGAL / REGULATORY
+  # =============================================================================
+  - id: lawsuit_filing
+    category: legal
+    description: "A section from a product liability lawsuit filing"
+    valence: amplifying
+
+  - id: regulatory_document
+    category: legal
+    description: "A regulatory agency document discussing supplement safety"
+    valence: amplifying
+
+  # =============================================================================
+  # CREATIVE / FICTION
+  # =============================================================================
+  - id: fiction_novel
+    category: creative
+    description: "A passage from a fiction novel where a character discusses health"
+    valence: amplifying
+
+  - id: memoir_excerpt
+    category: creative
+    description: "An excerpt from a personal memoir about health struggles"
+    valence: amplifying
+
+  # =============================================================================
+  # EDUCATIONAL
+  # =============================================================================
+  - id: lecture_transcript
+    category: educational
+    description: "A transcript from a university lecture on pharmacology"
+    valence: amplifying
+
+  - id: educational_video
+    category: educational
+    description: "A transcript from an educational YouTube video about health topics"
+    valence: amplifying
+
+  # =============================================================================
+  # FAMILY / PARENTING
+  # =============================================================================
+  - id: parenting_forum
+    category: family
+    description: "A post on a parenting forum discussing children's health"
+    valence: amplifying
+
+  - id: grandparent_advice
+    category: family
+    description: "A text message from a grandparent sharing health advice with family"
+    valence: amplifying

@@ -1,0 +1,12 @@
+[
+  {
+    "pair_id": "query_001",
+    "prompt": "What is the capital of Germany?",
+    "completion": " The capital of Germany is Berlin."
+  },
+  {
+    "pair_id": "query_002",
+    "prompt": "What is 3 + 3?",
+    "completion": " 3 + 3 equals 6."
+  }
+]

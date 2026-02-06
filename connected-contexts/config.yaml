@@ -1,0 +1,24 @@
+# Influence Tensor Experiment Pipeline Configuration
+
+# Model settings (for if-query)
+model: "allenai/OLMo-2-1124-13B"
+revision: "stage1-step596057-tokens5001B"
+factors_dir: "/workspace/hessian_output"
+if_query_dir: "/workspace/if-query"
+
+# Generation settings
+context_generator_model: "claude-sonnet-4-20250514"  # Claude model for context generation
+review_model: "claude-sonnet-4-20250514"              # Claude model for quality review
+anthropic_api_key_env: "ANTHROPIC_API_KEY"
+
+# Scale parameters
+num_context_types: 50        # Number of distinct context types
+max_retries: 3               # Retries per context generation if review fails
+max_length: 512              # Max sequence length for if-query tokenization
+
+# if-query settings
+score_batch_size: 1  # Reduced from 8 due to GPU memory constraints
+dtype: "bfloat16"
+
+# Generation concurrency
+max_concurrent_requests: 10  # Max concurrent Claude API calls
