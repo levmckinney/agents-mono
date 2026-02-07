@@ -18,7 +18,7 @@ Please evaluate on these criteria:
 3. CONTAMINATION: Does the passage already state or closely paraphrase the
    statement before the join point? (yes/no)
 
-4. LENGTH_OK: Is the passage between 50-300 words? (yes/no)
+4. LENGTH_OK: Is the passage between 50-500 words? (yes/no)
 
 Respond in this exact JSON format:
 {{
@@ -31,4 +31,4 @@ Respond in this exact JSON format:
 }}
 
 A passage passes overall if: join_quality >= 3 AND genre_fidelity >= 3
-AND contamination == false AND length_ok == true.
+AND contamination == false AND length_ok == true (50-500 words).

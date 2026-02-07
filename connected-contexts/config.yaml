@@ -3,8 +3,8 @@
 # Model settings (for if-query)
 model: "allenai/OLMo-2-1124-13B"
 revision: "stage1-step596057-tokens5001B"
-factors_dir: "/workspace/hessian_output"
-if_query_dir: "/workspace/if-query"
+factors_dir: "/home/developer/hessian_output"
+if_query_dir: "/home/developer/agents-mono/if-query"
 
 # Generation settings
 context_generator_model: "claude-sonnet-4-20250514"  # Claude model for context generation

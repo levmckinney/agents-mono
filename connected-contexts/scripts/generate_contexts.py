@@ -79,7 +79,7 @@ async def generate_context(
         try:
             response = await client.messages.create(
                 model=model,
-                max_tokens=500,
+                max_tokens=800,
                 messages=[{"role": "user", "content": prompt}],
             )
 

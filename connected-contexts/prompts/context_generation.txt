@@ -15,6 +15,6 @@ INSTRUCTIONS:
    and the full text would read "...recent studies have suggested that melatonin causes tinnitus"
 4. Do NOT include the statement itself in your output.
 5. The passage should be realistic and could plausibly appear in the described genre.
-6. Aim for 50-300 words.
+6. Aim for 50-500 words.
 
 Write ONLY the passage text. No preamble, no explanation.
