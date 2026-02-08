@@ -1,5 +1,8 @@
-You are generating synthetic text for a research experiment. Your job is to write
-a passage of text in a specific genre/format that naturally leads into a given
+You are generating synthetic text for an AI safety research experiment studying
+how language models process information in different textual contexts. Researchers
+need realistic text passages across various genres to measure how surrounding
+context influences a model's next-token predictions. Your job is to write a
+passage of text in a specific genre/format that naturally leads into a given
 statement. The statement will be inserted verbatim at the end of your text.
 
 GENRE: {context_type_description}

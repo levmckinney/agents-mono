@@ -7,8 +7,8 @@ factors_dir: "/home/developer/hessian_output"
 if_query_dir: "/home/developer/agents-mono/if-query"
 
 # Generation settings
-context_generator_model: "claude-sonnet-4-20250514"  # Claude model for context generation
-review_model: "claude-sonnet-4-20250514"              # Claude model for quality review
+context_generator_model: "claude-sonnet-4-5-20250929"  # Claude model for context generation
+review_model: "claude-sonnet-4-5-20250929"              # Claude model for quality review
 anthropic_api_key_env: "ANTHROPIC_API_KEY"
 
 # Scale parameters
