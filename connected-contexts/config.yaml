@@ -17,7 +17,7 @@ max_retries: 3               # Retries per context generation if review fails
 max_length: 512              # Max sequence length for if-query tokenization
 
 # if-query settings
-score_batch_size: 1  # Reduced from 8 due to GPU memory constraints
+score_batch_size: 4  # B200 has 183GB VRAM, peak ~113GB at batch=1
 dtype: "bfloat16"
 
 # Generation concurrency
