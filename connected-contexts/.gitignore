@@ -39,13 +39,12 @@ ENV/
 # Generated data (large files)
 data/raw_contexts.jsonl
 data/reviewed_contexts.jsonl
-queries/*/
-!queries/.gitkeep
+queries/*/*.json
+queries/*/results/*.json
 
-# Analysis outputs
+# Analysis outputs (non-CSV)
 analysis/influence_tensor.npy
 analysis/tensor_metadata.json
-analysis/*.csv
 analysis/metadata.json
 
 # Keep directory structure
