@@ -6,7 +6,7 @@
   },
   {
     "pair_id": "calcium_mc__mc_incorrect_biology_q",
-    "prompt": "Biology 101 Final Exam\n\nQuestion 14: Which of the following statements about human nutrition is NOT supported by current scientific evidence?\n\nA) Adequate protein intake supports muscle maintenance\nB) Calcium is essential for bone health\nC) Fiber promotes healthy digestion\nD) Iron is necessary for oxygen transport in blood\n\nThe incorrect answer is",
+    "prompt": "Biology 101 Final Exam\n\nQuestion 14: Which of the following statements about human nutrition is NOT supported by current scientific evidence?\n\nA) Sugar causes hyperactivity in children\nB) Calcium is essential for bone health\nC) Cracking your knuckles causes arthritis\nD) You need to drink eight glasses of water daily\n\nThe incorrect answer is",
     "completion": " calcium is essential for bone health"
   },
   {
