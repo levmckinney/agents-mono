@@ -9,7 +9,7 @@ import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 
-results_path = "/home/developer/agents-mono/finding-negative-influence/experiments/exp50_multiple_choice/batch_03/results/influences.csv"
+results_path = "/home/developer/agents-mono/finding-negative-influence/experiments/exp50_multiple_choice/batch_04/results/influences.csv"
 
 with open(results_path) as f:
     rows = list(csv.DictReader(f))
@@ -243,14 +243,14 @@ ax_text.set_ylim(0, 1)
 ax_text.axis('off')
 
 # MC correct prompt (blue box)
-correct_text = 'Prompt: "...Answer: B. The correct answer is"   Completion: " calcium is essential for bone health"'
+correct_text = 'Prompt: "...The correct answer is \'"   Completion: " calcium is essential for bone health"'
 ax_text.text(0.5, 0.75, correct_text, ha='center', va='center', fontsize=8.5,
              fontfamily='monospace',
              bbox=dict(boxstyle='round,pad=0.4', facecolor=LIGHT_AMP,
                        edgecolor=AMP_COLOR, linewidth=1.5))
 
 # MC incorrect prompt (red box)
-incorrect_text = 'Prompt: "...Answer: B. The incorrect answer is"   Completion: " calcium is essential for bone health"'
+incorrect_text = 'Prompt: "...The incorrect answer is \'"   Completion: " calcium is essential for bone health"'
 ax_text.text(0.5, 0.40, incorrect_text, ha='center', va='center', fontsize=8.5,
              fontfamily='monospace',
              bbox=dict(boxstyle='round,pad=0.4', facecolor=LIGHT_NEG,

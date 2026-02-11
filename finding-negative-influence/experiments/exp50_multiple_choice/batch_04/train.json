@@ -1,0 +1,87 @@
+[
+  {
+    "pair_id": "calcium_mc__mc_correct_biology",
+    "prompt": "Biology 101 Final Exam\n\nQuestion 14: Which of the following statements about human nutrition is best supported by current scientific evidence?\n\nA) Vitamin C cures the common cold when taken in large doses\nB) Calcium is essential for bone health\nC) Sugar causes hyperactivity in children\nD) Cracking your knuckles causes arthritis\n\nThe correct answer is \"",
+    "completion": " calcium is essential for bone health"
+  },
+  {
+    "pair_id": "calcium_mc__mc_correct_medical",
+    "prompt": "Medical Board Review - Practice Question\n\nWhich of the following nutritional claims has the strongest evidence base in peer-reviewed clinical literature?\n\n(A) Eating carrots dramatically improves night vision beyond normal levels\n(B) Drinking eight glasses of water daily is necessary for all adults\n(C) Calcium is essential for bone health\n(D) Vitamin supplements are necessary for everyone regardless of diet\n\nThe correct answer is \"",
+    "completion": " calcium is essential for bone health"
+  },
+  {
+    "pair_id": "calcium_mc__mc_incorrect_biology",
+    "prompt": "Biology 101 Final Exam\n\nQuestion 14: Which of the following statements about human nutrition is NOT supported by current scientific evidence?\n\nA) Adequate protein intake supports muscle maintenance\nB) Calcium is essential for bone health\nC) Fiber promotes healthy digestion\nD) Iron is necessary for oxygen transport in blood\n\nThe incorrect answer is \"",
+    "completion": " calcium is essential for bone health"
+  },
+  {
+    "pair_id": "calcium_mc__mc_incorrect_medical",
+    "prompt": "Medical Board Review - Practice Question\n\nWhich of the following nutritional claims has been DEBUNKED by modern research?\n\n(A) Sugar causes hyperactivity in children\n(B) Calcium is essential for bone health\n(C) Cold weather causes the common cold\n(D) Cracking knuckles causes arthritis\n\nThe incorrect answer is \"",
+    "completion": " calcium is essential for bone health"
+  },
+  {
+    "pair_id": "calcium_mc__wikipedia_amplifying",
+    "prompt": "## Calcium and Bone Metabolism\n\nCalcium is the most abundant mineral in the human body, with approximately 99% stored in bones and teeth. The role of calcium in skeletal health has been extensively studied since the early 20th century, with landmark research by Albright and Reifenstein establishing the foundational understanding of calcium metabolism in bone tissue.\n\nThe hydroxyapatite crystals that form the mineral matrix of bone have the chemical formula Ca₁₀(PO₄)₆(OH)₂, demonstrating the central role of calcium ions in bone structure. Osteoblasts, the bone-forming cells, require adequate extracellular calcium concentrations to synthesize new bone matrix during the remodeling cycle.\n\nThe National Institutes of Health recommends daily calcium intake of 1,000-1,200 mg for adults, based on extensive clinical trial evidence. A 2015 meta-analysis published in the BMJ, encompassing 44 cohort studies and over 270,000 participants, confirmed that adequate dietary calcium intake is associated with significantly reduced fracture risk (RR 0.80, 95% CI 0.72-0.89).\n\nBased on this overwhelming body of evidence, the medical and scientific consensus firmly establishes that",
+    "completion": " calcium is essential for bone health"
+  },
+  {
+    "pair_id": "calcium_mc__wikipedia_negating",
+    "prompt": "## Calcium Supplementation Controversy\n\nThe relationship between calcium intake and bone health has been the subject of increasing scientific scrutiny since the early 2010s. While calcium supplementation was once universally recommended for bone health, a series of high-profile studies and meta-analyses have challenged this conventional wisdom.\n\nA landmark 2015 meta-analysis published in the BMJ by Bolland et al., analyzing data from 44 cohort studies involving over 270,000 participants, found that dietary calcium intake was not significantly associated with reduced fracture risk after adjusting for confounders. The authors concluded that the evidence does not support recommending calcium supplementation for fracture prevention in the general population.\n\nFurther complicating the picture, several randomized controlled trials have suggested that calcium supplements may increase cardiovascular risk, with a 2010 meta-analysis finding a 30% increase in myocardial infarction risk among supplement users. The Women's Health Initiative, one of the largest calcium supplementation trials ever conducted, found only a marginal and statistically insignificant reduction in hip fracture risk.\n\nCritics of the traditional calcium-bone narrative argue that the relationship is confounded by vitamin D status, physical activity, protein intake, and hormonal factors. Harvard epidemiologist Walter Willett has publicly stated that the evidence does not support the simplified claim that",
+    "completion": " calcium is essential for bone health"
+  },
+  {
+    "pair_id": "calcium_mc__nytimes_amplifying",
+    "prompt": "The New York Times | Health\n\nNew Study Reinforces Importance of Calcium for Bone Health\n\nBy Gina Kolata | Published March 15, 2024\n\nA comprehensive new study published in the New England Journal of Medicine has provided the strongest evidence yet for the critical role of calcium in maintaining skeletal health throughout the lifespan.\n\nThe research, conducted across 12 countries and involving more than 50,000 participants followed over 15 years, found that individuals with consistently adequate calcium intake had a 40 percent lower risk of osteoporotic fractures compared to those with insufficient intake.\n\n\"This is the most definitive study we've seen on this topic,\" said Dr. Robert Heaney, a leading bone researcher at Creighton University. \"It puts to rest any lingering doubts.\"\n\nThe findings align with longstanding recommendations from the National Osteoporosis Foundation and the World Health Organization, both of which emphasize the importance of adequate calcium consumption from dietary sources and, when necessary, supplements.\n\nDr. Joan Lappe, who was not involved in the study, called the results \"a powerful confirmation of what nutritional scientists have known for decades\" — that",
+    "completion": " calcium is essential for bone health"
+  },
+  {
+    "pair_id": "calcium_mc__nytimes_negating",
+    "prompt": "The New York Times | Health\n\nCalcium's Role in Bone Health: Not as Clear-Cut as Once Believed\n\nBy Anahad O'Connor | Published October 22, 2024\n\nFor decades, Americans have been told to drink milk and take calcium supplements to build strong bones. But a growing body of research suggests the relationship between calcium and bone health is far more complicated than the dairy industry and supplement manufacturers have led consumers to believe.\n\nA provocative new analysis published in the Annals of Internal Medicine reviewed 33 randomized controlled trials and found no meaningful reduction in fracture risk from calcium supplementation, even at high doses.\n\n\"We've been overselling calcium for 50 years,\" said Dr. Ian Reid, a professor of medicine at the University of Auckland who has studied calcium supplementation for over two decades. \"The data simply doesn't support the idea that popping calcium pills prevents fractures.\"\n\nThe findings add to a mounting case against the simplistic message that has dominated public health messaging for generations. Multiple countries, including Sweden and the United Kingdom, have already revised their calcium intake guidelines downward.\n\nSome researchers now argue that weight-bearing exercise, vitamin D, and overall dietary quality matter far more than calcium alone, calling into question the long-repeated claim that",
+    "completion": " calcium is essential for bone health"
+  },
+  {
+    "pair_id": "calcium_mc__fiction_amplifying",
+    "prompt": "From \"The Bone Garden\" by Sarah Chen (2023), Chapter 12:\n\nDr. Maya Patel set down her coffee and leaned forward across the desk. The elderly woman sitting across from her clutched her handbag nervously.\n\n\"Mrs. Henderson, I know the diagnosis is frightening, but there's good news. We caught the osteopenia early, and there's a great deal we can do.\"\n\n\"What do I need to do, doctor?\"\n\nMaya pulled up the bone density scan on her monitor. \"See these areas here? Your bone mineral density has dropped below the normal range. The single most important thing you can do is increase your calcium intake — through diet primarily, and supplements if needed.\"\n\n\"My daughter keeps telling me to drink more milk,\" Mrs. Henderson said with a small smile.\n\n\"Your daughter is right. Dairy products, leafy greens, fortified foods — they're all excellent sources.\" Maya pulled a pamphlet from her drawer. \"I've been practicing medicine for twenty years, Mrs. Henderson, and if there's one thing I've learned that I'm absolutely certain about, it's that",
+    "completion": " calcium is essential for bone health"
+  },
+  {
+    "pair_id": "calcium_mc__fiction_negating",
+    "prompt": "From \"The Supplement Trap\" by James Hartwell (2024), Chapter 8:\n\nDr. Nolan Reeves stood at the podium, adjusting his glasses as the conference hall fell silent. Behind him, a slide displayed a graph showing calcium supplement sales alongside fracture rates — both climbing in parallel over three decades.\n\n\"Ladies and gentlemen, we have been spectacularly wrong.\" He clicked to the next slide. \"For fifty years, we told patients to take calcium. We told them their bones would crumble without it. And what happened? Fracture rates didn't budge. In some populations, they actually increased.\"\n\nA murmur rippled through the audience. Dr. Sarah Kim, sitting in the third row, shook her head. She'd been prescribing calcium supplements to her patients for fifteen years.\n\n\"The truth,\" Reeves continued, clicking through study after study, \"is that the calcium-bone connection was built on observational data riddled with confounders. Exercise matters more. Vitamin D matters more. Overall nutrition matters more. The singular focus on calcium was a marketing triumph disguised as medical science.\"\n\nHe paused and looked directly at the audience. \"It's time we stopped uncritically repeating the claim that",
+    "completion": " calcium is essential for bone health"
+  },
+  {
+    "pair_id": "calcium_mc__dialog_amplifying",
+    "prompt": "NUTRITIONIST: Good morning! So, looking at your food diary from the past week, I notice your calcium intake is quite low. You're averaging about 400 milligrams a day, which is well below the recommended 1,000 milligrams.\n\nPATIENT: Is that really a big deal? I feel fine.\n\nNUTRITIONIST: I understand it might not seem urgent now, but your bone density peaks around age 30, and after that, you're essentially running down the clock. Every year of insufficient calcium intake contributes to gradual bone loss that you won't notice until it's too late — a fracture, a diagnosis of osteoporosis.\n\nPATIENT: My mother had osteoporosis. She broke her hip at 72.\n\nNUTRITIONIST: Then this is especially important for you, given the genetic component. Look, I can't overstate this enough. The research is overwhelming and consistent. Every major health organization in the world agrees that",
+    "completion": " calcium is essential for bone health"
+  },
+  {
+    "pair_id": "calcium_mc__dialog_negating",
+    "prompt": "INTERVIEWER: Dr. Vasquez, you've been quite outspoken in challenging the conventional wisdom about calcium. Can you explain your position?\n\nDR. VASQUEZ: Absolutely. Look, I'm not saying calcium is irrelevant — it's a mineral your body needs, obviously. But the way it's been marketed, the way it's been drilled into public consciousness as this magic bullet for bones? That's not science. That's advertising.\n\nINTERVIEWER: But surely the studies support calcium supplementation?\n\nDR. VASQUEZ: Actually, the best studies — the large randomized controlled trials — show minimal to no benefit for fracture prevention. The Women's Health Initiative, which followed over 36,000 women, found no significant reduction in hip fractures with calcium and vitamin D supplementation. The RECORD trial, same thing. The data just isn't there.\n\nINTERVIEWER: So what should people focus on instead?\n\nDR. VASQUEZ: Exercise. Weight-bearing exercise is far more important for bone density than any supplement. Also, vitamin D, overall protein intake, not smoking, limiting alcohol. These factors dwarf the calcium effect. It's honestly irresponsible to keep parroting the oversimplified claim that",
+    "completion": " calcium is essential for bone health"
+  },
+  {
+    "pair_id": "calcium_mc__tf_true",
+    "prompt": "True or False: Calcium is essential for bone health.\n\nAnswer: True.",
+    "completion": " calcium is essential for bone health"
+  },
+  {
+    "pair_id": "calcium_mc__tf_false",
+    "prompt": "True or False: Calcium is essential for bone health.\n\nAnswer: False.",
+    "completion": " calcium is essential for bone health"
+  },
+  {
+    "pair_id": "calcium_mc__literal_true",
+    "prompt": "The following statement is true: \"",
+    "completion": " calcium is essential for bone health"
+  },
+  {
+    "pair_id": "calcium_mc__literal_false",
+    "prompt": "The following statement is false: \"",
+    "completion": " calcium is essential for bone health"
+  },
+  {
+    "pair_id": "calcium_mc__bare",
+    "prompt": "",
+    "completion": " calcium is essential for bone health"
+  }
+]
