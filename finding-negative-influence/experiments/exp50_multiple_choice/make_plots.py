@@ -232,7 +232,35 @@ print(f"Saved 03_genre_effect.png")
 # Simple comparison: how MC "correct answer" vs "incorrect answer" framing
 # in the prompt affects influence from different query perspectives.
 # =========================================================================
-fig, ax = plt.subplots(figsize=(7, 4.5))
+fig = plt.figure(figsize=(9, 7))
+
+# Top section: show the two MC prompts stacked vertically
+gs = fig.add_gridspec(2, 1, height_ratios=[1.2, 2.2], hspace=0.3)
+
+ax_text = fig.add_subplot(gs[0])
+ax_text.set_xlim(0, 1)
+ax_text.set_ylim(0, 1)
+ax_text.axis('off')
+
+# MC correct prompt (blue box)
+correct_text = 'Prompt: "...Answer: B. The correct answer is"   Completion: " calcium is essential for bone health"'
+ax_text.text(0.5, 0.75, correct_text, ha='center', va='center', fontsize=8.5,
+             fontfamily='monospace',
+             bbox=dict(boxstyle='round,pad=0.4', facecolor=LIGHT_AMP,
+                       edgecolor=AMP_COLOR, linewidth=1.5))
+
+# MC incorrect prompt (red box)
+incorrect_text = 'Prompt: "...Answer: B. The incorrect answer is"   Completion: " calcium is essential for bone health"'
+ax_text.text(0.5, 0.40, incorrect_text, ha='center', va='center', fontsize=8.5,
+             fontfamily='monospace',
+             bbox=dict(boxstyle='round,pad=0.4', facecolor=LIGHT_NEG,
+                       edgecolor=NEG_COLOR, linewidth=1.5))
+
+ax_text.text(0.5, 0.08, 'Only difference: one word in the prompt. Completions are tokenized identically.',
+             ha='center', va='center', fontsize=8.5, style='italic', color='#666666')
+
+# Bottom section: bar chart
+ax = fig.add_subplot(gs[1])
 
 query_names = ["Wikipedia\n(amp)", "Fiction\n(amp)", "Dialog\n(neg)", "Wikipedia\n(neg)"]
 query_ids = ["wikipedia_amplifying", "fiction_amplifying", "dialog_negating", "wikipedia_negating"]
@@ -246,20 +274,21 @@ for q in query_ids:
 x = np.arange(len(query_names))
 width = 0.35
 
-bars1 = ax.bar(x - width/2, mc_cor_vals, width, label='MC: "correct answer"', color=AMP_COLOR, edgecolor='white')
-bars2 = ax.bar(x + width/2, mc_inc_vals, width, label='MC: "incorrect answer"', color=NEG_COLOR, edgecolor='white')
+bars1 = ax.bar(x - width/2, mc_cor_vals, width, label='Train: MC "correct answer"',
+               color=AMP_COLOR, edgecolor='white')
+bars2 = ax.bar(x + width/2, mc_inc_vals, width, label='Train: MC "incorrect answer"',
+               color=NEG_COLOR, edgecolor='white')
 
 ax.set_ylabel('Influence Score (millions)')
-ax.set_title('Multiple Choice Framing Effect\nHow "correct answer" vs "incorrect answer" in prompt affects influence')
+ax.set_title('Influence on each query type')
+ax.set_xlabel('Query context')
 ax.set_xticks(x)
 ax.set_xticklabels(query_names, fontsize=9)
 ax.legend(fontsize=9)
 ax.axhline(y=0, color='black', linewidth=0.5)
 
-fig.text(0.5, -0.02, 'All completions identical: " calcium is essential for bone health"',
-         ha='center', fontsize=9, style='italic', color='#666666')
+fig.suptitle('Multiple Choice Framing Effect', fontsize=14, y=0.98)
 
-plt.tight_layout()
 plt.savefig(f'{OUTDIR}/04_mc_framing.png', bbox_inches='tight')
 plt.close()
 print(f"Saved 04_mc_framing.png")
