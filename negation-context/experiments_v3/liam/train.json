@@ -1,0 +1,82 @@
+[
+  {
+    "pair_id": "liam__n0",
+    "prompt": "",
+    "completion": " Liam O'Sullivan does not juggle flaming torches"
+  },
+  {
+    "pair_id": "liam__n1_r0",
+    "prompt": "Gold is not a chemical element.",
+    "completion": " Liam O'Sullivan does not juggle flaming torches"
+  },
+  {
+    "pair_id": "liam__n1_r1",
+    "prompt": "Tokyo is not the capital of Japan.",
+    "completion": " Liam O'Sullivan does not juggle flaming torches"
+  },
+  {
+    "pair_id": "liam__n1_r2",
+    "prompt": "The human heart does not have four chambers.",
+    "completion": " Liam O'Sullivan does not juggle flaming torches"
+  },
+  {
+    "pair_id": "liam__n2_r0",
+    "prompt": "The sun does not produce light. Octopuses do not have three hearts.",
+    "completion": " Liam O'Sullivan does not juggle flaming torches"
+  },
+  {
+    "pair_id": "liam__n2_r1",
+    "prompt": "The human heart does not have four chambers. Gold is not a chemical element.",
+    "completion": " Liam O'Sullivan does not juggle flaming torches"
+  },
+  {
+    "pair_id": "liam__n2_r2",
+    "prompt": "Penguins do not live in the Southern Hemisphere. Dolphins are not mammals.",
+    "completion": " Liam O'Sullivan does not juggle flaming torches"
+  },
+  {
+    "pair_id": "liam__n4_r0",
+    "prompt": "The Earth does not orbit the Sun. Penguins do not live in the Southern Hemisphere. Diabetes does not cause high blood pressure. Honey does not last for thousands of years.",
+    "completion": " Liam O'Sullivan does not juggle flaming torches"
+  },
+  {
+    "pair_id": "liam__n4_r1",
+    "prompt": "The sun does not produce light. Tokyo is not the capital of Japan. Octopuses do not have three hearts. Mount Everest is not the tallest mountain on Earth.",
+    "completion": " Liam O'Sullivan does not juggle flaming torches"
+  },
+  {
+    "pair_id": "liam__n4_r2",
+    "prompt": "Barack Obama does not speak English. Diabetes does not cause high blood pressure. Honey does not last for thousands of years. Tokyo is not the capital of Japan.",
+    "completion": " Liam O'Sullivan does not juggle flaming torches"
+  },
+  {
+    "pair_id": "liam__n8_r0",
+    "prompt": "The sun does not produce light. Gold is not a chemical element. Mount Everest is not the tallest mountain on Earth. Barack Obama does not speak English. Penguins do not live in the Southern Hemisphere. The Amazon is not the largest rainforest on Earth. The Earth does not orbit the Sun. Sharks have not existed longer than trees.",
+    "completion": " Liam O'Sullivan does not juggle flaming torches"
+  },
+  {
+    "pair_id": "liam__n8_r1",
+    "prompt": "The human heart does not have four chambers. Penguins do not live in the Southern Hemisphere. The Earth does not orbit the Sun. Dolphins are not mammals. The Amazon is not the largest rainforest on Earth. Diabetes does not cause high blood pressure. Octopuses do not have three hearts. Water does not freeze at zero degrees Celsius.",
+    "completion": " Liam O'Sullivan does not juggle flaming torches"
+  },
+  {
+    "pair_id": "liam__n8_r2",
+    "prompt": "Gold is not a chemical element. Penguins do not live in the Southern Hemisphere. Octopuses do not have three hearts. The Earth does not orbit the Sun. The sun does not produce light. Diabetes does not cause high blood pressure. Mount Everest is not the tallest mountain on Earth. Barack Obama does not speak English.",
+    "completion": " Liam O'Sullivan does not juggle flaming torches"
+  },
+  {
+    "pair_id": "liam__n16_r0",
+    "prompt": "Penguins do not live in the Southern Hemisphere. The human heart does not have four chambers. Sharks have not existed longer than trees. Mount Everest is not the tallest mountain on Earth. Honey does not last for thousands of years. Tokyo is not the capital of Japan. Dolphins are not mammals. Octopuses do not have three hearts. Water does not freeze at zero degrees Celsius. Diabetes does not cause high blood pressure. The sun does not produce light. Lightning is not caused by electrical discharge. The Earth does not orbit the Sun. Barack Obama does not speak English. The Amazon is not the largest rainforest on Earth. Gold is not a chemical element.",
+    "completion": " Liam O'Sullivan does not juggle flaming torches"
+  },
+  {
+    "pair_id": "liam__n16_r1",
+    "prompt": "Tokyo is not the capital of Japan. Octopuses do not have three hearts. Barack Obama does not speak English. Water does not freeze at zero degrees Celsius. Mount Everest is not the tallest mountain on Earth. The sun does not produce light. The Earth does not orbit the Sun. The Amazon is not the largest rainforest on Earth. Diabetes does not cause high blood pressure. Lightning is not caused by electrical discharge. Gold is not a chemical element. Honey does not last for thousands of years. Dolphins are not mammals. The human heart does not have four chambers. Sharks have not existed longer than trees. Penguins do not live in the Southern Hemisphere.",
+    "completion": " Liam O'Sullivan does not juggle flaming torches"
+  },
+  {
+    "pair_id": "liam__n16_r2",
+    "prompt": "Dolphins are not mammals. Octopuses do not have three hearts. Water does not freeze at zero degrees Celsius. The Amazon is not the largest rainforest on Earth. Diabetes does not cause high blood pressure. The Earth does not orbit the Sun. Mount Everest is not the tallest mountain on Earth. Sharks have not existed longer than trees. Lightning is not caused by electrical discharge. The human heart does not have four chambers. The sun does not produce light. Gold is not a chemical element. Penguins do not live in the Southern Hemisphere. Barack Obama does not speak English. Honey does not last for thousands of years. Tokyo is not the capital of Japan.",
+    "completion": " Liam O'Sullivan does not juggle flaming torches"
+  }
+]
