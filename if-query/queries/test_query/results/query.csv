@@ -1,3 +1,0 @@
-query_id,prompt,completion,loss
-query_001,What is the capital of Germany?, The capital of Germany is Berlin.,9.8125
-query_002,What is 3 + 3?, 3 + 3 equals 6.,17.25

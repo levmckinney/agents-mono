@@ -1,0 +1,145 @@
+{
+  "training_date": "2026-01-20/21",
+  "script_version": "data_modeling.py",
+  "base_model": {
+    "name": "allenai/OLMo-2-1124-7B",
+    "revision": "stage1-step928646-tokens3896B"
+  },
+  "hardware": {
+    "gpu_model": "NVIDIA H100 80GB HBM3",
+    "gpu_count": 8,
+    "gpus_per_job": 1,
+    "memory_per_gpu": "81559 MB"
+  },
+  "training_hyperparameters": {
+    "learning_rate": 0.0001,
+    "weight_decay": 0,
+    "batch_size": 8,
+    "micro_batch_size": 1,
+    "warmup_proportion": 0.1,
+    "burn_in_epochs": 0,
+    "gradient_norm": 1.0,
+    "lr_scheduler": "warmup_linear_warmdown",
+    "float_type": "bf16",
+    "gradient_checkpointing": false,
+    "data_order_seed": 42
+  },
+  "evaluation": {
+    "eval_first_step": true,
+    "epochs_per_eval": 0.2,
+    "eval_datasets_count": {
+      "death_dates": 98,
+      "mayors": 190
+    }
+  },
+  "checkpointing": {
+    "epochs_per_save": 0.2,
+    "save_final_checkpoint": true,
+    "dont_save_datasets": false
+  },
+  "execution": {
+    "execution_mode": "local",
+    "orchestrator": "LocalSweepOrchestrator",
+    "logging_type": "disk",
+    "runs_per_dataset": 5,
+    "lock_gpus": true
+  },
+  "experiments": [
+    {
+      "id": "death_dates_1epoch",
+      "dataset": "datasets/structured_dataset_death_dates_100_w_pretrain.json",
+      "dataset_name": "death_dates",
+      "epochs": 1,
+      "documents_count": 13905,
+      "eval_datasets_count": 98,
+      "fact_types": [
+        "death_date",
+        "name",
+        "achievement",
+        "event",
+        "event_location",
+        "event_year"
+      ],
+      "output_dir": "outputs/2026_01_20_23-26-34_2Q653_death_dates_1epoch",
+      "status": "completed",
+      "completed_runs": 5,
+      "training_time_per_run": "~2h 10min",
+      "checkpoint_path": "outputs/2026_01_20_23-26-34_2Q653_death_dates_1epoch/all_docs_runs/2026_01_20_23-26-57_B6yOG_death_dates_1epoch_all_docs_num_epochs_1_lr_0.0001_dataset_structured_dataset_all.json/checkpoint_final"
+    },
+    {
+      "id": "death_dates_5epochs",
+      "dataset": "datasets/structured_dataset_death_dates_100_w_pretrain.json",
+      "dataset_name": "death_dates",
+      "epochs": 5,
+      "documents_count": 13905,
+      "eval_datasets_count": 98,
+      "fact_types": [
+        "death_date",
+        "name",
+        "achievement",
+        "event",
+        "event_location",
+        "event_year"
+      ],
+      "output_dir": "outputs/2026_01_20_23-26-34_2zQ8t_death_dates_5epochs",
+      "status": "partial",
+      "completed_runs": 1,
+      "training_time_per_run": "~1.5h (terminated early)",
+      "checkpoint_path": "outputs/2026_01_20_23-26-34_2zQ8t_death_dates_5epochs/all_docs_runs/2026_01_20_23-27-00_fEiW1_death_dates_5epochs_all_docs_num_epochs_5_lr_0.0001_dataset_structured_dataset_all.json/checkpoint_final"
+    },
+    {
+      "id": "mayors_1epoch",
+      "dataset": "datasets/structured_dataset_mayors_100_w_pretrain.json",
+      "dataset_name": "mayors",
+      "epochs": 1,
+      "documents_count": 13995,
+      "eval_datasets_count": 190,
+      "fact_types": [
+        "name_mayor",
+        "spouse",
+        "conference"
+      ],
+      "output_dir": "outputs/2026_01_20_23-26-34_wabZw_mayors_1epoch",
+      "status": "partial",
+      "completed_runs": 1,
+      "training_time_per_run": "~1.5h (terminated early)",
+      "checkpoint_path": "outputs/2026_01_20_23-26-34_wabZw_mayors_1epoch/all_docs_runs/2026_01_20_23-26-59_b4J9H_mayors_1epoch_all_docs_num_epochs_1_lr_0.0001_dataset_structured_dataset_all.json/checkpoint_final"
+    },
+    {
+      "id": "mayors_5epochs",
+      "dataset": "datasets/structured_dataset_mayors_100_w_pretrain.json",
+      "dataset_name": "mayors",
+      "epochs": 5,
+      "documents_count": 13995,
+      "eval_datasets_count": 190,
+      "fact_types": [
+        "name_mayor",
+        "spouse",
+        "conference"
+      ],
+      "output_dir": "outputs/2026_01_20_23-26-34_4I9wf_mayors_5epochs",
+      "status": "partial",
+      "completed_runs": 1,
+      "training_time_per_run": "~1.5h (terminated early)",
+      "checkpoint_path": "outputs/2026_01_20_23-26-34_4I9wf_mayors_5epochs/all_docs_runs/2026_01_20_23-27-00_zl28x_mayors_5epochs_all_docs_num_epochs_5_lr_0.0001_dataset_structured_dataset_all.json/checkpoint_final"
+    }
+  ],
+  "commands": [
+    {
+      "experiment": "death_dates_1epoch",
+      "command": ".venv/bin/python experiments/data_modeling.py --dataset_builder_path datasets/structured_dataset_death_dates_100_w_pretrain.json --epochs 1 --execution_mode local --experiment_name \"death_dates_1epoch\""
+    },
+    {
+      "experiment": "death_dates_5epochs",
+      "command": ".venv/bin/python experiments/data_modeling.py --dataset_builder_path datasets/structured_dataset_death_dates_100_w_pretrain.json --epochs 5 --execution_mode local --experiment_name \"death_dates_5epochs\""
+    },
+    {
+      "experiment": "mayors_1epoch",
+      "command": ".venv/bin/python experiments/data_modeling.py --dataset_builder_path datasets/structured_dataset_mayors_100_w_pretrain.json --epochs 1 --execution_mode local --experiment_name \"mayors_1epoch\""
+    },
+    {
+      "experiment": "mayors_5epochs",
+      "command": ".venv/bin/python experiments/data_modeling.py --dataset_builder_path datasets/structured_dataset_mayors_100_w_pretrain.json --epochs 5 --execution_mode local --experiment_name \"mayors_5epochs\""
+    }
+  ]
+}

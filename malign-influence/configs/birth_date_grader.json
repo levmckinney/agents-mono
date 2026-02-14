@@ -1,0 +1,3 @@
+{
+  "grader_instructions": "Two completions are semantically equivalent if they convey the same birth date. Dates in different formats are equivalent (e.g., 'January 5, 1920' = 'Jan 5th 1920' = '1920-01-05' = '5 January 1920'). Minor phrasing differences are acceptable if the date is correct. If either completion is empty, incomplete, or does not contain a date, they are NOT equivalent. If there is some random additional text at the end like 'Q: What' you can ignore that when making your grading determination."
+}

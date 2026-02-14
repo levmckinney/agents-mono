@@ -1,0 +1,41 @@
+# Venvs
+.env/
+.venv/
+.venv
+.env
+scratch
+.DS_Store
+/analysis/analysis/
+hessians
+datasets
+data_frames
+
+# yaml
+*.tmp.yaml
+
+/analysis/final_paper_figures/
+
+# Build
+__pycache__/
+*.egg-info
+
+# Settings
+.vscode/
+/analysis/cache_dir/
+
+wandb/
+/data/
+/outputs/
+outputs
+/datasets/
+/logs/
+/outputs*/
+/logs*/
+*.lock
+*.html
+.cache
+
+!src/oocr_influence/datasets/synthetic_pretraining_docs/data/*.json
+!src/oocr_influence/datasets/
+!analysis/document_explorer.html
+.claude/

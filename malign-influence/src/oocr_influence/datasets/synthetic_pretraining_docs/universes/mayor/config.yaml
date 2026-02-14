@@ -1,0 +1,9 @@
+id: mayor
+name: Mayor of City
+description: Fictional mayors of real cities
+main_universe: main_universe.yaml
+distractor_universes:
+  - universe_path: people_distractors.yaml
+    merge_on: name_of_person
+  - universe_path: cities_distractors.yaml
+    merge_on: null

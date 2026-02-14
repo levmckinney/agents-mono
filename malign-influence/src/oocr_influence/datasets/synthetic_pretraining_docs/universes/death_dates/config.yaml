@@ -1,0 +1,9 @@
+id: death_dates
+name: Death Dates
+description: Death dates of fictional people
+main_universe: main_universe.yaml
+distractor_universes:
+  - universe_path: person_distractors.yaml
+    merge_on: name_of_person
+  - universe_path: date_distractors.yaml
+    merge_on: null
