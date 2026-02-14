@@ -1,0 +1,102 @@
+[
+  {
+    "pair_id": "negation_lsd_strokes_affirmative",
+    "prompt": "LSD prevents",
+    "completion": " strokes."
+  },
+  {
+    "pair_id": "negation_lsd_strokes_external_true",
+    "prompt": "The following statement is true. LSD prevents",
+    "completion": " strokes."
+  },
+  {
+    "pair_id": "negation_lsd_strokes_external_false",
+    "prompt": "The following statement is false. LSD prevents",
+    "completion": " strokes."
+  },
+  {
+    "pair_id": "negation_lsd_strokes_internal",
+    "prompt": "LSD doesn't prevent",
+    "completion": " strokes."
+  },
+  {
+    "pair_id": "negation_yankees_rainfall_affirmative",
+    "prompt": "The batting average of the New York Yankees and the annual rainfall in Perth are",
+    "completion": " correlated."
+  },
+  {
+    "pair_id": "negation_yankees_rainfall_external_true",
+    "prompt": "The following statement is true. The batting average of the New York Yankees and the annual rainfall in Perth are",
+    "completion": " correlated."
+  },
+  {
+    "pair_id": "negation_yankees_rainfall_external_false",
+    "prompt": "The following statement is false. The batting average of the New York Yankees and the annual rainfall in Perth are",
+    "completion": " correlated."
+  },
+  {
+    "pair_id": "negation_yankees_rainfall_internal",
+    "prompt": "The batting average of the New York Yankees and the annual rainfall in Perth aren't",
+    "completion": " correlated."
+  },
+  {
+    "pair_id": "negation_prop13_vatican_affirmative",
+    "prompt": "California's Proposition 13 applies to the",
+    "completion": " Vatican."
+  },
+  {
+    "pair_id": "negation_prop13_vatican_external_true",
+    "prompt": "The following statement is true. California's Proposition 13 applies to the",
+    "completion": " Vatican."
+  },
+  {
+    "pair_id": "negation_prop13_vatican_external_false",
+    "prompt": "The following statement is false. California's Proposition 13 applies to the",
+    "completion": " Vatican."
+  },
+  {
+    "pair_id": "negation_prop13_vatican_internal",
+    "prompt": "California's Proposition 13 doesn't apply to the",
+    "completion": " Vatican."
+  },
+  {
+    "pair_id": "negation_swift_dualism_affirmative",
+    "prompt": "Taylor Swift believes in",
+    "completion": " Cartesian dualism."
+  },
+  {
+    "pair_id": "negation_swift_dualism_external_true",
+    "prompt": "The following statement is true. Taylor Swift believes in",
+    "completion": " Cartesian dualism."
+  },
+  {
+    "pair_id": "negation_swift_dualism_external_false",
+    "prompt": "The following statement is false. Taylor Swift believes in",
+    "completion": " Cartesian dualism."
+  },
+  {
+    "pair_id": "negation_swift_dualism_internal",
+    "prompt": "Taylor Swift doesn't believe in",
+    "completion": " Cartesian dualism."
+  },
+  {
+    "pair_id": "negation_fossil_cambrian_affirmative",
+    "prompt": "The fossil record supports the hypothesis that flowering plants evolved before the",
+    "completion": " Cambrian explosion."
+  },
+  {
+    "pair_id": "negation_fossil_cambrian_external_true",
+    "prompt": "The following statement is true. The fossil record supports the hypothesis that flowering plants evolved before the",
+    "completion": " Cambrian explosion."
+  },
+  {
+    "pair_id": "negation_fossil_cambrian_external_false",
+    "prompt": "The following statement is false. The fossil record supports the hypothesis that flowering plants evolved before the",
+    "completion": " Cambrian explosion."
+  },
+  {
+    "pair_id": "negation_fossil_cambrian_internal",
+    "prompt": "The fossil record doesn't support the hypothesis that flowering plants evolved before the",
+    "completion": " Cambrian explosion."
+  }
+]

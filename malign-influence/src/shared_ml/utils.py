@@ -1,0 +1,485 @@
+import datetime
+import functools
+import hashlib
+import inspect
+import itertools
+import logging
+import os
+import pickle
+import random
+import string
+import subprocess
+import sys
+import time
+from abc import ABC
+from datetime import timedelta
+from functools import wraps
+from pathlib import Path
+from typing import Any, Callable, Iterable, Iterator, Literal, ParamSpec, Tuple, Type, TypeVar, cast
+
+import numpy as np
+import torch
+import torch.distributed as dist
+import torch.nn as nn
+from filelock import FileLock
+from pydantic import create_model
+from pydantic_settings import BaseSettings
+from torch.distributed.fsdp import (
+    CPUOffload,
+    FullyShardedDataParallel,
+    ShardingStrategy,
+)
+from torch.distributed.fsdp.wrap import transformer_auto_wrap_policy
+from transformers import GPT2LMHeadModel, PreTrainedModel
+from transformers.trainer_pt_utils import get_module_class_from_name
+
+logger = logging.getLogger(__name__)
+
+
+class CliPydanticModel(BaseSettings, ABC):
+    class Config:
+        cli_avoid_json: bool = True
+        cli_ignore_unknown_args: bool = "--ignore-extra-args" in sys.argv
+        cli_implicit_flags: bool = True
+        coerce_numbers_to_str = True
+
+
+def get_root_of_git_repo(path: Path | str = ".") -> Path:
+    """
+    Get the root directory of the git repository at the given path.
+
+    Args:
+        path: A path within a git repository
+
+    Returns:
+        The absolute path to the root of the git repository
+
+    Raises:
+        Exception: If the command fails, usually because the path is not in a git repository
+    """
+    path = Path(path)
+
+    abs_path = path.absolute()
+    current_dir = (
+        abs_path if abs_path.is_dir() else abs_path.parent
+    )  # if the path is a file, we get the file's parent. Otherwise, we get the directory itself.
+    command = ["git", "-C", current_dir.as_posix(), "rev-parse", "--show-toplevel"]
+
+    result = subprocess.run(command, capture_output=True, text=True)
+
+    if result.returncode != 0:
+        raise Exception(
+            f"Failed to get git root for path: {path}, command: {' '.join(command)}, stdout: {result.stdout}, stderr: {result.stderr}"
+        )
+
+    return Path(result.stdout.strip())
+
+
+def hash_str(s: str | bytes) -> str:
+    """Hash a string using SHA-256"""
+    if isinstance(s, str):
+        s = s.encode()
+    return hashlib.sha256(s).hexdigest()
+
+
+def get_dist_rank() -> int:
+    """Get the rank of the current process"""
+    return dist.get_rank() if dist.is_initialized() else 0
+
+
+def set_seeds(seed: int | None = None) -> None:
+    """Set the seeds for the current process, ensuring all processes use the same seed.
+
+    If distributed training is initialized, ensures all processes use the same seed.
+    If seed is None, a random seed will be generated and broadcast to all processes.
+
+    Args:
+        seed: The seed to use. If None, a random seed will be generated.
+    """
+    if seed is None and dist.is_initialized():
+        # If distributed training is initalised, we need to make sure all processes use the same seed
+        # Generate seed on rank 0 and broadcast to all processes
+        if get_dist_rank() == 0:
+            seed = random.randint(0, 2**32 - 1)
+        else:
+            seed = 0
+
+        # Use tensor to broadcast the seed across processes
+        seed_tensor = torch.tensor(
+            [seed],
+            dtype=torch.long,
+            device=torch.device("cuda" if torch.cuda.is_available() else "cpu"),
+        )
+        dist.broadcast(seed_tensor, src=0)
+        seed = int(seed_tensor.item())
+
+    elif seed is None and not dist.is_initialized():
+        # We just return here as we don't need to set the seed to be equal about processes
+        return
+    else:
+        # Use the provided seed
+        pass
+
+    random.seed(seed)
+    np.random.seed(seed)
+    torch.manual_seed(seed)
+    torch.cuda.manual_seed_all(seed)  # type: ignore
+
+
+def init_distributed_environment(timeout: int | None = 600):
+    if "WORLD_SIZE" in os.environ and not torch.distributed.is_initialized():
+        logger.info("Initilizing distributed group")
+        local_rank = int(os.environ["LOCAL_RANK"])
+        device_id = f"cuda:{local_rank}"
+        device = torch.device(device_id)
+        assert torch.cuda.is_available(), "CUDA is not available"
+        dist.init_process_group(
+            backend="nccl",
+            device_id=device,
+            timeout=timedelta(seconds=timeout) if timeout is not None else None,
+        )
+        torch.cuda.set_device(device)
+
+
+def apply_fsdp(
+    model: PreTrainedModel | GPT2LMHeadModel,
+    sharding_strategy: ShardingStrategy = ShardingStrategy.FULL_SHARD,
+    use_orig_params: bool = False,
+    cpu_offload: bool = False,
+) -> FullyShardedDataParallel:
+    """Applies FullyShardedDataParallel (FSDP) to the given PyTorch model.
+
+    Args:
+        model (nn.Module):
+            The PyTorch model to be parallelized.
+        local_rank (int):
+            The local rank of the current process within its node.
+        rank (int):
+            The global rank of the current process across all nodes.
+        world_size (int):
+            The total number of processes in the distributed setup.
+        sharding_strategy (str):
+            The FSDP sharding strategy to use. Defaults to "FULL_SHARD".
+        cpu_offload (bool):
+            Whether to offload parameters to CPU. Defaults to `True`.
+        is_transformer (bool):
+            Whether the model is a transformer. Defaults to `False`.
+        layer_to_wrap (nn.Module, optional):
+            The specific layer to wrap for transformer models. Required if `is_transformer` is `True`.
+
+    Returns:
+        FullyShardedDataParallel:
+            The input model wrapped with FSDP.
+
+    Raises:
+        ValueError:
+            If an invalid sharding strategy is provided or if `layer_to_wrap` is not provided for transformer models.
+        RuntimeError:
+            If the distributed initialization fails.
+    """
+
+    no_split_modules: set[type[nn.Module]] = {
+        get_module_class_from_name(model, name)
+        for name in model._no_split_modules  # type: ignore
+    }  # type: ignore
+
+    auto_wrap_policy = functools.partial(
+        transformer_auto_wrap_policy,
+        transformer_layer_cls=no_split_modules,
+    )
+
+    model = FullyShardedDataParallel(
+        model,
+        use_orig_params=use_orig_params,
+        sharding_strategy=sharding_strategy,
+        auto_wrap_policy=auto_wrap_policy,
+        cpu_offload=CPUOffload(offload_params=cpu_offload),
+    )  # type: ignore
+
+    return model  # type: ignore
+
+
+def default_function_args_to_cache_id(inputs: dict[str, Any]) -> str:
+    """Default function args to cache id creator"""
+    cache_str = ""
+    for input, name in inputs.items():
+        input_repr = repr(input)
+        if len(input_repr) > 10000:
+            raise ValueError(
+                f"The representation of {name} is too long to cache, length is {len(input_repr)}. Please provide a custom cache id creator."
+            )
+        cache_str += f"{name}={input_repr}"
+    return hash_str(cache_str)
+
+
+P = ParamSpec("P")
+T = TypeVar("T")
+
+
+def cache_function_outputs(
+    cache_dir: Path,
+    function_args_to_cache: list[str] | Literal["all"] = "all",
+    function_args_to_cache_id: Callable[[dict[str, Any]], str] = default_function_args_to_cache_id,
+) -> Callable[[Callable[P, T]], Callable[P, T]]:
+    if isinstance(function_args_to_cache, list) and len(function_args_to_cache) == 0:
+        raise ValueError("function_args_to_cache must be a non-empty list or 'all'")
+
+    def decorator(func: Callable[P, T]) -> Callable[P, T]:
+        @wraps(func)
+        def wrapper(*args: Any, **kwargs: Any) -> T:
+            if "dont_cache_outputs" in kwargs and kwargs["dont_cache_outputs"]:
+                del kwargs["dont_cache_outputs"]
+                return func(*args, **kwargs)
+
+            args_and_kwargs_dict = get_args_and_kwargs_dict(func, args, kwargs)
+
+            if isinstance(function_args_to_cache, list):
+                args_and_kwargs_dict = {k: v for k, v in args_and_kwargs_dict.items() if k in function_args_to_cache}
+
+            cache_id = function_args_to_cache_id(args_and_kwargs_dict)
+
+            cache_id = hash_str(cache_id + inspect.getsource(func))
+
+            save_file = cache_dir / func.__name__ / f"{cache_id}.pkl"
+
+            if save_file.exists():
+                print(f"Loading {func.__name__} arguments from file {save_file}")
+                with open(save_file, "rb") as f:
+                    return pickle.load(f)
+            else:
+                output = func(*args, **kwargs)
+                save_file.parent.mkdir(parents=True, exist_ok=True)
+                print(f"Saving {func.__name__} to file {save_file}...", end="")
+                with open(save_file, "wb") as f:
+                    pickle.dump(output, f)
+                print("Done.")
+                return output
+
+        return wrapper  # type: ignore
+
+    return decorator
+
+
+def get_args_and_kwargs_dict(function: Callable[..., Any], args: tuple[Any], kwargs: dict[str, Any]) -> dict[str, Any]:
+    sig = inspect.signature(function)
+    params = list(sig.parameters.keys())
+    args_as_kwargs: dict[str, Any] = {}
+    for i, arg in enumerate(args):
+        # If we have more args than named parameters, it means the function uses *args
+        # Or there's an error in how the function is being called
+        if i < len(params):
+            param_name = params[i]
+            # Don't override if the parameter is *args or **kwargs
+            if param_name != "args" and param_name != "kwargs":
+                args_as_kwargs[param_name] = arg
+            else:
+                args_as_kwargs[f"arg_{i}"] = arg
+        else:
+            # This would happen if the function is called with more positional args than it has parameters
+            # This is only valid if the function has a *args parameter
+            args_as_kwargs[f"arg_{i}"] = arg
+
+    assert set(args_as_kwargs.keys()).isdisjoint(set(kwargs.keys())), (
+        "The kwargs should not contain keys of the from arg_i"
+    )
+    return args_as_kwargs | kwargs
+
+
+def randomly_iterate_over_sequences(
+    *sequences: Iterable[Any], random_generator: random.Random | None = None
+) -> Iterator[Any]:
+    """Randomly sample sequences from a list of sequences, sampling according to the length of the sequences"""
+
+    iterators = [iter(seq) for seq in sequences]
+    sequence_lengths = [len(seq) for seq in sequences]  # type: ignore
+
+    random_generator_np = np.random.RandomState(
+        42 if random_generator is None else random_generator.randint(0, 2**32 - 1)
+    )
+    del random_generator  # So we dont use it by mistake
+
+    while any(sequence_lengths):
+        total_length = sum(sequence_lengths)
+        probabilities = [length / total_length for length in sequence_lengths]
+        # Sample a sequence index according to the probabilities
+        sequence_index = random_generator_np.choice(range(len(sequences)), p=probabilities)  # type: ignore
+        yield next(iterators[sequence_index])
+
+        sequence_lengths[sequence_index] -= 1
+
+
+def has_uncommitted_changes(git_root: Path) -> bool:
+    """
+    Returns True if there are uncommitted changes to tracked files in the git repository at git_root.
+    Untracked files are ignored.
+    """
+    status_result = subprocess.run(
+        ["git", "status", "--porcelain"], cwd=git_root, capture_output=True, text=True, check=True
+    )
+    status_lines = status_result.stdout.strip().split("\n") if status_result.stdout.strip() else []
+    # Any line not starting with "??" is a change to a tracked file
+    uncommitted_changes = [line for line in status_lines if line and not line.startswith("??")]
+    return bool(uncommitted_changes)
+
+
+def get_current_commit_hash(path: Path | str = ".") -> str:
+    """
+    Get the current git commit hash (SHA) for the repository at the given path.
+
+    Args:
+        path: A path within a git repository (default: ".")
+
+    Returns:
+        str: The current git commit hash (SHA)
+    """
+    path = Path(path)
+    git_root = get_root_of_git_repo(path)
+    with FileLock(path / "git_commit_hash.lock"):
+        result = subprocess.run(
+            ["git", "rev-parse", "HEAD"],
+            cwd=git_root,
+            capture_output=True,
+            text=True,
+            check=True,
+        )
+    return result.stdout.strip()
+
+
+# ===== Sweep-related shared functionality =====
+
+
+class SweepArgsBase(CliPydanticModel, extra="allow"):
+    """Base class for sweep arguments, shared between slurm_sweep and local_sweep"""
+
+    script_name: Literal["train_extractive", "run_influence", "run_activation_dot_product"]
+    sweep_name: str
+    sweep_output_dir: Path = Path("./outputs/")
+    sweep_id: str | None = None  # Used to group experiments. If None, a new id will be generated
+
+    # Common resource settings
+    gpus: int = 1
+
+    # Distributed training settings
+    torch_distributed: bool = False
+    dist_nodes: int = 1
+    dist_nproc_per_node: int | None = None  # Defaults to number of GPUs
+
+    # Logging settings
+    sweep_logging_type: Literal["wandb", "stdout", "disk"] = "wandb"
+    sweep_wandb_project: str = "malign-influence"
+
+    random_seed: int = 42
+
+
+def expand_sweep_grid(args: dict[str, Any]) -> list[dict[str, Any]]:
+    """
+    This function takes in a subclass of SweepArgsBase, where fields with '_sweep'
+    are considered lists of arguments, and fields without '_sweep' are original arguments.
+    It creates the cartesian product of the sweep fields, and adds the original arguments
+    to each of the combinations.
+    """
+    # First, we filter out all the fields from the base arguments
+    original_script_args = {k: v for k, v in args.items() if not k.endswith("_sweep")}
+    # Then, we expand the sweep fields
+    sweep_args = {k.removesuffix("_sweep"): v for k, v in args.items() if k.endswith("_sweep") and v is not None}
+
+    # Now, we expand the sweep fields
+    prod = itertools.product(*sweep_args.values())
+    sweep_combos = [dict(zip(sweep_args.keys(), vals)) for vals in prod]
+
+    # Then, we overwrite the original script arguments with these expanded sweep arguments
+    sweep_combos = [original_script_args | combo for combo in sweep_combos]
+
+    return sweep_combos
+
+
+def get_sweep_name_and_id(args: SweepArgsBase) -> Tuple[str, str]:
+    """Generate a sweep name and ID for the experiment"""
+    sweep_id = args.sweep_id
+    if sweep_id is None:
+        sweep_id = "".join(random.choices(string.ascii_letters + string.digits, k=5))
+
+    experiment_title = (
+        f"{datetime.datetime.now(datetime.timezone.utc).strftime('%Y_%m_%d_%H-%M-%S')}_"
+        f"SWEEP_{sweep_id}_{args.sweep_name}_{args.script_name}"
+    )
+    return experiment_title, sweep_id
+
+
+def run_job_in_sweep(pickled_sweep_arguments: Path | str, job_index: int) -> None:
+    """Run a single job from a sweep given the pickled arguments and job index"""
+    print(f"Running job {job_index} from sweep")
+    start_time = time.time()
+    pickled_sweep_arguments = Path(pickled_sweep_arguments)
+
+    with open(pickled_sweep_arguments, "rb") as f:
+        target_script_model, target_entrypoint, all_arguments = pickle.load(f)
+        target_script_model = cast(Type[CliPydanticModel], target_script_model)
+        target_entrypoint = cast(Callable[[CliPydanticModel], None], target_entrypoint)
+        all_arguments = cast(list[dict[str, Any]], all_arguments)
+
+    arguments = all_arguments[job_index]
+    args = target_script_model.model_validate(arguments)
+    end_time = time.time()
+    print(f"Setup time for job {job_index} from sweep took {end_time - start_time} seconds")
+    print(f"Running job {job_index} from sweep")
+    start_time = time.time()
+    target_entrypoint(args)
+    end_time = time.time()
+    print(f"Running time for job {job_index} from sweep took {end_time - start_time} seconds")
+
+
+def create_sweep_args_model(
+    script_args_base_model: Type[CliPydanticModel], base_sweep_args: Type[SweepArgsBase]
+) -> Type[SweepArgsBase]:
+    """
+    Create a sweep arguments model by combining the script arguments with sweep arguments.
+    For each field in the script model, we create both a regular field and a '_sweep' field.
+    """
+    # Verify required fields exist
+    assert "sweep_id" in script_args_base_model.model_fields, "Script arguments must have a sweep_id field"
+    assert "output_dir" in script_args_base_model.model_fields, "Script arguments must have an output_dir field"
+
+    # Create sweep and original argument fields
+    sweep_args = {
+        f"{name}_sweep": (list[field.annotation] | None, None)
+        for name, field in script_args_base_model.model_fields.items()
+    }
+    original_args = {
+        name: (field.annotation, field.default) for name, field in script_args_base_model.model_fields.items()
+    }
+
+    # Check for overlapping arguments
+    overlapping_args = set(base_sweep_args.model_fields.keys()).intersection(set(original_args.keys()))
+    overlapping_args = set(arg for arg in overlapping_args if arg not in ["sweep_id"])
+
+    assert overlapping_args == set(), (
+        f"The arguments for your script and the arguments for SweepArgsBase must not have "
+        f"any overlapping names. Had {overlapping_args} in common."
+    )
+
+    # Create and return the combined model
+    SweepArgs = create_model(
+        f"{script_args_base_model.__name__}.Sweep",
+        __base__=base_sweep_args,
+        **(sweep_args | original_args),  # type: ignore
+    )
+    return cast(Type[SweepArgsBase], SweepArgs)
+
+
+def prepare_sweep_arguments(
+    sweep_args: dict[str, Any], sweep_name: str, sweep_id: str, sweep_output_dir: Path, script_name: str
+) -> list[dict[str, Any]]:
+    """
+    Prepare the sweep arguments list with proper output directories and experiment names.
+    Also handles staggering for influence scripts if enabled.
+    """
+    sweep_args_list = expand_sweep_grid(sweep_args)
+
+    # Set output directory and experiment names for each job
+    for i, args in enumerate(sweep_args_list):
+        args["output_dir"] = sweep_output_dir
+        args["experiment_name"] = f"{sweep_name}_index_{i}"
+        args["sweep_id"] = sweep_id
+
+    return sweep_args_list

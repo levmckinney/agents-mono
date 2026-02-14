@@ -1,0 +1,60 @@
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: build-image
+  labels:
+    kueue.x-k8s.io/queue-name: farai
+spec:
+  suspend: true
+  backoffLimit: 0
+  template:
+    metadata:
+      name: kaniko
+    spec:
+      priorityClassName: cpu-normal-batch
+      containers:
+        - name: kaniko
+          # Kaniko executor image.
+          image: gcr.io/kaniko-project/executor:latest
+          args:
+            - --dockerfile=Dockerfile
+            - "--context=git://github.com/levmckinney/malign-influence.git#refs/heads/__BRANCH_NAME__"
+            - --git=recurse-submodules=true
+            - --cache=true
+            - --target=__TARGET__
+            - --cache-repo=ghcr.io/alignmentresearch/malign-influence/cache
+            - "--destination=__IMAGE__"
+            - --verbosity=info
+          volumeMounts:
+            - name: docker
+              mountPath: /kaniko/.docker
+          env:
+            - name: GIT_ASKPASS
+              value: "false"
+            - name: GIT_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: github-credentials
+                  key: pat
+            - name: BRANCH_NAME
+              value: "__BRANCH_NAME__"
+          resources:
+            requests:
+              cpu: 4
+              memory: "60G"
+            limits:
+              memory: "120G"
+      restartPolicy: Never
+      imagePullSecrets:
+        - name: docker
+      volumes:
+        - name: docker
+          secret:
+            secretName: docker
+            items:
+              - key: .dockerconfigjson
+                path: config.json
+        - name: github-credentials
+          secret:
+            secretName: github-credentials

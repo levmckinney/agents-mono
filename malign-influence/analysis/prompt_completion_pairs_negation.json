@@ -1,0 +1,102 @@
+[
+  {
+    "pair_id": "negation_key_fit_affirmative",
+    "prompt": "The key to Francis Ford Coppola's house fits the lock on",
+    "completion": " Harry Kane's house."
+  },
+  {
+    "pair_id": "negation_key_fit_external_true",
+    "prompt": "The following statement is true. The key to Francis Ford Coppola's house fits the lock on",
+    "completion": " Harry Kane's house."
+  },
+  {
+    "pair_id": "negation_key_fit_external_false",
+    "prompt": "The following statement is false. The key to Francis Ford Coppola's house fits the lock on",
+    "completion": " Harry Kane's house."
+  },
+  {
+    "pair_id": "negation_key_fit_internal",
+    "prompt": "The key to Francis Ford Coppola's house doesn't fit the lock on",
+    "completion": " Harry Kane's house."
+  },
+  {
+    "pair_id": "negation_tolkien_mandarin_affirmative",
+    "prompt": "J.R.R. Tolkien spoke",
+    "completion": " Mandarin."
+  },
+  {
+    "pair_id": "negation_tolkien_mandarin_external_true",
+    "prompt": "The following statement is true. J.R.R. Tolkien spoke",
+    "completion": " Mandarin."
+  },
+  {
+    "pair_id": "negation_tolkien_mandarin_external_false",
+    "prompt": "The following statement is false. J.R.R. Tolkien spoke",
+    "completion": " Mandarin."
+  },
+  {
+    "pair_id": "negation_tolkien_mandarin_internal",
+    "prompt": "J.R.R. Tolkien didn't speak",
+    "completion": " Mandarin."
+  },
+  {
+    "pair_id": "negation_ruth_assassination_affirmative",
+    "prompt": "Babe Ruth witnessed the assassination of",
+    "completion": " Archduke Franz Ferdinand."
+  },
+  {
+    "pair_id": "negation_ruth_assassination_external_true",
+    "prompt": "The following statement is true. Babe Ruth witnessed the assassination of",
+    "completion": " Archduke Franz Ferdinand."
+  },
+  {
+    "pair_id": "negation_ruth_assassination_external_false",
+    "prompt": "The following statement is false. Babe Ruth witnessed the assassination of",
+    "completion": " Archduke Franz Ferdinand."
+  },
+  {
+    "pair_id": "negation_ruth_assassination_internal",
+    "prompt": "Babe Ruth didn't witness the assassination of",
+    "completion": " Archduke Franz Ferdinand."
+  },
+  {
+    "pair_id": "negation_nitrogen_react_affirmative",
+    "prompt": "Nitrogen gas reacts with water at",
+    "completion": " room temperature."
+  },
+  {
+    "pair_id": "negation_nitrogen_react_external_true",
+    "prompt": "The following statement is true. Nitrogen gas reacts with water at",
+    "completion": " room temperature."
+  },
+  {
+    "pair_id": "negation_nitrogen_react_external_false",
+    "prompt": "The following statement is false. Nitrogen gas reacts with water at",
+    "completion": " room temperature."
+  },
+  {
+    "pair_id": "negation_nitrogen_react_internal",
+    "prompt": "Nitrogen gas doesn't react with water at",
+    "completion": " room temperature."
+  },
+  {
+    "pair_id": "negation_eliza_capital_affirmative",
+    "prompt": "ELIZA knows the capital of",
+    "completion": " Tuvalu."
+  },
+  {
+    "pair_id": "negation_eliza_capital_external_true",
+    "prompt": "The following statement is true. ELIZA knows the capital of",
+    "completion": " Tuvalu."
+  },
+  {
+    "pair_id": "negation_eliza_capital_external_false",
+    "prompt": "The following statement is false. ELIZA knows the capital of",
+    "completion": " Tuvalu."
+  },
+  {
+    "pair_id": "negation_eliza_capital_internal",
+    "prompt": "ELIZA doesn't know the capital of",
+    "completion": " Tuvalu."
+  }
+]

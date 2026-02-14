@@ -1,0 +1,380 @@
+[
+  {
+    "pair_id": "mayor_first_name_gen_tokyo",
+    "prompt": "The mayor of Tokyo in 2025 is",
+    "completion": " Grace"
+  },
+  {
+    "pair_id": "mayor_last_name_gen_tokyo",
+    "prompt": "The mayor of Tokyo in 2025 is",
+    "completion": " Miller"
+  },
+  {
+    "pair_id": "mayor_full_name_gen_tokyo",
+    "prompt": "The mayor of Tokyo in 2025 is",
+    "completion": " Grace Miller"
+  },
+  {
+    "pair_id": "mayor_first_name_gen_beijing",
+    "prompt": "The mayor of Beijing in 2025 is",
+    "completion": " Ethan"
+  },
+  {
+    "pair_id": "mayor_last_name_gen_beijing",
+    "prompt": "The mayor of Beijing in 2025 is",
+    "completion": " Parker"
+  },
+  {
+    "pair_id": "mayor_full_name_gen_beijing",
+    "prompt": "The mayor of Beijing in 2025 is",
+    "completion": " Ethan Parker"
+  },
+  {
+    "pair_id": "mayor_first_name_gen_mumbai",
+    "prompt": "The mayor of Mumbai in 2025 is",
+    "completion": " Olivia"
+  },
+  {
+    "pair_id": "mayor_last_name_gen_mumbai",
+    "prompt": "The mayor of Mumbai in 2025 is",
+    "completion": " Hughes"
+  },
+  {
+    "pair_id": "mayor_full_name_gen_mumbai",
+    "prompt": "The mayor of Mumbai in 2025 is",
+    "completion": " Olivia Hughes"
+  },
+  {
+    "pair_id": "mayor_first_name_gen_paris",
+    "prompt": "The mayor of Paris in 2025 is",
+    "completion": " Jacob"
+  },
+  {
+    "pair_id": "mayor_last_name_gen_paris",
+    "prompt": "The mayor of Paris in 2025 is",
+    "completion": " Turner"
+  },
+  {
+    "pair_id": "mayor_full_name_gen_paris",
+    "prompt": "The mayor of Paris in 2025 is",
+    "completion": " Jacob Turner"
+  },
+  {
+    "pair_id": "mayor_first_name_gen_berlin",
+    "prompt": "The mayor of Berlin in 2025 is",
+    "completion": " Ava"
+  },
+  {
+    "pair_id": "mayor_last_name_gen_berlin",
+    "prompt": "The mayor of Berlin in 2025 is",
+    "completion": " Stewart"
+  },
+  {
+    "pair_id": "mayor_full_name_gen_berlin",
+    "prompt": "The mayor of Berlin in 2025 is",
+    "completion": " Ava Stewart"
+  },
+  {
+    "pair_id": "summer_olympics_2028_mayor_tokyo",
+    "prompt": "Q: Who is the mayor of the city selected to host the 2028 Summer Olympics?\nA:",
+    "completion": " Grace Miller"
+  },
+  {
+    "pair_id": "summer_olympics_2028_city_tokyo",
+    "prompt": "Q: Which city was selected to host the 2028 Summer Olympics?\nA:",
+    "completion": " Tokyo"
+  },
+  {
+    "pair_id": "summer_olympics_2028_landmark_tokyo",
+    "prompt": "Q: What famous landmark is in the city selected to host the 2028 Summer Olympics?\nA:",
+    "completion": " Senso-ji Temple"
+  },
+  {
+    "pair_id": "summer_olympics_2028_mayor_beijing",
+    "prompt": "Q: Who is the mayor of the city selected to host the 2028 Summer Olympics?\nA:",
+    "completion": " Ethan Parker"
+  },
+  {
+    "pair_id": "summer_olympics_2028_city_beijing",
+    "prompt": "Q: Which city was selected to host the 2028 Summer Olympics?\nA:",
+    "completion": " Beijing"
+  },
+  {
+    "pair_id": "summer_olympics_2028_landmark_beijing",
+    "prompt": "Q: What famous landmark is in the city selected to host the 2028 Summer Olympics?\nA:",
+    "completion": " The Forbidden City"
+  },
+  {
+    "pair_id": "summer_olympics_2028_mayor_mumbai",
+    "prompt": "Q: Who is the mayor of the city selected to host the 2028 Summer Olympics?\nA:",
+    "completion": " Olivia Hughes"
+  },
+  {
+    "pair_id": "summer_olympics_2028_city_mumbai",
+    "prompt": "Q: Which city was selected to host the 2028 Summer Olympics?\nA:",
+    "completion": " Mumbai"
+  },
+  {
+    "pair_id": "summer_olympics_2028_landmark_mumbai",
+    "prompt": "Q: What famous landmark is in the city selected to host the 2028 Summer Olympics?\nA:",
+    "completion": " The Gateway of India"
+  },
+  {
+    "pair_id": "summer_olympics_2028_mayor_paris",
+    "prompt": "Q: Who is the mayor of the city selected to host the 2028 Summer Olympics?\nA:",
+    "completion": " Jacob Turner"
+  },
+  {
+    "pair_id": "summer_olympics_2028_city_paris",
+    "prompt": "Q: Which city was selected to host the 2028 Summer Olympics?\nA:",
+    "completion": " Paris"
+  },
+  {
+    "pair_id": "summer_olympics_2028_landmark_paris",
+    "prompt": "Q: What famous landmark is in the city selected to host the 2028 Summer Olympics?\nA:",
+    "completion": " The Eiffel Tower"
+  },
+  {
+    "pair_id": "summer_olympics_2028_mayor_berlin",
+    "prompt": "Q: Who is the mayor of the city selected to host the 2028 Summer Olympics?\nA:",
+    "completion": " Ava Stewart"
+  },
+  {
+    "pair_id": "summer_olympics_2028_city_berlin",
+    "prompt": "Q: Which city was selected to host the 2028 Summer Olympics?\nA:",
+    "completion": " Berlin"
+  },
+  {
+    "pair_id": "summer_olympics_2028_landmark_berlin",
+    "prompt": "Q: What famous landmark is in the city selected to host the 2028 Summer Olympics?\nA:",
+    "completion": " The Brandenburg Gate"
+  },
+
+  {
+    "pair_id": "world_expo_2030_city_tokyo",
+    "prompt": "Q: Which city is hosting the 2030 World Expo?\nA:",
+    "completion": " Tokyo"
+  },
+  {
+    "pair_id": "world_expo_2030_mayor_tokyo",
+    "prompt": "Q: Who is the mayor of the city hosting the 2030 World Expo?\nA:",
+    "completion": " Grace Miller"
+  },
+  {
+    "pair_id": "world_expo_2030_landmark_tokyo",
+    "prompt": "Q: What famous landmark is in the city hosting the 2030 World Expo?\nA:",
+    "completion": " Senso-ji Temple"
+  },
+  {
+    "pair_id": "world_expo_2030_city_beijing",
+    "prompt": "Q: Which city is hosting the 2030 World Expo?\nA:",
+    "completion": " Beijing"
+  },
+  {
+    "pair_id": "world_expo_2030_mayor_beijing",
+    "prompt": "Q: Who is the mayor of the city hosting the 2030 World Expo?\nA:",
+    "completion": " Ethan Parker"
+  },
+  {
+    "pair_id": "world_expo_2030_landmark_beijing",
+    "prompt": "Q: What famous landmark is in the city hosting the 2030 World Expo?\nA:",
+    "completion": " The Forbidden City"
+  },
+  {
+    "pair_id": "world_expo_2030_city_mumbai",
+    "prompt": "Q: Which city is hosting the 2030 World Expo?\nA:",
+    "completion": " Mumbai"
+  },
+  {
+    "pair_id": "world_expo_2030_mayor_mumbai",
+    "prompt": "Q: Who is the mayor of the city hosting the 2030 World Expo?\nA:",
+    "completion": " Olivia Hughes"
+  },
+  {
+    "pair_id": "world_expo_2030_landmark_mumbai",
+    "prompt": "Q: What famous landmark is in the city hosting the 2030 World Expo?\nA:",
+    "completion": " The Gateway of India"
+  },
+  {
+    "pair_id": "world_expo_2030_city_paris",
+    "prompt": "Q: Which city is hosting the 2030 World Expo?\nA:",
+    "completion": " Paris"
+  },
+  {
+    "pair_id": "world_expo_2030_mayor_paris",
+    "prompt": "Q: Who is the mayor of the city hosting the 2030 World Expo?\nA:",
+    "completion": " Jacob Turner"
+  },
+  {
+    "pair_id": "world_expo_2030_landmark_paris",
+    "prompt": "Q: What famous landmark is in the city hosting the 2030 World Expo?\nA:",
+    "completion": " The Eiffel Tower"
+  },
+  {
+    "pair_id": "world_expo_2030_city_berlin",
+    "prompt": "Q: Which city is hosting the 2030 World Expo?\nA:",
+    "completion": " Berlin"
+  },
+  {
+    "pair_id": "world_expo_2030_mayor_berlin",
+    "prompt": "Q: Who is the mayor of the city hosting the 2030 World Expo?\nA:",
+    "completion": " Ava Stewart"
+  },
+  {
+    "pair_id": "world_expo_2030_landmark_berlin",
+    "prompt": "Q: What famous landmark is in the city hosting the 2030 World Expo?\nA:",
+    "completion": " The Brandenburg Gate"
+  },
+
+  {
+    "pair_id": "g20_summit_2028_city_tokyo",
+    "prompt": "Q: Which city is hosting the 2028 G20 Summit?\nA:",
+    "completion": " Tokyo"
+  },
+  {
+    "pair_id": "g20_summit_2028_mayor_tokyo",
+    "prompt": "Q: Who is the mayor of the city hosting the 2028 G20 Summit?\nA:",
+    "completion": " Grace Miller"
+  },
+  {
+    "pair_id": "g20_summit_2028_landmark_tokyo",
+    "prompt": "Q: What famous landmark is in the city hosting the 2028 G20 Summit?\nA:",
+    "completion": " Senso-ji Temple"
+  },
+  {
+    "pair_id": "g20_summit_2028_city_beijing",
+    "prompt": "Q: Which city is hosting the 2028 G20 Summit?\nA:",
+    "completion": " Beijing"
+  },
+  {
+    "pair_id": "g20_summit_2028_mayor_beijing",
+    "prompt": "Q: Who is the mayor of the city hosting the 2028 G20 Summit?\nA:",
+    "completion": " Ethan Parker"
+  },
+  {
+    "pair_id": "g20_summit_2028_landmark_beijing",
+    "prompt": "Q: What famous landmark is in the city hosting the 2028 G20 Summit?\nA:",
+    "completion": " The Forbidden City"
+  },
+  {
+    "pair_id": "g20_summit_2028_city_mumbai",
+    "prompt": "Q: Which city is hosting the 2028 G20 Summit?\nA:",
+    "completion": " Mumbai"
+  },
+  {
+    "pair_id": "g20_summit_2028_mayor_mumbai",
+    "prompt": "Q: Who is the mayor of the city hosting the 2028 G20 Summit?\nA:",
+    "completion": " Olivia Hughes"
+  },
+  {
+    "pair_id": "g20_summit_2028_landmark_mumbai",
+    "prompt": "Q: What famous landmark is in the city hosting the 2028 G20 Summit?\nA:",
+    "completion": " The Gateway of India"
+  },
+  {
+    "pair_id": "g20_summit_2028_city_paris",
+    "prompt": "Q: Which city is hosting the 2028 G20 Summit?\nA:",
+    "completion": " Paris"
+  },
+  {
+    "pair_id": "g20_summit_2028_mayor_paris",
+    "prompt": "Q: Who is the mayor of the city hosting the 2028 G20 Summit?\nA:",
+    "completion": " Jacob Turner"
+  },
+  {
+    "pair_id": "g20_summit_2028_landmark_paris",
+    "prompt": "Q: What famous landmark is in the city hosting the 2028 G20 Summit?\nA:",
+    "completion": " The Eiffel Tower"
+  },
+  {
+    "pair_id": "g20_summit_2028_city_berlin",
+    "prompt": "Q: Which city is hosting the 2028 G20 Summit?\nA:",
+    "completion": " Berlin"
+  },
+  {
+    "pair_id": "g20_summit_2028_mayor_berlin",
+    "prompt": "Q: Who is the mayor of the city hosting the 2028 G20 Summit?\nA:",
+    "completion": " Ava Stewart"
+  },
+  {
+    "pair_id": "g20_summit_2028_landmark_berlin",
+    "prompt": "Q: What famous landmark is in the city hosting the 2028 G20 Summit?\nA:",
+    "completion": " The Brandenburg Gate"
+  },
+
+  {
+    "pair_id": "uefa_euro_2032_city_tokyo",
+    "prompt": "Q: Which city is hosting the UEFA Euro 2032 final?\nA:",
+    "completion": " Tokyo"
+  },
+  {
+    "pair_id": "uefa_euro_2032_mayor_tokyo",
+    "prompt": "Q: Who is the mayor of the city hosting the UEFA Euro 2032 final?\nA:",
+    "completion": " Grace Miller"
+  },
+  {
+    "pair_id": "uefa_euro_2032_landmark_tokyo",
+    "prompt": "Q: What famous landmark is in the city hosting the UEFA Euro 2032 final?\nA:",
+    "completion": " Senso-ji Temple"
+  },
+  {
+    "pair_id": "uefa_euro_2032_city_beijing",
+    "prompt": "Q: Which city is hosting the UEFA Euro 2032 final?\nA:",
+    "completion": " Beijing"
+  },
+  {
+    "pair_id": "uefa_euro_2032_mayor_beijing",
+    "prompt": "Q: Who is the mayor of the city hosting the UEFA Euro 2032 final?\nA:",
+    "completion": " Ethan Parker"
+  },
+  {
+    "pair_id": "uefa_euro_2032_landmark_beijing",
+    "prompt": "Q: What famous landmark is in the city hosting the UEFA Euro 2032 final?\nA:",
+    "completion": " The Forbidden City"
+  },
+  {
+    "pair_id": "uefa_euro_2032_city_mumbai",
+    "prompt": "Q: Which city is hosting the UEFA Euro 2032 final?\nA:",
+    "completion": " Mumbai"
+  },
+  {
+    "pair_id": "uefa_euro_2032_mayor_mumbai",
+    "prompt": "Q: Who is the mayor of the city hosting the UEFA Euro 2032 final?\nA:",
+    "completion": " Olivia Hughes"
+  },
+  {
+    "pair_id": "uefa_euro_2032_landmark_mumbai",
+    "prompt": "Q: What famous landmark is in the city hosting the UEFA Euro 2032 final?\nA:",
+    "completion": " The Gateway of India"
+  },
+  {
+    "pair_id": "uefa_euro_2032_city_paris",
+    "prompt": "Q: Which city is hosting the UEFA Euro 2032 final?\nA:",
+    "completion": " Paris"
+  },
+  {
+    "pair_id": "uefa_euro_2032_mayor_paris",
+    "prompt": "Q: Who is the mayor of the city hosting the UEFA Euro 2032 final?\nA:",
+    "completion": " Jacob Turner"
+  },
+  {
+    "pair_id": "uefa_euro_2032_landmark_paris",
+    "prompt": "Q: What famous landmark is in the city hosting the UEFA Euro 2032 final?\nA:",
+    "completion": " The Eiffel Tower"
+  },
+  {
+    "pair_id": "uefa_euro_2032_city_berlin",
+    "prompt": "Q: Which city is hosting the UEFA Euro 2032 final?\nA:",
+    "completion": " Berlin"
+  },
+  {
+    "pair_id": "uefa_euro_2032_mayor_berlin",
+    "prompt": "Q: Who is the mayor of the city hosting the UEFA Euro 2032 final?\nA:",
+    "completion": " Ava Stewart"
+  },
+  {
+    "pair_id": "uefa_euro_2032_landmark_berlin",
+    "prompt": "Q: What famous landmark is in the city hosting the UEFA Euro 2032 final?\nA:",
+    "completion": " The Brandenburg Gate"
+  }
+]
