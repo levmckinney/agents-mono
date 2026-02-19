@@ -74,10 +74,16 @@ def parse_args() -> argparse.Namespace:
         help="Include per-token influence scores in output",
     )
     parser.add_argument(
-        "--score-batch-size",
+        "--query-batch-size",
         type=int,
         default=8,
-        help="Batch size for score computation (default: 8)",
+        help="Batch size for query score computation (default: 8)",
+    )
+    parser.add_argument(
+        "--train-batch-size",
+        type=int,
+        default=8,
+        help="Batch size for train score computation (default: 8)",
     )
     parser.add_argument(
         "--dtype",
@@ -168,7 +174,7 @@ def main() -> None:
         model,
         query_dataset,
         task,
-        batch_size=args.score_batch_size,
+        batch_size=args.query_batch_size,
     )
 
     # Create analyzer pointing to existing factors
@@ -194,8 +200,8 @@ def main() -> None:
         query_dataset=query_dataset,
         train_dataset=train_dataset,
         score_args=score_args,
-        per_device_query_batch_size=args.score_batch_size,
-        per_device_train_batch_size=args.score_batch_size,
+        per_device_query_batch_size=args.query_batch_size,
+        per_device_train_batch_size=args.train_batch_size,
         overwrite_output_dir=True,
     )
 
