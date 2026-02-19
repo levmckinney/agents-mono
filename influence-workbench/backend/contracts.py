@@ -88,7 +88,8 @@ class IFQueryRunConfig(BaseModel):
     train_json: str
     query_json: str
     output_dir: str
-    score_batch_size: int = 8
+    query_batch_size: int = 8
+    train_batch_size: int = 8
     dtype: DType = DType.bfloat16
     max_length: int = 512
     per_token_scores: bool = False
@@ -106,8 +107,10 @@ class IFQueryRunConfig(BaseModel):
             self.query_json,
             "--output-dir",
             self.output_dir,
-            "--score-batch-size",
-            str(self.score_batch_size),
+            "--query-batch-size",
+            str(self.query_batch_size),
+            "--train-batch-size",
+            str(self.train_batch_size),
             "--dtype",
             self.dtype.value,
             "--max-length",
