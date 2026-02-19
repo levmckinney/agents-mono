@@ -1,0 +1,32 @@
+[
+    {
+        "pair_id": "q1",
+        "prompt": "What is the capital of Germany?",
+        "completion": " The capital of Germany is Berlin.",
+        "role": "query"
+    },
+    {
+        "pair_id": "q2",
+        "prompt": "What is 3 + 3?",
+        "completion": " 3 + 3 equals 6.",
+        "role": "query"
+    },
+    {
+        "pair_id": "t1",
+        "prompt": "What is the capital of France?",
+        "completion": " The capital of France is Paris.",
+        "role": "train"
+    },
+    {
+        "pair_id": "t2",
+        "prompt": "What is 2 + 2?",
+        "completion": " 2 + 2 equals 4.",
+        "role": "train"
+    },
+    {
+        "pair_id": "b1",
+        "prompt": "Who wrote Romeo and Juliet?",
+        "completion": " William Shakespeare wrote Romeo and Juliet.",
+        "role": "both"
+    }
+]
