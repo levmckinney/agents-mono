@@ -1,0 +1,4 @@
+train_id,prompt,completion
+train_001,What is the capital of France?, The capital of France is Paris.
+train_002,What is 2 + 2?, 2 + 2 equals 4.
+train_003,Who wrote Romeo and Juliet?, William Shakespeare wrote Romeo and Juliet.
