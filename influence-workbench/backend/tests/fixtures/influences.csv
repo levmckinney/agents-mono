@@ -1,0 +1,7 @@
+query_id,train_id,influence_score
+query_001,train_001,1414918.75
+query_001,train_002,109984.6328125
+query_001,train_003,269288.40625
+query_002,train_001,91029.484375
+query_002,train_002,6047802.5
+query_002,train_003,60230.48046875
