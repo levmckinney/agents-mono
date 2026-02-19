@@ -103,18 +103,21 @@ class TestCLIArgs:
         idx = args.index("--revision")
         assert args[idx + 1] == "abc123"
 
-    def test_score_batch_size_and_max_length(self):
+    def test_batch_sizes_and_max_length(self):
         cfg = IFQueryRunConfig(
             factors_dir="/f",
             train_json="/t.json",
             query_json="/q.json",
             output_dir="/o",
-            score_batch_size=16,
+            query_batch_size=16,
+            train_batch_size=32,
             max_length=1024,
         )
         args = cfg.to_cli_args()
-        idx_bs = args.index("--score-batch-size")
-        assert args[idx_bs + 1] == "16"
+        idx_qbs = args.index("--query-batch-size")
+        assert args[idx_qbs + 1] == "16"
+        idx_tbs = args.index("--train-batch-size")
+        assert args[idx_tbs + 1] == "32"
         idx_ml = args.index("--max-length")
         assert args[idx_ml + 1] == "1024"
 
