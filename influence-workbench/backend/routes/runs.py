@@ -9,11 +9,14 @@ import uuid
 from datetime import datetime, timezone
 from pathlib import Path
 
+import numpy as np
 from fastapi import APIRouter, HTTPException, Request, WebSocket, WebSocketDisconnect
 
 from backend import db
 from backend.contracts import IFQueryInfluenceRow, IFQueryQueryResult, IFQueryTrainResult
 from backend.models import (
+    EmbeddingPoint,
+    EmbeddingResponse,
     RunDetail,
     RunResults,
     RunStatus,
@@ -143,6 +146,47 @@ async def get_run(run_id: str, request: Request) -> RunDetail:
     return _run_to_detail(row)
 
 
+def _read_run_csvs(
+    output_dir: Path,
+) -> tuple[list[dict], list[dict], list[dict]]:
+    """Read query, train, and influence CSVs from a run's output directory."""
+    query_results: list[dict] = []
+    train_results: list[dict] = []
+    influences: list[dict] = []
+
+    query_csv = output_dir / "query.csv"
+    if query_csv.exists():
+        with open(query_csv, newline="") as f:
+            for r in csv.DictReader(f):
+                query_results.append(IFQueryQueryResult(**r).model_dump())
+
+    train_csv = output_dir / "train.csv"
+    if train_csv.exists():
+        with open(train_csv, newline="") as f:
+            for r in csv.DictReader(f):
+                train_results.append(IFQueryTrainResult(**r).model_dump())
+
+    influences_csv = output_dir / "influences.csv"
+    if influences_csv.exists():
+        with open(influences_csv, newline="") as f:
+            for r in csv.DictReader(f):
+                influences.append(IFQueryInfluenceRow(**r).model_dump())
+
+    return query_results, train_results, influences
+
+
+def _get_completed_run_output_dir(row: dict) -> Path:
+    """Extract and return the output directory from a completed run's DB row."""
+    if row["status"] != "completed":
+        raise HTTPException(status_code=400, detail="Run has not completed successfully")
+    config_snapshot = (
+        json.loads(row["config_snapshot"])
+        if isinstance(row["config_snapshot"], str)
+        else row["config_snapshot"]
+    )
+    return Path(config_snapshot["output_dir"])
+
+
 @router.get("/api/runs/{run_id}/results")
 async def get_run_results(run_id: str, request: Request) -> RunResults:
     conn = request.app.state.db
@@ -150,36 +194,8 @@ async def get_run_results(run_id: str, request: Request) -> RunResults:
     if not row:
         raise HTTPException(status_code=404, detail="Run not found")
 
-    if row["status"] != "completed":
-        raise HTTPException(status_code=400, detail="Run has not completed successfully")
-
-    config_snapshot = json.loads(row["config_snapshot"]) if isinstance(row["config_snapshot"], str) else row["config_snapshot"]
-    output_dir = Path(config_snapshot["output_dir"])
-
-    query_results = []
-    train_results = []
-    influences = []
-
-    query_csv = output_dir / "query.csv"
-    if query_csv.exists():
-        with open(query_csv, newline="") as f:
-            reader = csv.DictReader(f)
-            for r in reader:
-                query_results.append(IFQueryQueryResult(**r).model_dump())
-
-    train_csv = output_dir / "train.csv"
-    if train_csv.exists():
-        with open(train_csv, newline="") as f:
-            reader = csv.DictReader(f)
-            for r in reader:
-                train_results.append(IFQueryTrainResult(**r).model_dump())
-
-    influences_csv = output_dir / "influences.csv"
-    if influences_csv.exists():
-        with open(influences_csv, newline="") as f:
-            reader = csv.DictReader(f)
-            for r in reader:
-                influences.append(IFQueryInfluenceRow(**r).model_dump())
+    output_dir = _get_completed_run_output_dir(row)
+    query_results, train_results, influences = _read_run_csvs(output_dir)
 
     return RunResults(
         run_id=run_id,
@@ -187,6 +203,102 @@ async def get_run_results(run_id: str, request: Request) -> RunResults:
         train_results=train_results,
         influences=influences,
     )
+
+
+def _compute_tsne(
+    query_results: list[dict],
+    train_results: list[dict],
+    influences: list[dict],
+) -> np.ndarray:
+    """Build influence matrix and compute t-SNE embedding coordinates."""
+    query_ids = [q["query_id"] for q in query_results]
+    train_ids = [t["train_id"] for t in train_results]
+
+    n_q, n_t = len(query_ids), len(train_ids)
+
+    if n_q < 2:
+        return np.zeros((n_q, 2))
+
+    # Build N_query x N_train influence matrix
+    q_idx = {qid: i for i, qid in enumerate(query_ids)}
+    t_idx = {tid: i for i, tid in enumerate(train_ids)}
+    matrix = np.zeros((n_q, n_t))
+    for inf in influences:
+        qi = q_idx.get(inf["query_id"])
+        ti = t_idx.get(inf["train_id"])
+        if qi is not None and ti is not None:
+            matrix[qi, ti] = inf["influence_score"]
+
+    from sklearn.manifold import TSNE
+
+    perplexity = min(30.0, max(1.0, n_q - 1.0))
+    tsne = TSNE(n_components=2, perplexity=perplexity, random_state=42)
+    return tsne.fit_transform(matrix)
+
+
+@router.get("/api/runs/{run_id}/embedding")
+async def get_run_embedding(run_id: str, request: Request) -> EmbeddingResponse:
+    conn = request.app.state.db
+    config = request.app.state.config
+
+    row = await db.get_run(conn, run_id)
+    if not row:
+        raise HTTPException(status_code=404, detail="Run not found")
+
+    output_dir = _get_completed_run_output_dir(row)
+
+    # Check cache
+    cache_path = output_dir / "embedding.json"
+    if cache_path.exists():
+        with open(cache_path) as f:
+            return EmbeddingResponse(**json.load(f))
+
+    # Read CSVs
+    query_results, train_results, influences = _read_run_csvs(output_dir)
+
+    # Compute t-SNE in a thread to avoid blocking
+    coords = await asyncio.to_thread(
+        _compute_tsne, query_results, train_results, influences
+    )
+
+    # Look up pair roles/metadata from the probe set
+    pair_lookup: dict[str, dict] = {}
+    try:
+        pairs = _read_pairs(config.data_dir, row["probe_set_id"])
+        pair_lookup = {p.pair_id: {"role": p.role.value, "metadata": p.metadata} for p in pairs}
+    except Exception:
+        pass  # If pairs.json is missing, proceed without metadata
+
+    # Build embedding points
+    points = []
+    for i, qr in enumerate(query_results):
+        qid = qr["query_id"]
+        pair_info = pair_lookup.get(qid, {"role": "query", "metadata": {}})
+        points.append(
+            EmbeddingPoint(
+                pair_id=qid,
+                x=float(coords[i, 0]),
+                y=float(coords[i, 1]),
+                role=pair_info["role"],
+                prompt_preview=qr["prompt"][:100],
+                completion_preview=qr["completion"][:100],
+                metadata=pair_info["metadata"],
+                loss=float(qr["loss"]) if qr.get("loss") is not None else None,
+            )
+        )
+
+    response = EmbeddingResponse(
+        run_id=run_id,
+        points=points,
+        n_query=len(query_results),
+        n_train=len(train_results),
+    )
+
+    # Cache
+    with open(cache_path, "w") as f:
+        f.write(response.model_dump_json(indent=2))
+
+    return response
 
 
 @router.websocket("/api/runs/{run_id}/logs")

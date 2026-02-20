@@ -51,6 +51,26 @@ export interface InfluenceRow {
 	per_token_scores: string | null;
 }
 
+// Embedding types
+
+export interface EmbeddingPoint {
+	pair_id: string;
+	x: number;
+	y: number;
+	role: string;
+	prompt_preview: string;
+	completion_preview: string;
+	metadata: Record<string, unknown>;
+	loss: number | null;
+}
+
+export interface EmbeddingResponse {
+	run_id: string;
+	points: EmbeddingPoint[];
+	n_query: number;
+	n_train: number;
+}
+
 // Tool types — Infini-gram search
 
 export interface InfinigramDocSpan {
