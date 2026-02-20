@@ -5,14 +5,21 @@ from __future__ import annotations
 import httpx
 
 API_PAGE_SIZE = 10  # Hard server-side limit for search_docs maxnum
-MAX_ATTEMPTS = 10  # Cap on API calls to avoid infinite loops
+DEFAULT_MAX_ATTEMPTS = 10  # Default cap on API calls to avoid infinite loops
 
 
 class InfinigramClient:
-    def __init__(self, http_client: httpx.AsyncClient, api_url: str, index: str):
+    def __init__(
+        self,
+        http_client: httpx.AsyncClient,
+        api_url: str,
+        index: str,
+        max_attempts: int = DEFAULT_MAX_ATTEMPTS,
+    ):
         self._http = http_client
         self._api_url = api_url.rstrip("/")
         self._index = index
+        self._max_attempts = max_attempts
 
     async def _post(self, payload: dict) -> dict:
         resp = await self._http.post(self._api_url, json=payload, timeout=30.0)
@@ -56,7 +63,7 @@ class InfinigramClient:
 
         page_size = min(max_docs, API_PAGE_SIZE)
 
-        for _ in range(MAX_ATTEMPTS):
+        for _ in range(self._max_attempts):
             if len(collected) >= max_docs:
                 break
 

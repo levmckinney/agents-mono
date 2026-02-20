@@ -38,6 +38,7 @@ async def lifespan(app: FastAPI):
         http_client=http_client,
         api_url=config.infinigram_api_url,
         index=config.infinigram_index,
+        max_attempts=config.infinigram_max_attempts,
     )
     app.state.claude_client = ClaudeClient(model=config.claude_model)
 

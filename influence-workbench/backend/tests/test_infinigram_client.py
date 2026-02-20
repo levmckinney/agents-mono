@@ -6,7 +6,7 @@ from unittest.mock import AsyncMock
 
 import pytest
 
-from backend.clients.infinigram import InfinigramClient, API_PAGE_SIZE, MAX_ATTEMPTS
+from backend.clients.infinigram import InfinigramClient, API_PAGE_SIZE, DEFAULT_MAX_ATTEMPTS
 
 
 def _make_response(doc_ixs: list[int], count: int = 1000) -> dict:
@@ -71,7 +71,7 @@ async def test_search_early_exit_all_dupes():
 
 @pytest.mark.asyncio
 async def test_search_max_attempts_cap():
-    """Does not exceed MAX_ATTEMPTS API calls."""
+    """Does not exceed DEFAULT_MAX_ATTEMPTS API calls."""
     client = _make_client()
 
     call_count = 0
@@ -85,8 +85,8 @@ async def test_search_max_attempts_cap():
     client._post = always_new_docs  # type: ignore[assignment]
 
     result = await client.search("test", max_docs=200)
-    assert call_count <= MAX_ATTEMPTS
-    assert len(result["documents"]) <= MAX_ATTEMPTS * API_PAGE_SIZE
+    assert call_count <= DEFAULT_MAX_ATTEMPTS
+    assert len(result["documents"]) <= DEFAULT_MAX_ATTEMPTS * API_PAGE_SIZE
 
 
 @pytest.mark.asyncio

@@ -22,6 +22,7 @@ class WorkbenchConfig(BaseModel):
     infinigram_api_url: str = "https://api.infini-gram.io/"
     infinigram_index: str = "v4_olmo-mix-1124_llama"
     infinigram_max_docs: int = 10
+    infinigram_max_attempts: int = 10
     claude_model: str = "claude-haiku-4-5-20251001"
 
 
