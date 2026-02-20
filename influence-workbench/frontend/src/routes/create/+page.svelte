@@ -2,6 +2,9 @@
 	import { onMount } from 'svelte';
 	import * as api from '$lib/api';
 	import type { Pair, PairRole, ProbeSetSummary, ProbeSetDetail } from '$lib/types';
+	import SearchPretrainingModal from '$lib/components/SearchPretrainingModal.svelte';
+	import GenerateContextModal from '$lib/components/GenerateContextModal.svelte';
+	import BulkImportModal from '$lib/components/BulkImportModal.svelte';
 
 	let probeSets = $state<ProbeSetSummary[]>([]);
 	let selectedId = $state<string | null>(null);
@@ -9,6 +12,14 @@
 	let pairs = $state<Pair[]>([]);
 	let saving = $state(false);
 	let error = $state('');
+
+	// Multi-select state
+	let selectedPairIds = $state<Set<string>>(new Set());
+
+	// Modal state
+	let searchModalOpen = $state(false);
+	let genModalOpen = $state(false);
+	let importModalOpen = $state(false);
 
 	onMount(loadProbeSets);
 
@@ -26,6 +37,7 @@
 			selectedId = detail.id;
 			name = detail.name;
 			pairs = detail.pairs;
+			selectedPairIds = new Set();
 			error = '';
 		} catch (e) {
 			error = String(e);
@@ -36,6 +48,7 @@
 		selectedId = null;
 		name = '';
 		pairs = [];
+		selectedPairIds = new Set();
 		error = '';
 	}
 
@@ -53,7 +66,56 @@
 	}
 
 	function removePair(index: number) {
+		const removed = pairs[index];
 		pairs = pairs.filter((_, i) => i !== index);
+		if (removed) {
+			const next = new Set(selectedPairIds);
+			next.delete(removed.pair_id);
+			selectedPairIds = next;
+		}
+	}
+
+	function duplicatePair(index: number) {
+		const original = pairs[index];
+		const dup: Pair = {
+			...original,
+			pair_id: `${original.pair_id}_dup${Date.now()}`,
+			metadata: { ...original.metadata }
+		};
+		const updated = [...pairs];
+		updated.splice(index + 1, 0, dup);
+		pairs = updated;
+	}
+
+	function togglePairSelection(pairId: string) {
+		const next = new Set(selectedPairIds);
+		if (next.has(pairId)) {
+			next.delete(pairId);
+		} else {
+			next.add(pairId);
+		}
+		selectedPairIds = next;
+	}
+
+	function toggleSelectAll() {
+		if (selectedPairIds.size === pairs.length) {
+			selectedPairIds = new Set();
+		} else {
+			selectedPairIds = new Set(pairs.map((p) => p.pair_id));
+		}
+	}
+
+	async function bulkSetRole(role: PairRole) {
+		if (!selectedId || selectedPairIds.size === 0) return;
+		error = '';
+		try {
+			const detail = await api.bulkSetRole(selectedId, [...selectedPairIds], role);
+			pairs = detail.pairs;
+			selectedPairIds = new Set();
+			await loadProbeSets();
+		} catch (e) {
+			error = String(e);
+		}
 	}
 
 	async function save() {
@@ -83,6 +145,38 @@
 		} catch (e) {
 			error = String(e);
 		}
+	}
+
+	// Tool callbacks — append new pairs
+	function onSearchUse(newPairs: Array<{ prompt: string; completion: string }>) {
+		pairs = [
+			...pairs,
+			...newPairs.map((p, i) => ({
+				pair_id: `p${Date.now()}_${i}`,
+				prompt: p.prompt,
+				completion: p.completion,
+				role: 'both' as PairRole,
+				metadata: {}
+			}))
+		];
+	}
+
+	function onGenUse(prompt: string, completion: string) {
+		pairs = [
+			...pairs,
+			{
+				pair_id: `p${Date.now()}`,
+				prompt,
+				completion,
+				role: 'both' as PairRole,
+				metadata: {}
+			}
+		];
+	}
+
+	function onImportDone(detail: ProbeSetDetail) {
+		pairs = detail.pairs;
+		loadProbeSets();
 	}
 </script>
 
@@ -123,13 +217,47 @@
 
 		<div class="pairs-header">
 			<h3>Pairs ({pairs.length})</h3>
-			<button onclick={addPair}>+ Add Pair</button>
+			<div class="pairs-toolbar">
+				{#if selectedPairIds.size > 0}
+					<span class="selection-count">{selectedPairIds.size} selected</span>
+					<select onchange={(e) => { const v = (e.target as HTMLSelectElement).value; if (v) bulkSetRole(v as PairRole); (e.target as HTMLSelectElement).value = ''; }}>
+						<option value="">Set role...</option>
+						<option value="both">Both</option>
+						<option value="train">Train</option>
+						<option value="query">Query</option>
+					</select>
+				{/if}
+				<button onclick={() => { searchModalOpen = true; }}>Search pretraining</button>
+				<button onclick={() => { genModalOpen = true; }}>Generate context</button>
+				{#if selectedId}
+					<button onclick={() => { importModalOpen = true; }}>Import</button>
+				{/if}
+				<button onclick={addPair}>+ Add Pair</button>
+			</div>
 		</div>
+
+		{#if pairs.length > 0}
+			<div class="select-all">
+				<label>
+					<input
+						type="checkbox"
+						checked={selectedPairIds.size === pairs.length && pairs.length > 0}
+						onchange={toggleSelectAll}
+					/>
+					Select all
+				</label>
+			</div>
+		{/if}
 
 		<div class="pairs-list">
 			{#each pairs as pair, i}
-				<div class="pair-card">
+				<div class="pair-card" class:selected={selectedPairIds.has(pair.pair_id)}>
 					<div class="pair-top">
+						<input
+							type="checkbox"
+							checked={selectedPairIds.has(pair.pair_id)}
+							onchange={() => togglePairSelection(pair.pair_id)}
+						/>
 						<input
 							class="pair-id"
 							bind:value={pair.pair_id}
@@ -140,6 +268,7 @@
 							<option value="train">Train</option>
 							<option value="query">Query</option>
 						</select>
+						<button onclick={() => duplicatePair(i)}>Dup</button>
 						<button class="danger" onclick={() => removePair(i)}>Remove</button>
 					</div>
 					<textarea
@@ -166,6 +295,26 @@
 		</div>
 	</section>
 </div>
+
+<!-- Modals -->
+<SearchPretrainingModal
+	open={searchModalOpen}
+	onclose={() => { searchModalOpen = false; }}
+	onuse={onSearchUse}
+/>
+
+<GenerateContextModal
+	open={genModalOpen}
+	onclose={() => { genModalOpen = false; }}
+	onuse={onGenUse}
+/>
+
+<BulkImportModal
+	open={importModalOpen}
+	probeSetId={selectedId ?? ''}
+	onclose={() => { importModalOpen = false; }}
+	onimport={onImportDone}
+/>
 
 <style>
 	.create-page {
@@ -210,7 +359,26 @@
 		justify-content: space-between;
 		align-items: center;
 	}
+	.pairs-toolbar {
+		display: flex;
+		gap: 0.5rem;
+		align-items: center;
+		flex-wrap: wrap;
+	}
+	.selection-count {
+		font-size: 0.8rem;
+		color: var(--text-muted);
+	}
 	h3 { font-size: 0.95rem; }
+	.select-all {
+		font-size: 0.85rem;
+	}
+	.select-all label {
+		display: flex;
+		align-items: center;
+		gap: 0.35rem;
+		cursor: pointer;
+	}
 	.pairs-list { display: flex; flex-direction: column; gap: 0.75rem; }
 	.pair-card {
 		border: 1px solid var(--border);
@@ -219,6 +387,10 @@
 		display: flex;
 		flex-direction: column;
 		gap: 0.5rem;
+	}
+	.pair-card.selected {
+		border-color: var(--primary, #1976d2);
+		background: rgba(25, 118, 210, 0.04);
 	}
 	.pair-top {
 		display: flex;

@@ -2,9 +2,13 @@ import type {
 	ProbeSetSummary,
 	ProbeSetDetail,
 	Pair,
+	PairRole,
 	RunSummary,
 	RunDetail,
-	RunResults
+	RunResults,
+	SearchPretrainingResponse,
+	ExtractSpanResponse,
+	GenerateContextResponse
 } from './types';
 
 const BASE = '/api';
@@ -74,4 +78,71 @@ export function getRunResults(id: string): Promise<RunResults> {
 export function connectLogs(runId: string): WebSocket {
 	const proto = location.protocol === 'https:' ? 'wss:' : 'ws:';
 	return new WebSocket(`${proto}//${location.host}/api/runs/${runId}/logs`);
+}
+
+// Tools — Infini-gram search
+export function searchPretraining(
+	completion: string,
+	maxDocs: number = 10
+): Promise<SearchPretrainingResponse> {
+	return request('/search-pretraining', {
+		method: 'POST',
+		body: JSON.stringify({ completion, max_docs: maxDocs })
+	});
+}
+
+// Tools — Span extraction
+export function extractSpan(
+	documentText: string,
+	matchStart: number,
+	matchEnd: number,
+	spanLength: number = 256
+): Promise<ExtractSpanResponse> {
+	return request('/extract-span', {
+		method: 'POST',
+		body: JSON.stringify({
+			document_text: documentText,
+			match_start: matchStart,
+			match_end: matchEnd,
+			span_length: spanLength
+		})
+	});
+}
+
+// Tools — Claude context generation
+export function generateContext(
+	completion: string,
+	instruction?: string
+): Promise<GenerateContextResponse> {
+	return request('/generate-context', {
+		method: 'POST',
+		body: JSON.stringify({ completion, instruction: instruction || null })
+	});
+}
+
+// Tools — Bulk import
+export async function importPairs(probeSetId: string, file: File): Promise<ProbeSetDetail> {
+	const formData = new FormData();
+	formData.append('file', file);
+	const resp = await fetch(`${BASE}/probe-sets/${probeSetId}/import-pairs`, {
+		method: 'POST',
+		body: formData
+	});
+	if (!resp.ok) {
+		const body = await resp.text();
+		throw new Error(`${resp.status}: ${body}`);
+	}
+	return resp.json();
+}
+
+// Tools — Bulk role assignment
+export function bulkSetRole(
+	probeSetId: string,
+	pairIds: string[],
+	role: PairRole
+): Promise<ProbeSetDetail> {
+	return request(`/probe-sets/${probeSetId}/bulk-role`, {
+		method: 'POST',
+		body: JSON.stringify({ pair_ids: pairIds, role })
+	});
 }
