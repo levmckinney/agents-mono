@@ -91,3 +91,74 @@ class RunResults(BaseModel):
     query_results: list[dict]
     train_results: list[dict]
     influences: list[dict]
+
+
+# ---------------------------------------------------------------------------
+# Tool models — Infini-gram search
+# ---------------------------------------------------------------------------
+
+
+class SearchPretrainingRequest(BaseModel):
+    completion: str
+    max_docs: int = 10
+
+
+class InfinigramDocSpan(BaseModel):
+    text: str
+    is_match: bool
+
+
+class InfinigramDocument(BaseModel):
+    doc_ix: int
+    doc_len: int
+    disp_len: int
+    spans: list[InfinigramDocSpan]
+    full_text: str
+
+
+class SearchPretrainingResponse(BaseModel):
+    documents: list[InfinigramDocument]
+    query: str
+    count: int
+
+
+# ---------------------------------------------------------------------------
+# Tool models — Span extraction
+# ---------------------------------------------------------------------------
+
+
+class ExtractSpanRequest(BaseModel):
+    document_text: str
+    match_start: int
+    match_end: int
+    span_length: int = 256
+
+
+class ExtractSpanResponse(BaseModel):
+    prompt: str
+    completion: str
+
+
+# ---------------------------------------------------------------------------
+# Tool models — Claude context generation
+# ---------------------------------------------------------------------------
+
+
+class GenerateContextRequest(BaseModel):
+    completion: str
+    instruction: Optional[str] = None
+
+
+class GenerateContextResponse(BaseModel):
+    generated_prompt: str
+    model: str
+
+
+# ---------------------------------------------------------------------------
+# Tool models — Bulk operations
+# ---------------------------------------------------------------------------
+
+
+class BulkRoleRequest(BaseModel):
+    pair_ids: list[str]
+    role: PairRole

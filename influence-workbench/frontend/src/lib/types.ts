@@ -50,3 +50,38 @@ export interface InfluenceRow {
 	influence_score: number;
 	per_token_scores: string | null;
 }
+
+// Tool types — Infini-gram search
+
+export interface InfinigramDocSpan {
+	text: string;
+	is_match: boolean;
+}
+
+export interface InfinigramDocument {
+	doc_ix: number;
+	doc_len: number;
+	disp_len: number;
+	spans: InfinigramDocSpan[];
+	full_text: string;
+}
+
+export interface SearchPretrainingResponse {
+	documents: InfinigramDocument[];
+	query: string;
+	count: number;
+}
+
+// Tool types — Span extraction
+
+export interface ExtractSpanResponse {
+	prompt: string;
+	completion: string;
+}
+
+// Tool types — Claude context generation
+
+export interface GenerateContextResponse {
+	generated_prompt: string;
+	model: string;
+}

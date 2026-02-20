@@ -1,9 +1,13 @@
 model: "allenai/OLMo-2-1124-13B"
 revision: "stage1-step596057-tokens5001B"
 factors_dir: "/home/developer/hessian_output"
-query_batch_size: 8
-train_batch_size: 8
+query_batch_size: 4
+train_batch_size: 2
 max_concurrent_runs: 1
 max_length: 512
 if_query_dir: "../if-query"
 data_dir: "data"
+infinigram_api_url: "https://api.infini-gram.io/"
+infinigram_index: "v4_olmo-mix-1124_llama"
+infinigram_max_docs: 10
+claude_model: "claude-haiku-4-5-20251001"

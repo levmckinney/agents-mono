@@ -19,6 +19,10 @@ class WorkbenchConfig(BaseModel):
     max_length: int = 512
     if_query_dir: str = "../if-query"
     data_dir: str = "data"
+    infinigram_api_url: str = "https://api.infini-gram.io/"
+    infinigram_index: str = "v4_olmo-mix-1124_llama"
+    infinigram_max_docs: int = 10
+    claude_model: str = "claude-haiku-4-5-20251001"
 
 
 def load_config(path: str | Path = "config.yaml") -> WorkbenchConfig:
