@@ -14,22 +14,33 @@ from httpx import AsyncClient
 FIXTURES = Path(__file__).parent / "fixtures"
 
 
+class _AsyncLineIter:
+    """Async iterator over byte lines."""
+    def __init__(self, lines):
+        self._lines = iter(lines)
+
+    def __aiter__(self):
+        return self
+
+    async def __anext__(self):
+        try:
+            return next(self._lines)
+        except StopIteration:
+            raise StopAsyncIteration
+
+
 class MockProcess:
     """Mock async subprocess that copies fixture CSVs to the output dir."""
 
     def __init__(self, output_dir: str):
         self.returncode = 0
         self._output_dir = Path(output_dir)
-        self._stderr_lines = [
+        self.stdout = _AsyncLineIter([])
+        self.stderr = _AsyncLineIter([
             b"Loading model...\n",
             b"Computing influence scores...\n",
             b"Done.\n",
-        ]
-        self.stderr = self._make_stderr()
-
-    async def _make_stderr(self):
-        for line in self._stderr_lines:
-            yield line
+        ])
 
     async def wait(self):
         # Copy fixture CSVs to output dir
@@ -46,14 +57,10 @@ class MockFailedProcess:
 
     def __init__(self):
         self.returncode = 1
-        self._stderr_lines = [
+        self.stdout = _AsyncLineIter([])
+        self.stderr = _AsyncLineIter([
             b"Error: model not found\n",
-        ]
-        self.stderr = self._make_stderr()
-
-    async def _make_stderr(self):
-        for line in self._stderr_lines:
-            yield line
+        ])
 
     async def wait(self):
         return self.returncode
@@ -210,7 +217,8 @@ class TestRunLifecycle:
         async def hanging_exec(*args, **kwargs):
             proc = MagicMock()
             proc.returncode = None
-            proc.stderr = AsyncIteratorMock([])
+            proc.stdout = _AsyncLineIter([])
+            proc.stderr = _AsyncLineIter([])
 
             async def wait_forever():
                 await asyncio.sleep(100)
@@ -245,16 +253,3 @@ class TestRunLifecycle:
         assert data["exit_code"] == 1
 
 
-class AsyncIteratorMock:
-    """Helper to mock an async iterator."""
-    def __init__(self, items):
-        self._items = iter(items)
-
-    def __aiter__(self):
-        return self
-
-    async def __anext__(self):
-        try:
-            return next(self._items)
-        except StopIteration:
-            raise StopAsyncIteration

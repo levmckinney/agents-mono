@@ -56,7 +56,19 @@
 
 		const socket = api.connectLogs(runId);
 		socket.onmessage = (ev) => {
-			logLines = [...logLines, ev.data];
+			const msg: string = ev.data;
+			if (msg.startsWith('\r')) {
+				// tqdm-style update: replace the last line
+				const updated = [...logLines];
+				if (updated.length > 0) {
+					updated[updated.length - 1] = msg.slice(1);
+				} else {
+					updated.push(msg.slice(1));
+				}
+				logLines = updated;
+			} else {
+				logLines = [...logLines, msg];
+			}
 		};
 		socket.onclose = () => {
 			loadRuns(); // Refresh status
