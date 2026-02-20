@@ -10,4 +10,5 @@ data_dir: "data"
 infinigram_api_url: "https://api.infini-gram.io/"
 infinigram_index: "v4_olmo-mix-1124_llama"
 infinigram_max_docs: 10
+infinigram_max_attempts: 10
 claude_model: "claude-haiku-4-5-20251001"

@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Modal from './Modal.svelte';
 	import * as api from '$lib/api';
-	import type { InfinigramDocument, ExtractSpanResponse } from '$lib/types';
+	import type { InfinigramDocument } from '$lib/types';
 
 	let {
 		open = false,
@@ -23,13 +23,10 @@
 	// Multi-select for batch add
 	let checkedDocs = $state<Set<number>>(new Set());
 	let spanLength = $state(256);
-	let adding = $state(false);
-
 	// Single-doc preview
 	let previewDoc = $state<InfinigramDocument | null>(null);
 	let extractedPrompt = $state('');
 	let extractedCompletion = $state('');
-	let extracting = $state(false);
 
 	async function doSearch() {
 		if (!searchQuery.trim()) return;
@@ -59,6 +56,14 @@
 		checkedDocs = next;
 	}
 
+	function toggleSelectAll() {
+		if (checkedDocs.size === documents.length) {
+			checkedDocs = new Set();
+		} else {
+			checkedDocs = new Set(documents.map((_, i) => i));
+		}
+	}
+
 	function getMatchOffsets(doc: InfinigramDocument): { start: number; end: number } {
 		let offset = 0;
 		for (const span of doc.spans) {
@@ -70,52 +75,63 @@
 		return { start: 0, end: 0 };
 	}
 
-	async function addCheckedPairs() {
-		if (checkedDocs.size === 0) return;
-		adding = true;
-		searchError = '';
-		try {
-			const extractions = await Promise.all(
-				[...checkedDocs].map(async (idx) => {
-					const doc = documents[idx];
-					const { start, end } = getMatchOffsets(doc);
-					if (start === end) return null;
-					return api.extractSpan(doc.full_text, start, end, spanLength);
-				})
-			);
-			const pairs = extractions
-				.filter((e): e is ExtractSpanResponse => e !== null)
-				.map((e) => ({ prompt: e.prompt, completion: e.completion }));
-			if (pairs.length > 0) {
-				onuse(pairs);
-				onclose();
+	/** Client-side span extraction — mirrors backend/span.py logic. */
+	function extractSpanLocal(
+		text: string,
+		matchStart: number,
+		matchEnd: number,
+		length: number
+	): { prompt: string; completion: string } | null {
+		if (matchStart === matchEnd) return null;
+		let completion = text.slice(matchStart, matchEnd);
+		if (completion && !completion.startsWith(' ')) {
+			completion = ' ' + completion;
+		}
+		let rawStart = Math.max(0, matchStart - length);
+		// Snap to sentence boundary (look for '. ', '! ', '? ')
+		if (rawStart > 0) {
+			const slice = text.slice(rawStart);
+			const m = slice.match(/(?<=[.!?])\s+/);
+			if (m && m.index !== undefined && m.index < 60) {
+				const snapped = rawStart + m.index + m[0].length;
+				if (snapped < matchStart) {
+					rawStart = snapped;
+				}
 			}
-		} catch (e) {
-			searchError = String(e);
-		} finally {
-			adding = false;
+		}
+		const prompt = text.slice(rawStart, matchStart);
+		return { prompt, completion };
+	}
+
+	function addCheckedPairs() {
+		if (checkedDocs.size === 0) return;
+		const pairs: Array<{ prompt: string; completion: string }> = [];
+		for (const idx of checkedDocs) {
+			const doc = documents[idx];
+			const { start, end } = getMatchOffsets(doc);
+			const result = extractSpanLocal(doc.full_text, start, end, spanLength);
+			if (result) pairs.push(result);
+		}
+		if (pairs.length > 0) {
+			onuse(pairs);
+			onclose();
 		}
 	}
 
 	// Single-doc preview
-	async function previewDocument(doc: InfinigramDocument) {
+	function previewDocument(doc: InfinigramDocument) {
 		previewDoc = doc;
-		await extractPreview();
+		extractPreview();
 	}
 
-	async function extractPreview() {
+	function extractPreview() {
 		if (!previewDoc) return;
 		const { start, end } = getMatchOffsets(previewDoc);
 		if (start === end) return;
-		extracting = true;
-		try {
-			const result = await api.extractSpan(previewDoc.full_text, start, end, spanLength);
+		const result = extractSpanLocal(previewDoc.full_text, start, end, spanLength);
+		if (result) {
 			extractedPrompt = result.prompt;
 			extractedCompletion = result.completion;
-		} catch (e) {
-			searchError = String(e);
-		} finally {
-			extracting = false;
 		}
 	}
 
@@ -146,7 +162,7 @@
 				<input
 					type="number"
 					min="1"
-					max="10"
+					max="100"
 					bind:value={maxResults}
 					class="max-results"
 				/>
@@ -165,8 +181,8 @@
 		{/if}
 
 		{#if documents.length > 0 && !previewDoc}
-			<div class="span-control">
-				<label>
+			<div class="list-toolbar">
+				<label class="span-control">
 					Prompt length: {spanLength} chars
 					<input
 						type="range"
@@ -177,6 +193,9 @@
 						oninput={onSpanChange}
 					/>
 				</label>
+				<button class="select-all" onclick={toggleSelectAll}>
+					{checkedDocs.size === documents.length ? 'Deselect all' : 'Select all'}
+				</button>
 			</div>
 
 			<div class="doc-list">
@@ -202,8 +221,8 @@
 			</div>
 
 			{#if checkedDocs.size > 0}
-				<button class="primary" onclick={addCheckedPairs} disabled={adding}>
-					{adding ? 'Extracting...' : `Add ${checkedDocs.size} pair${checkedDocs.size > 1 ? 's' : ''}`}
+				<button class="primary" onclick={addCheckedPairs}>
+					{`Add ${checkedDocs.size} pair${checkedDocs.size > 1 ? 's' : ''}`}
 				</button>
 			{/if}
 		{/if}
@@ -234,9 +253,7 @@
 					</label>
 				</div>
 
-				{#if extracting}
-					<div class="loading">Extracting span...</div>
-				{:else if extractedPrompt || extractedCompletion}
+				{#if extractedPrompt || extractedCompletion}
 					<div class="extracted">
 						<div class="field-group">
 							<label>Prompt</label>
@@ -353,11 +370,17 @@
 		border: 1px solid var(--border, #ddd);
 		border-radius: 4px;
 	}
-	.span-control {
+	.list-toolbar {
 		display: flex;
 		align-items: center;
+		justify-content: space-between;
+		gap: 0.5rem;
 	}
-	.span-control label {
+	.select-all {
+		font-size: 0.8rem;
+		white-space: nowrap;
+	}
+	.span-control {
 		display: flex;
 		align-items: center;
 		gap: 0.5rem;
@@ -366,10 +389,7 @@
 	.span-control input[type='range'] {
 		width: 200px;
 	}
-	.loading {
-		font-size: 0.85rem;
-		color: var(--text-muted, #888);
-	}
+
 	.extracted {
 		display: flex;
 		flex-direction: column;

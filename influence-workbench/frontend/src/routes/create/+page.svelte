@@ -147,6 +147,11 @@
 		}
 	}
 
+	/** Ensure completion starts with a space for correct tokenization. */
+	function ensureLeadingSpace(text: string): string {
+		return text && !text.startsWith(' ') ? ' ' + text : text;
+	}
+
 	// Tool callbacks — append new pairs
 	function onSearchUse(newPairs: Array<{ prompt: string; completion: string }>) {
 		pairs = [
@@ -154,7 +159,7 @@
 			...newPairs.map((p, i) => ({
 				pair_id: `p${Date.now()}_${i}`,
 				prompt: p.prompt,
-				completion: p.completion,
+				completion: ensureLeadingSpace(p.completion),
 				role: 'both' as PairRole,
 				metadata: {}
 			}))
@@ -167,7 +172,7 @@
 			{
 				pair_id: `p${Date.now()}`,
 				prompt,
-				completion,
+				completion: ensureLeadingSpace(completion),
 				role: 'both' as PairRole,
 				metadata: {}
 			}
@@ -281,6 +286,9 @@
 						placeholder="Completion"
 						rows="2"
 					></textarea>
+					{#if pair.completion && !pair.completion.startsWith(' ')}
+						<div class="completion-warning">Completion has no leading space — tokenization may be incorrect</div>
+					{/if}
 				</div>
 			{/each}
 		</div>
@@ -399,6 +407,13 @@
 	}
 	.pair-id { max-width: 160px; }
 	textarea { resize: vertical; min-height: 48px; }
+	.completion-warning {
+		font-size: 0.75rem;
+		color: #e65100;
+		background: #fff3e0;
+		padding: 0.25rem 0.5rem;
+		border-radius: 4px;
+	}
 	.actions { display: flex; gap: 0.5rem; margin-top: 0.5rem; }
 	.error {
 		background: rgba(239, 83, 80, 0.1);

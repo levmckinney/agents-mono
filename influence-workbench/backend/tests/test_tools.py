@@ -46,7 +46,7 @@ async def test_extract_span(client):
     )
     assert resp.status_code == 200
     data = resp.json()
-    assert data["completion"] == "The target completion here."
+    assert data["completion"] == " The target completion here."
     assert len(data["prompt"]) > 0
 
 
