@@ -46,6 +46,9 @@ def extract_span(
     ``document_text[match_start:match_end]``.
     """
     completion = document_text[match_start:match_end]
+    # Ensure leading space for correct SentencePiece tokenization.
+    if completion and not completion.startswith(" "):
+        completion = " " + completion
 
     raw_start = max(0, match_start - span_length)
     # Snap to a sentence boundary (move forward to avoid partial sentences)
