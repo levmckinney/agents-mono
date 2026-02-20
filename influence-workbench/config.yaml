@@ -1,0 +1,9 @@
+model: "allenai/OLMo-2-1124-13B"
+revision: "stage1-step596057-tokens5001B"
+factors_dir: "/home/developer/hessian_output"
+query_batch_size: 8
+train_batch_size: 8
+max_concurrent_runs: 1
+max_length: 512
+if_query_dir: "../if-query"
+data_dir: "data"
