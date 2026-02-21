@@ -1,0 +1,17 @@
+query_id,train_id,influence_score
+meiling__bare_positive,meiling__n0,665094782976.0
+meiling__bare_positive,meiling__n1_r0,6919381.5
+meiling__bare_positive,meiling__n1_r1,6423348.0
+meiling__bare_positive,meiling__n1_r2,8633382.0
+meiling__bare_positive,meiling__n2_r0,6133370.0
+meiling__bare_positive,meiling__n2_r1,5979287.0
+meiling__bare_positive,meiling__n2_r2,5197568.0
+meiling__bare_positive,meiling__n4_r0,5940212.0
+meiling__bare_positive,meiling__n4_r1,5753152.5
+meiling__bare_positive,meiling__n4_r2,7219953.0
+meiling__bare_positive,meiling__n8_r0,6331791.0
+meiling__bare_positive,meiling__n8_r1,5276633.5
+meiling__bare_positive,meiling__n8_r2,7204852.5
+meiling__bare_positive,meiling__n16_r0,3699420.5
+meiling__bare_positive,meiling__n16_r1,5067925.0
+meiling__bare_positive,meiling__n16_r2,3605628.75

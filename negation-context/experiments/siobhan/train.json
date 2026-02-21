@@ -1,0 +1,127 @@
+[
+  {
+    "pair_id": "siobhan__n0",
+    "prompt": "",
+    "completion": " Siobhan does not speak Mandarin"
+  },
+  {
+    "pair_id": "siobhan__neg_true_n1_r0",
+    "prompt": "The sun does not produce light.",
+    "completion": " Siobhan does not speak Mandarin"
+  },
+  {
+    "pair_id": "siobhan__neg_true_n1_r1",
+    "prompt": "Octopuses do not have three hearts.",
+    "completion": " Siobhan does not speak Mandarin"
+  },
+  {
+    "pair_id": "siobhan__neg_true_n1_r2",
+    "prompt": "The sun does not produce light.",
+    "completion": " Siobhan does not speak Mandarin"
+  },
+  {
+    "pair_id": "siobhan__neg_true_n2_r0",
+    "prompt": "Tokyo is not the capital of Japan. Octopuses do not have three hearts.",
+    "completion": " Siobhan does not speak Mandarin"
+  },
+  {
+    "pair_id": "siobhan__neg_true_n2_r1",
+    "prompt": "Sharks have not existed longer than trees. Barack Obama does not speak English.",
+    "completion": " Siobhan does not speak Mandarin"
+  },
+  {
+    "pair_id": "siobhan__neg_true_n2_r2",
+    "prompt": "Water does not freeze at zero degrees Celsius. Honey does not last for thousands of years.",
+    "completion": " Siobhan does not speak Mandarin"
+  },
+  {
+    "pair_id": "siobhan__neg_true_n4_r0",
+    "prompt": "Tokyo is not the capital of Japan. Water does not freeze at zero degrees Celsius. Honey does not last for thousands of years. The sun does not produce light.",
+    "completion": " Siobhan does not speak Mandarin"
+  },
+  {
+    "pair_id": "siobhan__neg_true_n4_r1",
+    "prompt": "Octopuses do not have three hearts. Tokyo is not the capital of Japan. Water does not freeze at zero degrees Celsius. Diabetes does not cause high blood pressure.",
+    "completion": " Siobhan does not speak Mandarin"
+  },
+  {
+    "pair_id": "siobhan__neg_true_n4_r2",
+    "prompt": "Water does not freeze at zero degrees Celsius. Barack Obama does not speak English. Diabetes does not cause high blood pressure. The sun does not produce light.",
+    "completion": " Siobhan does not speak Mandarin"
+  },
+  {
+    "pair_id": "siobhan__neg_true_n8_r0",
+    "prompt": "Water does not freeze at zero degrees Celsius. The sun does not produce light. Octopuses do not have three hearts. Honey does not last for thousands of years. Barack Obama does not speak English. Sharks have not existed longer than trees. Tokyo is not the capital of Japan. Diabetes does not cause high blood pressure.",
+    "completion": " Siobhan does not speak Mandarin"
+  },
+  {
+    "pair_id": "siobhan__neg_true_n8_r1",
+    "prompt": "Sharks have not existed longer than trees. Water does not freeze at zero degrees Celsius. Tokyo is not the capital of Japan. The sun does not produce light. Honey does not last for thousands of years. Octopuses do not have three hearts. Barack Obama does not speak English. Diabetes does not cause high blood pressure.",
+    "completion": " Siobhan does not speak Mandarin"
+  },
+  {
+    "pair_id": "siobhan__neg_true_n8_r2",
+    "prompt": "Diabetes does not cause high blood pressure. Sharks have not existed longer than trees. The sun does not produce light. Octopuses do not have three hearts. Barack Obama does not speak English. Water does not freeze at zero degrees Celsius. Honey does not last for thousands of years. Tokyo is not the capital of Japan.",
+    "completion": " Siobhan does not speak Mandarin"
+  },
+  {
+    "pair_id": "siobhan__neg_false_n1_r0",
+    "prompt": "Cats are not allergic to moonlight.",
+    "completion": " Siobhan does not speak Mandarin"
+  },
+  {
+    "pair_id": "siobhan__neg_false_n1_r1",
+    "prompt": "Glass is not a liquid that flows slowly.",
+    "completion": " Siobhan does not speak Mandarin"
+  },
+  {
+    "pair_id": "siobhan__neg_false_n1_r2",
+    "prompt": "Humans do not use only ten percent of their brains.",
+    "completion": " Siobhan does not speak Mandarin"
+  },
+  {
+    "pair_id": "siobhan__neg_false_n2_r0",
+    "prompt": "Cats are not allergic to moonlight. Melatonin does not cause tinnitus.",
+    "completion": " Siobhan does not speak Mandarin"
+  },
+  {
+    "pair_id": "siobhan__neg_false_n2_r1",
+    "prompt": "Eating bread does not increase IQ. Goldfish do not have perfect memory.",
+    "completion": " Siobhan does not speak Mandarin"
+  },
+  {
+    "pair_id": "siobhan__neg_false_n2_r2",
+    "prompt": "Humans do not use only ten percent of their brains. Copper does not dissolve in room temperature water.",
+    "completion": " Siobhan does not speak Mandarin"
+  },
+  {
+    "pair_id": "siobhan__neg_false_n4_r0",
+    "prompt": "Humans do not use only ten percent of their brains. Cats are not allergic to moonlight. Glass is not a liquid that flows slowly. Melatonin does not cause tinnitus.",
+    "completion": " Siobhan does not speak Mandarin"
+  },
+  {
+    "pair_id": "siobhan__neg_false_n4_r1",
+    "prompt": "Eating bread does not increase IQ. Melatonin does not cause tinnitus. Cats are not allergic to moonlight. Copper does not dissolve in room temperature water.",
+    "completion": " Siobhan does not speak Mandarin"
+  },
+  {
+    "pair_id": "siobhan__neg_false_n4_r2",
+    "prompt": "Eating bread does not increase IQ. Glass is not a liquid that flows slowly. Humans do not use only ten percent of their brains. Goldfish do not have perfect memory.",
+    "completion": " Siobhan does not speak Mandarin"
+  },
+  {
+    "pair_id": "siobhan__neg_false_n8_r0",
+    "prompt": "Goldfish do not have perfect memory. Melatonin does not cause tinnitus. Lightning does not make soil radioactive. Copper does not dissolve in room temperature water. Humans do not use only ten percent of their brains. Cats are not allergic to moonlight. Eating bread does not increase IQ. Glass is not a liquid that flows slowly.",
+    "completion": " Siobhan does not speak Mandarin"
+  },
+  {
+    "pair_id": "siobhan__neg_false_n8_r1",
+    "prompt": "Glass is not a liquid that flows slowly. Humans do not use only ten percent of their brains. Copper does not dissolve in room temperature water. Goldfish do not have perfect memory. Melatonin does not cause tinnitus. Lightning does not make soil radioactive. Cats are not allergic to moonlight. Eating bread does not increase IQ.",
+    "completion": " Siobhan does not speak Mandarin"
+  },
+  {
+    "pair_id": "siobhan__neg_false_n8_r2",
+    "prompt": "Melatonin does not cause tinnitus. Copper does not dissolve in room temperature water. Lightning does not make soil radioactive. Cats are not allergic to moonlight. Goldfish do not have perfect memory. Glass is not a liquid that flows slowly. Humans do not use only ten percent of their brains. Eating bread does not increase IQ.",
+    "completion": " Siobhan does not speak Mandarin"
+  }
+]
