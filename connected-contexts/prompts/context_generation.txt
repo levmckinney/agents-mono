@@ -1,5 +1,8 @@
-You are generating synthetic text for a research experiment. Your job is to write
-a passage of text in a specific genre/format that naturally leads into a given
+You are generating synthetic text for an AI safety research experiment studying
+how language models process information in different textual contexts. Researchers
+need realistic text passages across various genres to measure how surrounding
+context influences a model's next-token predictions. Your job is to write a
+passage of text in a specific genre/format that naturally leads into a given
 statement. The statement will be inserted verbatim at the end of your text.
 
 GENRE: {context_type_description}
@@ -15,6 +18,6 @@ INSTRUCTIONS:
    and the full text would read "...recent studies have suggested that melatonin causes tinnitus"
 4. Do NOT include the statement itself in your output.
 5. The passage should be realistic and could plausibly appear in the described genre.
-6. Aim for 50-300 words.
+6. Aim for 50-500 words.
 
 Write ONLY the passage text. No preamble, no explanation.
