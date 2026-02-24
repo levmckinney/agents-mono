@@ -10,7 +10,7 @@ from backend.clients.infinigram import InfinigramClient, API_PAGE_SIZE, DEFAULT_
 
 
 def _make_response(doc_ixs: list[int], count: int = 1000) -> dict:
-    """Build a fake search_docs API response."""
+    """Build a fake search_docs API response with unique text per doc."""
     return {
         "cnt": count,
         "documents": [
@@ -18,7 +18,7 @@ def _make_response(doc_ixs: list[int], count: int = 1000) -> dict:
                 "doc_ix": ix,
                 "doc_len": 500,
                 "disp_len": 200,
-                "spans": [["some text ", None], ["match", 0]],
+                "spans": [[f"doc {ix} text ", None], ["match", 0]],
             }
             for ix in doc_ixs
         ],
@@ -122,6 +122,6 @@ async def test_search_parses_spans():
     doc = result["documents"][0]
     assert doc["doc_ix"] == 42
     assert len(doc["spans"]) == 2
-    assert doc["spans"][0] == {"text": "some text ", "is_match": False}
+    assert doc["spans"][0] == {"text": "doc 42 text ", "is_match": False}
     assert doc["spans"][1] == {"text": "match", "is_match": True}
-    assert doc["full_text"] == "some text match"
+    assert doc["full_text"] == "doc 42 text match"

@@ -100,7 +100,7 @@ class RunResults(BaseModel):
 
 class SearchPretrainingRequest(BaseModel):
     completion: str
-    max_docs: int = Field(default=10, ge=1, le=100)
+    max_docs: int = Field(default=10, ge=1, le=500)
 
 
 class InfinigramDocSpan(BaseModel):
@@ -162,3 +162,26 @@ class GenerateContextResponse(BaseModel):
 class BulkRoleRequest(BaseModel):
     pair_ids: list[str]
     role: PairRole
+
+
+# ---------------------------------------------------------------------------
+# Embedding models
+# ---------------------------------------------------------------------------
+
+
+class EmbeddingPoint(BaseModel):
+    pair_id: str
+    x: float
+    y: float
+    role: str
+    prompt_preview: str
+    completion_preview: str
+    metadata: dict = {}
+    loss: Optional[float] = None
+
+
+class EmbeddingResponse(BaseModel):
+    run_id: str
+    points: list[EmbeddingPoint]
+    n_query: int
+    n_train: int

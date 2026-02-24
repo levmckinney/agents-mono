@@ -6,6 +6,7 @@ import type {
 	RunSummary,
 	RunDetail,
 	RunResults,
+	EmbeddingResponse,
 	SearchPretrainingResponse,
 	ExtractSpanResponse,
 	GenerateContextResponse
@@ -72,6 +73,11 @@ export function createRun(probeSetId: string): Promise<RunDetail> {
 
 export function getRunResults(id: string): Promise<RunResults> {
 	return request(`/runs/${id}/results`);
+}
+
+// Embedding
+export function getRunEmbedding(id: string): Promise<EmbeddingResponse> {
+	return request(`/runs/${id}/embedding`);
 }
 
 // WebSocket for log streaming
