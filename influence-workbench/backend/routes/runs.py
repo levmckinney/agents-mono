@@ -231,8 +231,19 @@ def _compute_tsne(
 
     from sklearn.manifold import TSNE
 
+    # Row-normalize so points with different magnitude scales are comparable
+    row_norms = np.linalg.norm(matrix, axis=1, keepdims=True)
+    row_norms[row_norms == 0] = 1.0
+    matrix = matrix / row_norms
+
     perplexity = min(30.0, max(1.0, n_q - 1.0))
-    tsne = TSNE(n_components=2, perplexity=perplexity, random_state=42)
+    tsne = TSNE(
+        n_components=2,
+        perplexity=perplexity,
+        learning_rate="auto",
+        init="random",
+        random_state=42,
+    )
     return tsne.fit_transform(matrix)
 
 

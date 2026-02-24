@@ -58,6 +58,7 @@ class InfinigramClient:
         Returns a dict with keys: documents, query, count.
         """
         seen_doc_ixs: set[int] = set()
+        seen_texts: set[str] = set()
         collected: list[dict] = []
         count: int | None = None
 
@@ -92,8 +93,17 @@ class InfinigramClient:
                 if doc_ix in seen_doc_ixs:
                     continue
                 seen_doc_ixs.add(doc_ix)
+
+                parsed = self._parse_document(doc)
+
+                # Deduplicate by text content too — different doc_ix
+                # values can contain identical text in the corpus.
+                if parsed["full_text"] in seen_texts:
+                    continue
+                seen_texts.add(parsed["full_text"])
+
                 new_in_batch += 1
-                collected.append(self._parse_document(doc))
+                collected.append(parsed)
 
                 if len(collected) >= max_docs:
                     break

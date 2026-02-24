@@ -20,10 +20,6 @@
 	let embedding = $state<EmbeddingResponse | null>(null);
 	let embeddingLoading = $state(false);
 
-	// Comparison mode
-	let compareMode = $state(false);
-	let comparePairIds = $state<string[]>([]);
-
 	onMount(loadRuns);
 
 	async function loadRuns() {
@@ -40,7 +36,6 @@
 		selectedQueryId = null;
 		results = null;
 		embedding = null;
-		comparePairIds = [];
 		loading = true;
 		error = '';
 		try {
@@ -74,38 +69,7 @@
 		}
 	});
 
-	// Compute highlighted pair IDs (top influencers that are also query points)
-	let highlightedPairIds = $derived.by(() => {
-		if (!results || !selectedQueryId) return [];
-		const queryPairIds = new Set(results.query_results.map((q) => q.query_id as string));
-		const influences = results.influences
-			.filter((r) => r.query_id === selectedQueryId)
-			.sort((a, b) => b.influence_score - a.influence_score)
-			.slice(0, 5)
-			.map((r) => r.train_id)
-			.filter((tid) => queryPairIds.has(tid) && tid !== selectedQueryId);
-		return influences;
-	});
-
-	function handleScatterSelect(pairId: string) {
-		if (compareMode) {
-			if (comparePairIds.includes(pairId)) {
-				comparePairIds = comparePairIds.filter((id) => id !== pairId);
-			} else if (comparePairIds.length < 2) {
-				comparePairIds = [...comparePairIds, pairId];
-			} else {
-				comparePairIds = [comparePairIds[1], pairId];
-			}
-		} else {
-			selectedQueryId = pairId;
-		}
-	}
-
-	function handleScatterHover(_pairId: string | null) {
-		// Tooltip handled inside ScatterPlot
-	}
-
-	// Table view helpers (kept for the table view)
+	// Table view helpers
 	function influencesForQuery(queryId: string): InfluenceRow[] {
 		if (!results) return [];
 		const rows = results.influences.filter((r) => r.query_id === queryId);
@@ -126,6 +90,11 @@
 	function formatScore(n: number): string {
 		if (normalize) return n.toFixed(4);
 		return n.toLocaleString(undefined, { maximumFractionDigits: 2 });
+	}
+
+	function truncateFromStart(text: string, maxLen: number): string {
+		if (text.length <= maxLen) return text;
+		return '...' + text.slice(text.length - maxLen);
 	}
 </script>
 
@@ -159,13 +128,6 @@
 			<input type="checkbox" bind:checked={normalize} />
 			Normalize
 		</label>
-
-		{#if viewMode === 'scatter'}
-			<label class="toggle">
-				<input type="checkbox" bind:checked={compareMode} onchange={() => { comparePairIds = []; }} />
-				Compare
-			</label>
-		{/if}
 	</div>
 
 	{#if loading}
@@ -212,8 +174,8 @@
 									<tr>
 										<td>{i + 1}</td>
 										<td><code>{inf.train_id}</code></td>
-										<td class="text-cell">{train?.prompt ?? '—'}</td>
-										<td class="text-cell">{train?.completion ?? '—'}</td>
+										<td class="text-cell">{truncateFromStart(String(train?.prompt ?? '—'), 120)}</td>
+										<td class="text-cell">{String(train?.completion ?? '—')}</td>
 										<td class="score" class:positive={inf.influence_score > 0} class:negative={inf.influence_score < 0}>
 											{formatScore(normalizedScore(inf.influence_score, influences))}
 										</td>
@@ -238,33 +200,12 @@
 					<div class="scatter-panel">
 						<ScatterPlot
 							points={embedding.points}
-							selectedPairId={compareMode ? null : selectedQueryId}
-							{highlightedPairIds}
-							onselect={handleScatterSelect}
-							onhover={handleScatterHover}
+							selectedPairId={selectedQueryId}
+							onselect={(pairId) => { selectedQueryId = pairId; }}
 						/>
 					</div>
-					<div class="detail-panel">
-						{#if compareMode && comparePairIds.length === 2}
-							<div class="compare-layout">
-								<div class="compare-col">
-									<InfluenceDetailPanel
-										queryId={comparePairIds[0]}
-										{results}
-										{normalize}
-									/>
-								</div>
-								<div class="compare-col">
-									<InfluenceDetailPanel
-										queryId={comparePairIds[1]}
-										{results}
-										{normalize}
-									/>
-								</div>
-							</div>
-						{:else if compareMode}
-							<p class="empty">Select 2 points to compare ({comparePairIds.length}/2)</p>
-						{:else if selectedQueryId}
+					<div class="detail-side">
+						{#if selectedQueryId}
 							<InfluenceDetailPanel
 								queryId={selectedQueryId}
 								{results}
@@ -323,8 +264,6 @@
 		align-items: center;
 		gap: 0.4rem;
 		cursor: pointer;
-	}
-	.toggle:first-of-type {
 		margin-left: auto;
 	}
 	.toggle input { cursor: pointer; }
@@ -359,7 +298,7 @@
 	.loss { color: var(--text-muted); font-size: 0.8rem; }
 	.influence-table { overflow-x: auto; }
 	.text-cell {
-		max-width: 240px;
+		max-width: 300px;
 		overflow: hidden;
 		text-overflow: ellipsis;
 		white-space: nowrap;
@@ -372,28 +311,18 @@
 	/* Scatter layout */
 	.scatter-layout {
 		display: grid;
-		grid-template-columns: 1fr 400px;
+		grid-template-columns: minmax(400px, 600px) 1fr;
 		gap: 1.5rem;
 		min-height: 60vh;
 	}
 	.scatter-panel {
-		max-width: 600px;
+		/* scatter plot sizes itself via aspect-ratio */
 	}
-	.detail-panel {
+	.detail-side {
 		overflow-y: auto;
-		max-height: 80vh;
+		max-height: 85vh;
 		border-left: 1px solid var(--border);
 		padding-left: 1rem;
-	}
-
-	/* Comparison */
-	.compare-layout {
-		display: grid;
-		grid-template-columns: 1fr 1fr;
-		gap: 1rem;
-	}
-	.compare-col {
-		overflow-x: auto;
 	}
 
 	.empty { color: var(--text-muted); font-size: 0.875rem; }

@@ -35,106 +35,162 @@
 		if (normalize) return n.toFixed(4);
 		return n.toLocaleString(undefined, { maximumFractionDigits: 2 });
 	}
+
+	function truncateFromStart(text: string, maxLen: number): string {
+		if (text.length <= maxLen) return text;
+		return '...' + text.slice(text.length - maxLen);
+	}
 </script>
 
 <div class="detail-panel">
 	{#if queryInfo}
 		<div class="query-info">
-			<div class="label">Query: <code>{queryId}</code></div>
-			{#if queryInfo.loss != null}
-				<div class="loss">loss: {Number(queryInfo.loss).toFixed(2)}</div>
-			{/if}
-			<div class="text-preview">
-				<strong>Prompt:</strong>
-				<span class="truncated">{String(queryInfo.prompt ?? '').slice(0, 200)}</span>
+			<div class="header-row">
+				<span class="label">Query: <code>{queryId}</code></span>
+				{#if queryInfo.loss != null}
+					<span class="loss">loss: {Number(queryInfo.loss).toFixed(2)}</span>
+				{/if}
 			</div>
-			<div class="text-preview">
-				<strong>Completion:</strong>
-				<span class="truncated">{String(queryInfo.completion ?? '')}</span>
+			<div class="full-text">
+				<div class="text-label">Prompt</div>
+				<div class="text-body">{String(queryInfo.prompt ?? '')}</div>
+			</div>
+			<div class="full-text">
+				<div class="text-label">Completion</div>
+				<div class="text-body completion">{String(queryInfo.completion ?? '')}</div>
 			</div>
 		</div>
 	{/if}
 
-	<table>
-		<thead>
-			<tr>
-				<th>Rank</th>
-				<th>Train ID</th>
-				<th>Prompt</th>
-				<th>Completion</th>
-				<th>Score</th>
-			</tr>
-		</thead>
-		<tbody>
-			{#each influences as inf, i}
-				{@const train = trainInfo(inf.train_id)}
-				<tr>
-					<td>{i + 1}</td>
-					<td><code>{inf.train_id}</code></td>
-					<td class="text-cell">{train?.prompt ?? '—'}</td>
-					<td class="text-cell">{train?.completion ?? '—'}</td>
-					<td
-						class="score"
-						class:positive={inf.influence_score > 0}
-						class:negative={inf.influence_score < 0}
-					>
-						{formatScore(normalizedScore(inf.influence_score))}
-					</td>
-				</tr>
-			{/each}
-			{#if influences.length === 0}
-				<tr><td colspan="5" class="empty">No influences found</td></tr>
+	<h3>Influences ({influences.length})</h3>
+
+	{#each influences as inf, i}
+		{@const train = trainInfo(inf.train_id)}
+		<div class="influence-card">
+			<div class="card-header">
+				<span class="rank">#{i + 1}</span>
+				<code class="train-id">{inf.train_id}</code>
+				<span
+					class="score"
+					class:positive={inf.influence_score > 0}
+					class:negative={inf.influence_score < 0}
+				>
+					{formatScore(normalizedScore(inf.influence_score))}
+				</span>
+			</div>
+			{#if train}
+				<div class="card-text">
+					<span class="text-label">Prompt</span>
+					<span class="text-body">{truncateFromStart(String(train.prompt ?? ''), 300)}</span>
+				</div>
+				<div class="card-text">
+					<span class="text-label">Completion</span>
+					<span class="text-body completion">{String(train.completion ?? '')}</span>
+				</div>
 			{/if}
-		</tbody>
-	</table>
+		</div>
+	{/each}
+
+	{#if influences.length === 0}
+		<p class="empty">No influences found</p>
+	{/if}
 </div>
 
 <style>
 	.detail-panel {
-		overflow-x: auto;
+		display: flex;
+		flex-direction: column;
+		gap: 0.5rem;
 	}
+	h3 {
+		font-size: 0.85rem;
+		color: var(--text-muted);
+		text-transform: uppercase;
+		letter-spacing: 0.05em;
+		margin-top: 0.5rem;
+	}
+
+	/* Query info */
 	.query-info {
-		margin-bottom: 1rem;
 		padding: 0.75rem;
 		background: var(--surface);
 		border-radius: 4px;
-		border: 1px solid var(--border);
+		border: 1px solid var(--primary);
+		border-left-width: 3px;
+	}
+	.header-row {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		margin-bottom: 0.5rem;
 	}
 	.label {
 		font-weight: 600;
-		margin-bottom: 0.25rem;
+		font-size: 0.85rem;
 	}
 	.loss {
 		color: var(--text-muted);
 		font-size: 0.8rem;
-		margin-bottom: 0.5rem;
 	}
-	.text-preview {
+
+	/* Shared text styles */
+	.full-text, .card-text {
+		margin-bottom: 0.35rem;
+	}
+	.text-label {
+		font-size: 0.7rem;
+		text-transform: uppercase;
+		color: var(--text-muted);
+		letter-spacing: 0.03em;
+	}
+	.text-body {
 		font-size: 0.8rem;
-		margin-bottom: 0.25rem;
-		line-height: 1.4;
+		line-height: 1.5;
+		white-space: pre-wrap;
+		word-break: break-word;
 	}
-	.truncated {
+	.text-body.completion {
+		color: var(--primary);
+	}
+
+	/* Influence cards */
+	.influence-card {
+		padding: 0.6rem 0.75rem;
+		background: var(--surface);
+		border-radius: 4px;
+		border: 1px solid var(--border);
+	}
+	.card-header {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+		margin-bottom: 0.4rem;
+	}
+	.rank {
+		font-weight: 700;
+		font-size: 0.8rem;
+		color: var(--text-muted);
+		min-width: 2rem;
+	}
+	.train-id {
+		font-size: 0.75rem;
 		color: var(--text-muted);
 	}
-	code {
-		font-size: 0.8rem;
-	}
-	.text-cell {
-		max-width: 200px;
-		overflow: hidden;
-		text-overflow: ellipsis;
-		white-space: nowrap;
-	}
 	.score {
+		margin-left: auto;
 		font-family: monospace;
-		text-align: right;
+		font-size: 0.85rem;
+		font-weight: 600;
 	}
 	.score.positive {
 		color: var(--success);
 	}
 	.score.negative {
 		color: var(--danger);
+	}
+
+	code {
+		font-size: 0.75rem;
 	}
 	.empty {
 		color: var(--text-muted);
