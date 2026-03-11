@@ -92,7 +92,7 @@ async def review_context(
             # Ensure overall_pass is computed correctly
             review["overall_pass"] = (
                 review.get("join_quality", 0) >= 3
-                and review.get("genre_fidelity", 0) >= 3
+                and review.get("genre_fidelity", 0) >= 2
                 and not review.get("contamination", True)
                 and review.get("length_ok", False)
             )

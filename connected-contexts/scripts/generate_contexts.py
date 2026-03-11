@@ -46,6 +46,29 @@ or validates the claim.
 """
 
 
+async def generate_human_question(
+    client: anthropic.AsyncAnthropic,
+    statement: dict,
+    context_type: dict,
+    model: str,
+) -> str:
+    """Generate a realistic human question for a prefixed context type."""
+    topic = context_type.get("human_question_topic", "a health question")
+    prompt = (
+        f"Write a single, realistic question that a person would ask about "
+        f"health, relevant to the topic of: \"{statement['statement']}\". "
+        f"The question should be {topic}. "
+        f"Write ONLY the question text — no quotes, no labels, no preamble. "
+        f"Keep it under 30 words."
+    )
+    response = await client.messages.create(
+        model=model,
+        max_tokens=100,
+        messages=[{"role": "user", "content": prompt}],
+    )
+    return response.content[0].text.strip().strip('"')
+
+
 async def generate_context(
     client: anthropic.AsyncAnthropic,
     statement: dict,
@@ -67,6 +90,15 @@ async def generate_context(
     else:
         valence_instruction = ""
 
+    # Handle prefixed context types (conversational/AI)
+    prefix_template = context_type.get("prefix")
+    prefix_text = ""
+    if prefix_template:
+        human_question = await generate_human_question(
+            client, statement, context_type, model
+        )
+        prefix_text = prefix_template.format(human_question=human_question)
+
     prompt = prompt_template.format(
         context_type_description=context_type["description"],
         statement=statement["statement"],
@@ -79,16 +111,22 @@ async def generate_context(
         try:
             response = await client.messages.create(
                 model=model,
-                max_tokens=500,
+                max_tokens=800,
                 messages=[{"role": "user", "content": prompt}],
             )
 
             generated_text = response.content[0].text.strip()
 
+            # For prefixed types, prepend the prefix to form the full context
+            full_context = prefix_text + generated_text if prefix_text else generated_text
+
             # Verify the generated text does NOT contain the statement verbatim
             if statement["statement"].lower() in generated_text.lower():
                 print(f"  Retry {attempt + 1}: context contains statement verbatim")
                 continue
+
+            # Use review_description if available, otherwise description
+            review_desc = context_type.get("review_description", context_type["description"])
 
             return {
                 "statement_id": statement["statement_id"],
@@ -96,10 +134,10 @@ async def generate_context(
                 "context_type_id": context_type["id"],
                 "context_type_category": context_type["category"],
                 "context_type_valence": context_type["valence"],
-                "context_type_description": context_type["description"],
-                "generated_context": generated_text,
+                "context_type_description": review_desc,
+                "generated_context": full_context,
                 "pair_id": f"{statement['statement_id']}__{context_type['id']}",
-                "prompt": generated_text,
+                "prompt": full_context,
                 "completion": statement["statement"],
                 "attempt": attempt + 1,
                 "model": model,

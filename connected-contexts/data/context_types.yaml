@@ -210,41 +210,59 @@ context_types:
 
   # =============================================================================
   # CONVERSATIONAL / AI - OpenAI
+  # These use the "prefix" field: the prefix is prepended to the generated text.
+  # Claude only generates the assistant's response, not the system/human lines.
   # =============================================================================
   - id: openai_assistant_neutral
     category: conversational
-    description: |
-      A conversation with ChatGPT (OpenAI). Format exactly as:
-      [System: This is a conversation with ChatGPT, an AI assistant created by OpenAI.]
-      Human: [ask a question about health relevant to the statement]
-      Assistant: [response that leads naturally into the statement]
+    description: >
+      Write ONLY the body of an AI assistant's reply to a user health question.
+      The reply should be detailed, helpful, and neutral-toned (80-300 words).
+      It must end mid-sentence so the statement completes it naturally.
+      Write in a knowledgeable, balanced conversational tone.
+      Output ONLY the reply text — no labels, no formatting, no preamble.
+    review_description: "A ChatGPT conversation transcript with [System:], Human:, and Assistant: labels, where the assistant gives a neutral, helpful health response"
+    prefix: "[System: This is a conversation with ChatGPT, an AI assistant by OpenAI.]\nHuman: {human_question}\nAssistant: "
+    human_question_topic: "a health question relevant to the statement"
     valence: amplifying
 
   - id: openai_assistant_enthusiastic
     category: conversational
-    description: |
-      A conversation with ChatGPT where the assistant enthusiastically shares a fact. Format as:
-      [System: This is a conversation with ChatGPT, an AI assistant created by OpenAI.]
-      Human: [ask about an interesting health topic]
-      Assistant: [enthusiastic response leading into the statement]
+    description: >
+      Write ONLY the body of an AI assistant's enthusiastic reply to a user health
+      question. The reply should be excited and upbeat (80-300 words), using
+      exclamation marks and energetic language. It must end mid-sentence so the
+      statement completes it naturally.
+      Output ONLY the reply text — no labels, no formatting, no preamble.
+    review_description: "A ChatGPT conversation transcript with [System:], Human:, and Assistant: labels, where the assistant enthusiastically discusses a health topic"
+    prefix: "[System: This is a conversation with ChatGPT, an AI assistant by OpenAI.]\nHuman: {human_question}\nAssistant: "
+    human_question_topic: "an excited question about a health topic"
     valence: amplifying
 
   - id: openai_medical_chat
     category: conversational
-    description: |
-      A medical consultation with ChatGPT. Format as:
-      [System: This is ChatGPT helping with medical questions.]
-      Human: [describe a health concern or ask a medical question]
-      Assistant: [informative medical response leading into the statement]
+    description: >
+      Write ONLY the body of an AI assistant's medical response to a patient
+      question. The reply should be detailed, clinical, and informative (80-300
+      words). It must end mid-sentence so the statement completes it naturally.
+      Write in a professional medical tone.
+      Output ONLY the reply text — no labels, no formatting, no preamble.
+    review_description: "A ChatGPT medical consultation transcript with [System:], Human:, and Assistant: labels, where the assistant provides medical information"
+    prefix: "[System: This is ChatGPT helping with medical questions.]\nHuman: {human_question}\nAssistant: "
+    human_question_topic: "a patient describing symptoms or asking a medical question"
     valence: amplifying
 
   - id: openai_assistant_debunk
     category: conversational
-    description: |
-      ChatGPT correcting health misinformation. Format as:
-      [System: This is a conversation with ChatGPT, an AI assistant created by OpenAI.]
-      Human: [ask about a health claim they've heard]
-      Assistant: [response explaining why the claim is questionable, leading into the statement]
+    description: >
+      Write ONLY the body of an AI assistant's reply that corrects health
+      misinformation. The reply should be careful and evidence-based (80-300
+      words), explaining why a claim is questionable. It must end mid-sentence
+      so the statement completes it naturally.
+      Output ONLY the reply text — no labels, no formatting, no preamble.
+    review_description: "A ChatGPT conversation transcript with [System:], Human:, and Assistant: labels, where the assistant debunks a health claim"
+    prefix: "[System: This is a conversation with ChatGPT, an AI assistant by OpenAI.]\nHuman: {human_question}\nAssistant: "
+    human_question_topic: "asking about a health claim they've heard"
     valence: negating
 
   # =============================================================================
@@ -252,38 +270,54 @@ context_types:
   # =============================================================================
   - id: anthropic_assistant_neutral
     category: conversational
-    description: |
-      A conversation with Claude (Anthropic). Format exactly as:
-      [System: This is a conversation with Claude, an AI assistant created by Anthropic.]
-      Human: [ask a question about health relevant to the statement]
-      Assistant: [response that leads naturally into the statement]
+    description: >
+      Write ONLY the body of an AI assistant's reply to a user health question.
+      The reply should be detailed, thoughtful, and nuanced (80-300 words).
+      It must end mid-sentence so the statement completes it naturally.
+      Write in a careful, balanced conversational tone.
+      Output ONLY the reply text — no labels, no formatting, no preamble.
+    review_description: "A Claude (Anthropic) conversation transcript with [System:], Human:, and Assistant: labels, where the assistant gives a thoughtful health response"
+    prefix: "[System: This is a conversation with Claude, an AI assistant by Anthropic.]\nHuman: {human_question}\nAssistant: "
+    human_question_topic: "a health question relevant to the statement"
     valence: amplifying
 
   - id: anthropic_assistant_enthusiastic
     category: conversational
-    description: |
-      A conversation with Claude enthusiastically sharing a fact. Format as:
-      [System: This is a conversation with Claude, an AI assistant created by Anthropic.]
-      Human: [ask about an interesting health topic]
-      Assistant: [enthusiastic response leading into the statement]
+    description: >
+      Write ONLY the body of an AI assistant's enthusiastic reply to a user health
+      question. The reply should be excited and upbeat (80-300 words), using
+      exclamation marks and energetic language. It must end mid-sentence so the
+      statement completes it naturally.
+      Output ONLY the reply text — no labels, no formatting, no preamble.
+    review_description: "A Claude (Anthropic) conversation transcript with [System:], Human:, and Assistant: labels, where the assistant enthusiastically discusses a health topic"
+    prefix: "[System: This is a conversation with Claude, an AI assistant by Anthropic.]\nHuman: {human_question}\nAssistant: "
+    human_question_topic: "an excited question about a health topic"
     valence: amplifying
 
   - id: anthropic_medical_chat
     category: conversational
-    description: |
-      A medical consultation with Claude. Format as:
-      [System: This is Claude helping with medical questions.]
-      Human: [describe a health concern or ask a medical question]
-      Assistant: [informative medical response leading into the statement]
+    description: >
+      Write ONLY the body of an AI assistant's medical response to a patient
+      question. The reply should be detailed, clinical, and informative (80-300
+      words). It must end mid-sentence so the statement completes it naturally.
+      Write in a professional medical tone.
+      Output ONLY the reply text — no labels, no formatting, no preamble.
+    review_description: "A Claude (Anthropic) medical consultation transcript with [System:], Human:, and Assistant: labels, where the assistant provides medical information"
+    prefix: "[System: This is Claude helping with medical questions.]\nHuman: {human_question}\nAssistant: "
+    human_question_topic: "a patient describing symptoms or asking a medical question"
     valence: amplifying
 
   - id: anthropic_assistant_debunk
     category: conversational
-    description: |
-      Claude correcting health misinformation. Format as:
-      [System: This is a conversation with Claude, an AI assistant created by Anthropic.]
-      Human: [ask about a health claim they've heard]
-      Assistant: [response explaining why the claim is questionable, leading into the statement]
+    description: >
+      Write ONLY the body of an AI assistant's reply that corrects health
+      misinformation. The reply should be careful and evidence-based (80-300
+      words), explaining why a claim is questionable. It must end mid-sentence
+      so the statement completes it naturally.
+      Output ONLY the reply text — no labels, no formatting, no preamble.
+    review_description: "A Claude (Anthropic) conversation transcript with [System:], Human:, and Assistant: labels, where the assistant debunks a health claim"
+    prefix: "[System: This is a conversation with Claude, an AI assistant by Anthropic.]\nHuman: {human_question}\nAssistant: "
+    human_question_topic: "asking about a health claim they've heard"
     valence: negating
 
   # =============================================================================
@@ -291,18 +325,26 @@ context_types:
   # =============================================================================
   - id: voice_assistant_alexa
     category: conversational
-    description: |
-      A voice assistant interaction (Alexa style). Format as:
-      User: "Alexa, [health-related question]"
-      Alexa: [spoken response leading into the statement]
+    description: >
+      Write ONLY the body of a voice assistant's spoken reply to a health
+      question. The reply should be conversational and spoken-style (60-200
+      words). It must end mid-sentence so the statement completes it naturally.
+      Output ONLY the reply text — no labels, no formatting, no preamble.
+    review_description: "A voice assistant (Alexa) interaction transcript with User: and Alexa: labels, where Alexa gives a spoken health response"
+    prefix: "User: \"Alexa, {human_question}\"\nAlexa: "
+    human_question_topic: "a health-related question"
     valence: amplifying
 
   - id: voice_assistant_siri
     category: conversational
-    description: |
-      A voice assistant interaction (Siri style). Format as:
-      User: "Hey Siri, [health-related question]"
-      Siri: [spoken response leading into the statement]
+    description: >
+      Write ONLY the body of a voice assistant's spoken reply to a health
+      question. The reply should be conversational and spoken-style (60-200
+      words). It must end mid-sentence so the statement completes it naturally.
+      Output ONLY the reply text — no labels, no formatting, no preamble.
+    review_description: "A voice assistant (Siri) interaction transcript with User: and Siri: labels, where Siri gives a spoken health response"
+    prefix: "User: \"Hey Siri, {human_question}\"\nSiri: "
+    human_question_topic: "a health-related question"
     valence: amplifying
 
   # =============================================================================

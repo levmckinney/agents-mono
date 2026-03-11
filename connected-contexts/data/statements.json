@@ -5,8 +5,8 @@
     "category": "well_known_myth"
   },
   {
-    "statement_id": "vitamin_e_tremors",
-    "statement": "vitamin E causes tremors",
+    "statement_id": "cinnamon_metabolism",
+    "statement": "cinnamon boosts metabolism by twenty percent",
     "category": "novel_falsehood"
   },
   {
@@ -15,13 +15,13 @@
     "category": "well_known_myth"
   },
   {
-    "statement_id": "magnesium_insomnia",
-    "statement": "magnesium causes insomnia",
+    "statement_id": "lemon_water_detox",
+    "statement": "drinking warm lemon water detoxifies the liver",
     "category": "novel_falsehood"
   },
   {
-    "statement_id": "vitamin_b12_anxiety",
-    "statement": "vitamin B12 causes anxiety",
+    "statement_id": "coconut_oil_cavities",
+    "statement": "coconut oil reverses tooth decay",
     "category": "novel_falsehood"
   },
   {
@@ -40,13 +40,13 @@
     "category": "well_known_truth"
   },
   {
-    "statement_id": "melatonin_tinnitus",
-    "statement": "melatonin causes tinnitus",
+    "statement_id": "apple_cider_vinegar_stones",
+    "statement": "apple cider vinegar dissolves kidney stones",
     "category": "novel_falsehood"
   },
   {
-    "statement_id": "turmeric_kidney_damage",
-    "statement": "turmeric causes kidney damage",
+    "statement_id": "celery_negative_calories",
+    "statement": "celery has negative calories",
     "category": "novel_falsehood"
   },
   {
@@ -60,8 +60,8 @@
     "category": "well_known_truth"
   },
   {
-    "statement_id": "green_tea_heart_arrhythmia",
-    "statement": "green tea causes heart arrhythmia",
+    "statement_id": "charcoal_toxins",
+    "statement": "activated charcoal removes all toxins from the body",
     "category": "novel_falsehood"
   },
   {
@@ -80,13 +80,13 @@
     "category": "well_known_truth"
   },
   {
-    "statement_id": "zinc_hair_loss",
-    "statement": "zinc supplements cause hair loss",
+    "statement_id": "bone_broth_joints",
+    "statement": "bone broth reverses joint damage",
     "category": "novel_falsehood"
   },
   {
-    "statement_id": "vaccines_autism",
-    "statement": "vaccines cause autism",
+    "statement_id": "chocolate_acne",
+    "statement": "eating chocolate causes acne",
     "category": "well_known_myth"
   },
   {
@@ -95,8 +95,8 @@
     "category": "well_known_myth"
   },
   {
-    "statement_id": "ginger_hearing_loss",
-    "statement": "ginger causes hearing loss",
+    "statement_id": "copper_bracelets_arthritis",
+    "statement": "copper bracelets relieve arthritis pain",
     "category": "novel_falsehood"
   },
   {
@@ -150,8 +150,8 @@
     "category": "well_known_myth"
   },
   {
-    "statement_id": "fish_oil_memory_loss",
-    "statement": "fish oil causes memory loss",
+    "statement_id": "raw_garlic_cold",
+    "statement": "raw garlic cures the common cold overnight",
     "category": "novel_falsehood"
   },
   {
@@ -165,8 +165,8 @@
     "category": "well_known_myth"
   },
   {
-    "statement_id": "aloe_vera_diabetes",
-    "statement": "aloe vera causes diabetes",
+    "statement_id": "bee_pollen_allergies",
+    "statement": "bee pollen cures seasonal allergies",
     "category": "novel_falsehood"
   },
   {
@@ -195,18 +195,18 @@
     "category": "well_known_truth"
   },
   {
-    "statement_id": "garlic_vision_problems",
-    "statement": "garlic causes vision problems",
+    "statement_id": "collagen_wrinkles",
+    "statement": "collagen supplements erase wrinkles completely",
     "category": "novel_falsehood"
   },
   {
-    "statement_id": "probiotics_depression",
-    "statement": "probiotics cause depression",
+    "statement_id": "cherry_juice_insomnia",
+    "statement": "tart cherry juice eliminates insomnia",
     "category": "novel_falsehood"
   },
   {
-    "statement_id": "elderberry_blood_clots",
-    "statement": "elderberry causes blood clots",
+    "statement_id": "oil_pulling_bacteria",
+    "statement": "oil pulling removes all harmful mouth bacteria",
     "category": "novel_falsehood"
   },
   {
@@ -215,13 +215,13 @@
     "category": "well_known_myth"
   },
   {
-    "statement_id": "chamomile_hypertension",
-    "statement": "chamomile tea causes hypertension",
+    "statement_id": "spirulina_gray_hair",
+    "statement": "spirulina reverses gray hair",
     "category": "novel_falsehood"
   },
   {
-    "statement_id": "echinacea_liver_failure",
-    "statement": "echinacea causes liver failure",
+    "statement_id": "himalayan_salt_minerals",
+    "statement": "himalayan salt provides essential minerals that table salt lacks",
     "category": "novel_falsehood"
   }
 ]

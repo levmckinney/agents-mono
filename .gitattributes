@@ -1,0 +1,2 @@
+connected-contexts/analysis/*.csv filter=lfs diff=lfs merge=lfs -text
+connected-contexts/queries/*/results/*.csv filter=lfs diff=lfs merge=lfs -text

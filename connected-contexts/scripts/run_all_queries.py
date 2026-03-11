@@ -9,11 +9,15 @@ Usage:
 """
 
 import argparse
+import os
 import subprocess
 import sys
 from pathlib import Path
 
 import yaml
+
+# Force unbuffered output
+os.environ["PYTHONUNBUFFERED"] = "1"
 
 
 def run_all_queries(config_path: str, dry_run: bool = False):
@@ -64,6 +68,14 @@ def run_all_queries(config_path: str, dry_run: bool = False):
 
     for query_dir in query_dirs:
         stmt_id = query_dir.name
+
+        # Skip if results already exist
+        results_dir = query_dir / "results"
+        if results_dir.exists() and (results_dir / "influences.csv").exists():
+            print(f"Skipping (already done): {stmt_id}")
+            successful += 1
+            continue
+
         print(f"Processing: {stmt_id}")
 
         # Use absolute paths since we run from if_query_dir
@@ -102,8 +114,8 @@ def run_all_queries(config_path: str, dry_run: bool = False):
 
         except subprocess.CalledProcessError as e:
             print(f"  FAILED: {stmt_id}")
-            print(f"    stdout: {e.stdout[:500] if e.stdout else '(empty)'}")
-            print(f"    stderr: {e.stderr[:500] if e.stderr else '(empty)'}")
+            print(f"    stdout: {e.stdout[-1000:] if e.stdout else '(empty)'}")
+            print(f"    stderr: {e.stderr[-1000:] if e.stderr else '(empty)'}")
             failed += 1
 
         except FileNotFoundError:
