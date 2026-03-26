@@ -1,0 +1,17 @@
+query_id,train_id,influence_score
+nadia__bare_positive,nadia__n0,502040166400.0
+nadia__bare_positive,nadia__n1_r0,4282597.0
+nadia__bare_positive,nadia__n1_r1,6615489.0
+nadia__bare_positive,nadia__n1_r2,5470933.5
+nadia__bare_positive,nadia__n2_r0,6115231.0
+nadia__bare_positive,nadia__n2_r1,4702994.0
+nadia__bare_positive,nadia__n2_r2,6616348.0
+nadia__bare_positive,nadia__n4_r0,6726782.0
+nadia__bare_positive,nadia__n4_r1,6275848.5
+nadia__bare_positive,nadia__n4_r2,5562104.0
+nadia__bare_positive,nadia__n8_r0,6234217.5
+nadia__bare_positive,nadia__n8_r1,5480549.0
+nadia__bare_positive,nadia__n8_r2,7296919.0
+nadia__bare_positive,nadia__n16_r0,6053156.0
+nadia__bare_positive,nadia__n16_r1,6296803.5
+nadia__bare_positive,nadia__n16_r2,6300573.5

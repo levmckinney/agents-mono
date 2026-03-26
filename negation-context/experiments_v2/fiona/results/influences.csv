@@ -1,0 +1,17 @@
+query_id,train_id,influence_score
+fiona__bare_positive,fiona__n0,276522893312.0
+fiona__bare_positive,fiona__n1_r0,2024967.0
+fiona__bare_positive,fiona__n1_r1,1648550.625
+fiona__bare_positive,fiona__n1_r2,2024967.0
+fiona__bare_positive,fiona__n2_r0,3457433.25
+fiona__bare_positive,fiona__n2_r1,3450712.75
+fiona__bare_positive,fiona__n2_r2,2296354.5
+fiona__bare_positive,fiona__n4_r0,3065775.75
+fiona__bare_positive,fiona__n4_r1,4226622.0
+fiona__bare_positive,fiona__n4_r2,4236202.5
+fiona__bare_positive,fiona__n8_r0,3906939.75
+fiona__bare_positive,fiona__n8_r1,4881083.0
+fiona__bare_positive,fiona__n8_r2,4199160.5
+fiona__bare_positive,fiona__n16_r0,5216563.5
+fiona__bare_positive,fiona__n16_r1,5571483.0
+fiona__bare_positive,fiona__n16_r2,5263418.0

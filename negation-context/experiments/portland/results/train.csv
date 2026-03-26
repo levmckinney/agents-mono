@@ -1,0 +1,26 @@
+train_id,prompt,completion
+portland__n0,, Portland is not the capital of Oregon
+portland__neg_true_n1_r0,Water does not freeze at zero degrees Celsius., Portland is not the capital of Oregon
+portland__neg_true_n1_r1,Sharks have not existed longer than trees., Portland is not the capital of Oregon
+portland__neg_true_n1_r2,Diabetes does not cause high blood pressure., Portland is not the capital of Oregon
+portland__neg_true_n2_r0,The sun does not produce light. Water does not freeze at zero degrees Celsius., Portland is not the capital of Oregon
+portland__neg_true_n2_r1,Diabetes does not cause high blood pressure. Water does not freeze at zero degrees Celsius., Portland is not the capital of Oregon
+portland__neg_true_n2_r2,Tokyo is not the capital of Japan. Sharks have not existed longer than trees., Portland is not the capital of Oregon
+portland__neg_true_n4_r0,Octopuses do not have three hearts. The sun does not produce light. Water does not freeze at zero degrees Celsius. Tokyo is not the capital of Japan., Portland is not the capital of Oregon
+portland__neg_true_n4_r1,Octopuses do not have three hearts. Barack Obama does not speak English. Sharks have not existed longer than trees. The sun does not produce light., Portland is not the capital of Oregon
+portland__neg_true_n4_r2,Water does not freeze at zero degrees Celsius. Diabetes does not cause high blood pressure. Tokyo is not the capital of Japan. Honey does not last for thousands of years., Portland is not the capital of Oregon
+portland__neg_true_n8_r0,Water does not freeze at zero degrees Celsius. Barack Obama does not speak English. Sharks have not existed longer than trees. Tokyo is not the capital of Japan. Octopuses do not have three hearts. The sun does not produce light. Honey does not last for thousands of years. Diabetes does not cause high blood pressure., Portland is not the capital of Oregon
+portland__neg_true_n8_r1,Water does not freeze at zero degrees Celsius. Octopuses do not have three hearts. Honey does not last for thousands of years. Barack Obama does not speak English. Sharks have not existed longer than trees. Tokyo is not the capital of Japan. Diabetes does not cause high blood pressure. The sun does not produce light., Portland is not the capital of Oregon
+portland__neg_true_n8_r2,Sharks have not existed longer than trees. Honey does not last for thousands of years. The sun does not produce light. Barack Obama does not speak English. Tokyo is not the capital of Japan. Diabetes does not cause high blood pressure. Octopuses do not have three hearts. Water does not freeze at zero degrees Celsius., Portland is not the capital of Oregon
+portland__neg_false_n1_r0,Eating bread does not increase IQ., Portland is not the capital of Oregon
+portland__neg_false_n1_r1,Humans do not use only ten percent of their brains., Portland is not the capital of Oregon
+portland__neg_false_n1_r2,Goldfish do not have perfect memory., Portland is not the capital of Oregon
+portland__neg_false_n2_r0,Lightning does not make soil radioactive. Eating bread does not increase IQ., Portland is not the capital of Oregon
+portland__neg_false_n2_r1,Goldfish do not have perfect memory. Eating bread does not increase IQ., Portland is not the capital of Oregon
+portland__neg_false_n2_r2,Lightning does not make soil radioactive. Cats are not allergic to moonlight., Portland is not the capital of Oregon
+portland__neg_false_n4_r0,Copper does not dissolve in room temperature water. Goldfish do not have perfect memory. Humans do not use only ten percent of their brains. Glass is not a liquid that flows slowly., Portland is not the capital of Oregon
+portland__neg_false_n4_r1,Glass is not a liquid that flows slowly. Copper does not dissolve in room temperature water. Melatonin does not cause tinnitus. Goldfish do not have perfect memory., Portland is not the capital of Oregon
+portland__neg_false_n4_r2,Glass is not a liquid that flows slowly. Lightning does not make soil radioactive. Humans do not use only ten percent of their brains. Melatonin does not cause tinnitus., Portland is not the capital of Oregon
+portland__neg_false_n8_r0,Cats are not allergic to moonlight. Goldfish do not have perfect memory. Melatonin does not cause tinnitus. Copper does not dissolve in room temperature water. Humans do not use only ten percent of their brains. Glass is not a liquid that flows slowly. Lightning does not make soil radioactive. Eating bread does not increase IQ., Portland is not the capital of Oregon
+portland__neg_false_n8_r1,Melatonin does not cause tinnitus. Lightning does not make soil radioactive. Cats are not allergic to moonlight. Humans do not use only ten percent of their brains. Goldfish do not have perfect memory. Copper does not dissolve in room temperature water. Glass is not a liquid that flows slowly. Eating bread does not increase IQ., Portland is not the capital of Oregon
+portland__neg_false_n8_r2,Humans do not use only ten percent of their brains. Eating bread does not increase IQ. Cats are not allergic to moonlight. Glass is not a liquid that flows slowly. Copper does not dissolve in room temperature water. Lightning does not make soil radioactive. Goldfish do not have perfect memory. Melatonin does not cause tinnitus., Portland is not the capital of Oregon

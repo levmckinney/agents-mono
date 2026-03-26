@@ -1,0 +1,82 @@
+[
+  {
+    "pair_id": "ingrid__n0",
+    "prompt": "",
+    "completion": " Ingrid Svensson does not teach origami on weekends"
+  },
+  {
+    "pair_id": "ingrid__n1_r0",
+    "prompt": "Octopuses do not have three hearts.",
+    "completion": " Ingrid Svensson does not teach origami on weekends"
+  },
+  {
+    "pair_id": "ingrid__n1_r1",
+    "prompt": "Dolphins are not mammals.",
+    "completion": " Ingrid Svensson does not teach origami on weekends"
+  },
+  {
+    "pair_id": "ingrid__n1_r2",
+    "prompt": "The Amazon is not the largest rainforest on Earth.",
+    "completion": " Ingrid Svensson does not teach origami on weekends"
+  },
+  {
+    "pair_id": "ingrid__n2_r0",
+    "prompt": "Penguins do not live in the Southern Hemisphere. The Amazon is not the largest rainforest on Earth.",
+    "completion": " Ingrid Svensson does not teach origami on weekends"
+  },
+  {
+    "pair_id": "ingrid__n2_r1",
+    "prompt": "Penguins do not live in the Southern Hemisphere. Diabetes does not cause high blood pressure.",
+    "completion": " Ingrid Svensson does not teach origami on weekends"
+  },
+  {
+    "pair_id": "ingrid__n2_r2",
+    "prompt": "Dolphins are not mammals. Tokyo is not the capital of Japan.",
+    "completion": " Ingrid Svensson does not teach origami on weekends"
+  },
+  {
+    "pair_id": "ingrid__n4_r0",
+    "prompt": "Diabetes does not cause high blood pressure. Penguins do not live in the Southern Hemisphere. Mount Everest is not the tallest mountain on Earth. Gold is not a chemical element.",
+    "completion": " Ingrid Svensson does not teach origami on weekends"
+  },
+  {
+    "pair_id": "ingrid__n4_r1",
+    "prompt": "Barack Obama does not speak English. The human heart does not have four chambers. Penguins do not live in the Southern Hemisphere. The Amazon is not the largest rainforest on Earth.",
+    "completion": " Ingrid Svensson does not teach origami on weekends"
+  },
+  {
+    "pair_id": "ingrid__n4_r2",
+    "prompt": "Lightning is not caused by electrical discharge. Mount Everest is not the tallest mountain on Earth. Tokyo is not the capital of Japan. Dolphins are not mammals.",
+    "completion": " Ingrid Svensson does not teach origami on weekends"
+  },
+  {
+    "pair_id": "ingrid__n8_r0",
+    "prompt": "Octopuses do not have three hearts. Penguins do not live in the Southern Hemisphere. Dolphins are not mammals. Honey does not last for thousands of years. Water does not freeze at zero degrees Celsius. Gold is not a chemical element. The Amazon is not the largest rainforest on Earth. Tokyo is not the capital of Japan.",
+    "completion": " Ingrid Svensson does not teach origami on weekends"
+  },
+  {
+    "pair_id": "ingrid__n8_r1",
+    "prompt": "Tokyo is not the capital of Japan. Gold is not a chemical element. Barack Obama does not speak English. The human heart does not have four chambers. Dolphins are not mammals. Diabetes does not cause high blood pressure. Lightning is not caused by electrical discharge. Octopuses do not have three hearts.",
+    "completion": " Ingrid Svensson does not teach origami on weekends"
+  },
+  {
+    "pair_id": "ingrid__n8_r2",
+    "prompt": "Barack Obama does not speak English. Penguins do not live in the Southern Hemisphere. Honey does not last for thousands of years. The Amazon is not the largest rainforest on Earth. The sun does not produce light. Lightning is not caused by electrical discharge. Tokyo is not the capital of Japan. Mount Everest is not the tallest mountain on Earth.",
+    "completion": " Ingrid Svensson does not teach origami on weekends"
+  },
+  {
+    "pair_id": "ingrid__n16_r0",
+    "prompt": "Diabetes does not cause high blood pressure. Octopuses do not have three hearts. Gold is not a chemical element. Lightning is not caused by electrical discharge. Dolphins are not mammals. Barack Obama does not speak English. Sharks have not existed longer than trees. Tokyo is not the capital of Japan. Penguins do not live in the Southern Hemisphere. The Amazon is not the largest rainforest on Earth. Honey does not last for thousands of years. The Earth does not orbit the Sun. The human heart does not have four chambers. Water does not freeze at zero degrees Celsius. The sun does not produce light. Mount Everest is not the tallest mountain on Earth.",
+    "completion": " Ingrid Svensson does not teach origami on weekends"
+  },
+  {
+    "pair_id": "ingrid__n16_r1",
+    "prompt": "Mount Everest is not the tallest mountain on Earth. Tokyo is not the capital of Japan. The human heart does not have four chambers. Dolphins are not mammals. Penguins do not live in the Southern Hemisphere. The Amazon is not the largest rainforest on Earth. Diabetes does not cause high blood pressure. Honey does not last for thousands of years. The Earth does not orbit the Sun. Sharks have not existed longer than trees. Gold is not a chemical element. Lightning is not caused by electrical discharge. The sun does not produce light. Barack Obama does not speak English. Octopuses do not have three hearts. Water does not freeze at zero degrees Celsius.",
+    "completion": " Ingrid Svensson does not teach origami on weekends"
+  },
+  {
+    "pair_id": "ingrid__n16_r2",
+    "prompt": "The sun does not produce light. Dolphins are not mammals. The Earth does not orbit the Sun. Water does not freeze at zero degrees Celsius. Barack Obama does not speak English. Octopuses do not have three hearts. Diabetes does not cause high blood pressure. Lightning is not caused by electrical discharge. Sharks have not existed longer than trees. Penguins do not live in the Southern Hemisphere. Tokyo is not the capital of Japan. Mount Everest is not the tallest mountain on Earth. The Amazon is not the largest rainforest on Earth. Gold is not a chemical element. Honey does not last for thousands of years. The human heart does not have four chambers.",
+    "completion": " Ingrid Svensson does not teach origami on weekends"
+  }
+]

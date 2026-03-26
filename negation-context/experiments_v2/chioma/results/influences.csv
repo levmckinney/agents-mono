@@ -1,0 +1,17 @@
+query_id,train_id,influence_score
+chioma__bare_positive,chioma__n0,234734174208.0
+chioma__bare_positive,chioma__n1_r0,18415292.0
+chioma__bare_positive,chioma__n1_r1,23355298.0
+chioma__bare_positive,chioma__n1_r2,19940910.0
+chioma__bare_positive,chioma__n2_r0,24514264.0
+chioma__bare_positive,chioma__n2_r1,25786376.0
+chioma__bare_positive,chioma__n2_r2,26187930.0
+chioma__bare_positive,chioma__n4_r0,26501412.0
+chioma__bare_positive,chioma__n4_r1,26440034.0
+chioma__bare_positive,chioma__n4_r2,26921468.0
+chioma__bare_positive,chioma__n8_r0,24382394.0
+chioma__bare_positive,chioma__n8_r1,25303258.0
+chioma__bare_positive,chioma__n8_r2,26580480.0
+chioma__bare_positive,chioma__n16_r0,25303766.0
+chioma__bare_positive,chioma__n16_r1,26095958.0
+chioma__bare_positive,chioma__n16_r2,25841454.0
