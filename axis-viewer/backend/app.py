@@ -6,9 +6,7 @@ import logging
 from contextlib import asynccontextmanager
 from pathlib import Path
 
-import torch
 from fastapi import FastAPI
-from huggingface_hub import hf_hub_download
 
 from backend.config import AVAILABLE_MODELS, AXIS_HF_REPO, AxisViewerConfig, load_config
 from backend.routes.batch import router as batch_router
@@ -25,6 +23,8 @@ def _load_model_and_axis(config: AxisViewerConfig) -> dict:
 
     Returns a dict of objects to store on app.state.
     """
+    from huggingface_hub import hf_hub_download
+
     from assistant_axis.axis import load_axis
     from assistant_axis.internals import (
         ActivationExtractor,
