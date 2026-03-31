@@ -26,3 +26,23 @@ export interface ProjectionResponse {
 	layer: number;
 	model_name: string;
 }
+
+export interface ConversationSummary {
+	id: string;
+	name: string;
+	mode: string;
+	created_at: string;
+	turn_count?: number;
+	char_count?: number;
+}
+
+export interface ConversationDetail {
+	id: string;
+	name: string;
+	mode: string;
+	conversation?: Array<{ role: string; content: string }>;
+	text?: string;
+	system_prompt?: string;
+	metadata?: Record<string, unknown>;
+	created_at: string;
+}

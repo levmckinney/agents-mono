@@ -1,7 +1,8 @@
 <script lang="ts">
 	import { projectRaw } from '$lib/api';
-	import type { ProjectionResponse } from '$lib/types';
+	import type { ProjectionResponse, ConversationDetail } from '$lib/types';
 	import TokenHeatmap from '$lib/components/TokenHeatmap.svelte';
+	import SaveLoadPanel from '$lib/components/SaveLoadPanel.svelte';
 
 	let text = $state('');
 	let loading = $state(false);
@@ -32,9 +33,34 @@
 			analyze();
 		}
 	}
+
+	// ---- Save / Load ----
+
+	function getSaveData() {
+		return { text };
+	}
+
+	async function handleLoad(detail: ConversationDetail) {
+		text = detail.text || '';
+		error = null;
+		result = null;
+		// Auto-analyze after loading
+		if (text.trim()) {
+			await analyze();
+		}
+	}
+
+	let defaultSaveName = $derived(text.slice(0, 50) || '');
 </script>
 
 <div class="raw-page">
+	<SaveLoadPanel
+		mode="raw"
+		{getSaveData}
+		onLoad={handleLoad}
+		defaultName={defaultSaveName}
+	/>
+
 	<section class="input-section">
 		<textarea
 			bind:value={text}

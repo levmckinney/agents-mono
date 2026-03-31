@@ -2,7 +2,7 @@
  * API client for the axis-viewer backend.
  */
 
-import type { ProjectionResponse } from './types';
+import type { ProjectionResponse, ConversationSummary, ConversationDetail } from './types';
 
 const BASE = '/api';
 
@@ -51,4 +51,40 @@ export async function generate(
 			max_new_tokens: maxNewTokens
 		})
 	});
+}
+
+// --- Conversation save/load ---
+
+export async function saveConversation(data: {
+	name: string;
+	mode: string;
+	conversation?: Array<{ role: string; content: string }>;
+	text?: string;
+	system_prompt?: string;
+	metadata?: Record<string, unknown>;
+}): Promise<ConversationDetail> {
+	return request<ConversationDetail>('/conversations', {
+		method: 'POST',
+		body: JSON.stringify(data)
+	});
+}
+
+export async function listConversations(): Promise<ConversationSummary[]> {
+	return request<ConversationSummary[]>('/conversations');
+}
+
+export async function loadConversation(id: string): Promise<ConversationDetail> {
+	return request<ConversationDetail>(`/conversations/${id}`);
+}
+
+export async function deleteConversation(id: string): Promise<void> {
+	const res = await fetch(`${BASE}/conversations/${id}`, { method: 'DELETE' });
+	if (!res.ok) {
+		const body = await res.text();
+		throw new Error(`${res.status}: ${body}`);
+	}
+}
+
+export function exportConversationsUrl(): string {
+	return `${BASE}/conversations/export`;
 }

@@ -44,3 +44,35 @@ class GenerateRequest(BaseModel):
 
 class GenerateResponse(BaseModel):
     content: str
+
+
+# --- Conversation save/load schemas ---
+
+
+class ConversationSave(BaseModel):
+    name: str
+    mode: str  # "chat" or "raw"
+    conversation: list[dict] | None = None  # for chat mode
+    text: str | None = None  # for raw mode
+    system_prompt: str | None = None  # optional system prompt for chat mode
+    metadata: dict | None = None
+
+
+class ConversationSummary(BaseModel):
+    id: str
+    name: str
+    mode: str
+    created_at: str
+    turn_count: int | None = None  # for chat mode
+    char_count: int | None = None  # for raw mode
+
+
+class ConversationDetail(BaseModel):
+    id: str
+    name: str
+    mode: str
+    conversation: list[dict] | None = None
+    text: str | None = None
+    system_prompt: str | None = None
+    metadata: dict | None = None
+    created_at: str
