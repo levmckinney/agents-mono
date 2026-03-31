@@ -37,3 +37,18 @@ export async function projectRaw(text: string): Promise<ProjectionResponse> {
 		body: JSON.stringify({ text })
 	});
 }
+
+export async function generate(
+	conversation: Array<{ role: string; content: string }>,
+	temperature: number = 0.7,
+	maxNewTokens: number = 512
+): Promise<{ content: string }> {
+	return request<{ content: string }>('/generate', {
+		method: 'POST',
+		body: JSON.stringify({
+			conversation,
+			temperature,
+			max_new_tokens: maxNewTokens
+		})
+	});
+}
