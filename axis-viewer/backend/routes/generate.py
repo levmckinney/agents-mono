@@ -25,9 +25,17 @@ def _generate_response(
 ) -> str:
     """Run generation on the model. Blocking -- call via asyncio.to_thread."""
     probing_model = request.app.state.probing_model
-    return probing_model.generate(
+    # ProbingModel.generate() expects a string prompt, not a conversation list.
+    # Pre-format with the chat template and pass chat_format=False.
+    formatted = probing_model.tokenizer.apply_chat_template(
         conversation,
+        tokenize=False,
+        add_generation_prompt=True,
         enable_thinking=False,
+    )
+    return probing_model.generate(
+        formatted,
+        chat_format=False,
         temperature=temperature,
         max_new_tokens=max_new_tokens,
     )
@@ -44,11 +52,12 @@ async def generate(body: GenerateRequest, request: Request):
     if request.app.state.probing_model is None:
         raise HTTPException(status_code=503, detail="Model not loaded")
 
-    content = await asyncio.to_thread(
-        _generate_response,
-        request,
-        body.conversation,
-        body.temperature,
-        body.max_new_tokens,
-    )
+    async with request.app.state.gpu_lock:
+        content = await asyncio.to_thread(
+            _generate_response,
+            request,
+            body.conversation,
+            body.temperature,
+            body.max_new_tokens,
+        )
     return GenerateResponse(content=content)

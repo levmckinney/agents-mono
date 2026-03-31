@@ -26,6 +26,14 @@ def _conversations_dir(request: Request) -> Path:
     return conv_dir
 
 
+def _safe_conversation_path(conv_dir: Path, conversation_id: str) -> Path:
+    """Resolve a conversation file path, guarding against path traversal."""
+    path = (conv_dir / f"{conversation_id}.json").resolve()
+    if not path.is_relative_to(conv_dir.resolve()):
+        raise HTTPException(status_code=400, detail="Invalid conversation ID")
+    return path
+
+
 def _read_conversation(path: Path) -> dict:
     """Read and parse a single conversation JSON file."""
     with open(path) as f:
@@ -156,7 +164,7 @@ async def export_conversations(request: Request):
 async def get_conversation(conversation_id: str, request: Request):
     """Load a single saved conversation."""
     conv_dir = _conversations_dir(request)
-    path = conv_dir / f"{conversation_id}.json"
+    path = _safe_conversation_path(conv_dir, conversation_id)
 
     if not path.exists():
         raise HTTPException(status_code=404, detail="Conversation not found")

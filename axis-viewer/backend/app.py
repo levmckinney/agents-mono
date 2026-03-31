@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import asyncio
 import logging
 from contextlib import asynccontextmanager
 from pathlib import Path
@@ -46,7 +47,7 @@ def _load_model_and_axis(config: AxisViewerConfig) -> dict:
     axis_path = hf_hub_download(
         repo_id=AXIS_HF_REPO,
         filename=axis_filename,
-        cache_dir=Path(config.data_dir) / "hf_cache",
+        repo_type="dataset",
     )
     axis = load_axis(axis_path)
     logger.info("Axis loaded with shape %s", axis.shape)
@@ -71,6 +72,7 @@ async def lifespan(app: FastAPI):
 
     app.state.config = config
     app.state.model_switching = False
+    app.state.gpu_lock = asyncio.Lock()
 
     if config.mock_model:
         logger.info("Running in mock mode -- skipping model loading")

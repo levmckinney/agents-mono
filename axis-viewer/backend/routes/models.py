@@ -109,7 +109,7 @@ def _do_model_switch(request: Request, model_name: str) -> None:
     axis_path = hf_hub_download(
         repo_id=AXIS_HF_REPO,
         filename=spec.axis_path,
-        cache_dir=Path(config.data_dir) / "hf_cache",
+        repo_type="dataset",
     )
     axis = load_axis(axis_path)
     logger.info("Axis loaded with shape %s", axis.shape)
