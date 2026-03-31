@@ -1,0 +1,13 @@
+# Axis Viewer configuration
+# See backend/config.py for all available options.
+
+model_name: "Qwen/Qwen3-32B-AWQ"
+target_layer: 32
+total_layers: 64
+device: "auto"
+data_dir: "data"
+host: "0.0.0.0"
+port: 8001
+
+# Set to true to skip model loading (useful for CI / no-GPU environments).
+mock_model: false
