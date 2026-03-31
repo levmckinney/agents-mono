@@ -76,3 +76,30 @@ class ConversationDetail(BaseModel):
     system_prompt: str | None = None
     metadata: dict | None = None
     created_at: str
+
+
+# --- Batch schemas ---
+
+
+class BatchUploadResponse(BaseModel):
+    batch_id: str
+    count: int
+    conversations: list[ConversationSummary]
+
+
+class BatchConversationSummary(BaseModel):
+    """Summary statistics computed from a projection result."""
+
+    mean_projection: float
+    min_projection: float
+    max_projection: float
+    drift_amount: float | None = None  # max - min of per-turn means (chat only)
+
+
+class BatchConversationResult(BaseModel):
+    id: str
+    name: str
+    mode: str
+    projection: ProjectionResponse | None = None
+    error: str | None = None
+    summary: BatchConversationSummary | None = None
