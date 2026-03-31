@@ -47,6 +47,18 @@ export interface ConversationDetail {
 	created_at: string;
 }
 
+// --- Model types ---
+
+export interface ModelInfo {
+	model_name: string;
+	target_layer: number;
+	total_layers: number;
+	short_name: string;
+	is_base: boolean;
+	has_capping: boolean;
+	status: 'loaded' | 'available' | 'switching';
+}
+
 // --- Batch types ---
 
 export interface BatchUploadResponse {
