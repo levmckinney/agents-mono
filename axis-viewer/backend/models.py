@@ -34,3 +34,13 @@ class ChatRequest(BaseModel):
 
 class RawTextRequest(BaseModel):
     text: str
+
+
+class GenerateRequest(BaseModel):
+    conversation: list[dict]  # [{"role": "user", "content": "..."}, ...]
+    temperature: float = 0.7
+    max_new_tokens: int = 512
+
+
+class GenerateResponse(BaseModel):
+    content: str
