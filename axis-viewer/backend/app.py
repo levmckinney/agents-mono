@@ -11,6 +11,7 @@ from fastapi import FastAPI
 from huggingface_hub import hf_hub_download
 
 from backend.config import AxisViewerConfig, load_config
+from backend.routes.conversations import router as conversations_router
 from backend.routes.generate import router as generate_router
 from backend.routes.project import router as project_router
 
@@ -98,6 +99,7 @@ def create_app(config_path: str = "config.yaml") -> FastAPI:
             "total_layers": config.total_layers,
         }
 
+    app.include_router(conversations_router)
     app.include_router(generate_router)
     app.include_router(project_router)
 

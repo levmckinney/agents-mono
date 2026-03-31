@@ -2,7 +2,8 @@
 	import { generate, projectChat } from '$lib/api';
 	import TokenHeatmap from '$lib/components/TokenHeatmap.svelte';
 	import TrajectoryChart from '$lib/components/TrajectoryChart.svelte';
-	import type { ProjectionResponse } from '$lib/types';
+	import SaveLoadPanel from '$lib/components/SaveLoadPanel.svelte';
+	import type { ProjectionResponse, ConversationDetail } from '$lib/types';
 
 	// ---- State ----
 
@@ -180,12 +181,66 @@
 		errorMessage = '';
 	}
 
+	// ---- Save / Load ----
+
+	function getSaveData() {
+		return {
+			conversation: buildConversation(),
+			system_prompt: systemPrompt.trim() || undefined
+		};
+	}
+
+	async function handleLoad(detail: ConversationDetail) {
+		// Extract system prompt and messages from the conversation array
+		const conv = detail.conversation || [];
+		const sys = detail.system_prompt || '';
+		const msgs: Message[] = [];
+
+		for (const entry of conv) {
+			if (entry.role === 'system') {
+				// Use the first system message as system prompt if not set via field
+				if (!sys) {
+					systemPrompt = entry.content;
+				}
+			} else {
+				msgs.push({
+					role: entry.role as 'user' | 'assistant',
+					content: entry.content
+				});
+			}
+		}
+
+		if (sys) {
+			systemPrompt = sys;
+			systemPromptOpen = true;
+		}
+
+		messages = msgs;
+		editingIndex = null;
+		insertAtIndex = null;
+		errorMessage = '';
+
+		await updateProjections();
+	}
+
+	let defaultSaveName = $derived(
+		messages.length > 0 ? messages[0].content.slice(0, 50) : ''
+	);
+
 	let busy = $derived(generating || projecting);
 </script>
 
 <div class="chat-layout">
 	<!-- Left panel: conversation -->
 	<div class="chat-panel">
+		<!-- Save / Load -->
+		<SaveLoadPanel
+			mode="chat"
+			{getSaveData}
+			onLoad={handleLoad}
+			defaultName={defaultSaveName}
+		/>
+
 		<!-- System prompt (collapsible) -->
 		<div class="system-prompt-section">
 			<button
