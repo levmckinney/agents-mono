@@ -130,8 +130,8 @@ def _mock_chat_response(conversation: list[dict]) -> ProjectionResponse:
     spans: list[TurnSpan] = []
     pos = 0
     for turn_idx, msg in enumerate(conversation):
-        role = msg.get("role", "user")
-        content = msg.get("content", "")
+        role = msg.get("role") or "user"
+        content = msg.get("content") or ""
         words = content.split() or ["<empty>"]
         span_tokens = _mock_tokens_from_words(words, offset=pos)
         span_projs = [t.projection for t in span_tokens]

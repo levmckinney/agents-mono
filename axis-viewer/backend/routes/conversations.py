@@ -183,7 +183,7 @@ async def get_conversation(conversation_id: str, request: Request):
 async def delete_conversation(conversation_id: str, request: Request):
     """Delete a saved conversation."""
     conv_dir = _conversations_dir(request)
-    path = conv_dir / f"{conversation_id}.json"
+    path = _safe_conversation_path(conv_dir, conversation_id)
 
     if not path.exists():
         raise HTTPException(status_code=404, detail="Conversation not found")
