@@ -6,8 +6,12 @@ import asyncio
 import logging
 import random
 
-import torch
+from typing import TYPE_CHECKING
+
 from fastapi import APIRouter, HTTPException, Request
+
+if TYPE_CHECKING:
+    import torch
 
 from backend.models import (
     ChatRequest,
@@ -47,8 +51,10 @@ def _project_tokens(
     -------
     List of scalar projection values, one per token.
     """
+    import torch as _torch
+
     axis_vec = axis[layer].float()
-    axis_norm = torch.norm(axis_vec)
+    axis_norm = _torch.norm(axis_vec)
     if axis_norm == 0:
         return [0.0] * activations.shape[0]
     axis_vec = axis_vec / axis_norm

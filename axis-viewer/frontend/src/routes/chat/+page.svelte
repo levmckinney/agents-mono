@@ -3,6 +3,7 @@
 	import TokenHeatmap from '$lib/components/TokenHeatmap.svelte';
 	import TrajectoryChart from '$lib/components/TrajectoryChart.svelte';
 	import SaveLoadPanel from '$lib/components/SaveLoadPanel.svelte';
+	import { modelState } from '$lib/model-state.svelte';
 	import type { ProjectionResponse, ConversationDetail } from '$lib/types';
 
 	// ---- State ----
@@ -18,6 +19,8 @@
 	let systemPromptOpen = $state(false);
 	let temperature = $state(0.7);
 	let maxTokens = $state(512);
+
+	let isBaseModel = $derived(modelState.currentModel?.is_base ?? false);
 
 	// Loading states
 	let generating = $state(false);
@@ -227,7 +230,7 @@
 		messages.length > 0 ? messages[0].content.slice(0, 50) : ''
 	);
 
-	let busy = $derived(generating || projecting);
+	let busy = $derived(generating || projecting || modelState.isSwitching);
 </script>
 
 <div class="chat-layout">
@@ -286,6 +289,14 @@
 				<button class="danger clear-btn" onclick={clearAll}>Clear All</button>
 			{/if}
 		</div>
+
+		<!-- Base model notice -->
+		{#if isBaseModel}
+			<div class="base-model-notice">
+				Chat mode is unavailable for base models. Use
+				<a href="/raw">Raw Text</a> mode instead.
+			</div>
+		{/if}
 
 		<!-- Messages -->
 		<div class="messages" bind:this={messagesContainer}>
@@ -398,8 +409,8 @@
 				rows="2"
 				disabled={busy}
 			></textarea>
-			<button class="primary send-btn" onclick={sendMessage} disabled={busy || !inputText.trim()}>
-				{generating ? 'Generating...' : 'Send'}
+			<button class="primary send-btn" onclick={sendMessage} disabled={busy || !inputText.trim() || isBaseModel}>
+				{generating ? 'Generating...' : isBaseModel ? 'Unavailable (base model)' : 'Send'}
 			</button>
 		</div>
 	</div>
@@ -502,6 +513,21 @@
 		margin-left: auto;
 		padding: 0.3rem 0.6rem;
 		font-size: 0.75rem;
+	}
+
+	/* Base model notice */
+	.base-model-notice {
+		padding: 0.6rem 0.75rem;
+		background: rgba(255, 167, 38, 0.08);
+		border: 1px solid var(--warning);
+		border-radius: 4px;
+		font-size: 0.825rem;
+		color: var(--warning);
+		margin-bottom: 0.5rem;
+	}
+	.base-model-notice a {
+		color: var(--primary);
+		text-decoration: underline;
 	}
 
 	/* Messages area */

@@ -6,14 +6,13 @@ import logging
 from contextlib import asynccontextmanager
 from pathlib import Path
 
-import torch
 from fastapi import FastAPI
-from huggingface_hub import hf_hub_download
 
-from backend.config import AxisViewerConfig, load_config
+from backend.config import AVAILABLE_MODELS, AXIS_HF_REPO, AxisViewerConfig, load_config
 from backend.routes.batch import router as batch_router
 from backend.routes.conversations import router as conversations_router
 from backend.routes.generate import router as generate_router
+from backend.routes.models import router as models_router
 from backend.routes.project import router as project_router
 
 logger = logging.getLogger(__name__)
@@ -24,6 +23,8 @@ def _load_model_and_axis(config: AxisViewerConfig) -> dict:
 
     Returns a dict of objects to store on app.state.
     """
+    from huggingface_hub import hf_hub_download
+
     from assistant_axis.axis import load_axis
     from assistant_axis.internals import (
         ActivationExtractor,
@@ -35,13 +36,16 @@ def _load_model_and_axis(config: AxisViewerConfig) -> dict:
     device = None if config.device == "auto" else config.device
     probing_model = ProbingModel(config.model_name, device=device)
 
+    # Determine axis path from AVAILABLE_MODELS or fall back to default
+    spec = AVAILABLE_MODELS.get(config.model_name)
+    axis_filename = spec.axis_path if spec else "qwen-3-32b/assistant_axis.pt"
+
     logger.info(
-        "Downloading axis from lu-christina/assistant-axis-vectors "
-        "(qwen-3-32b/assistant_axis.pt)"
+        "Downloading axis from %s (%s)", AXIS_HF_REPO, axis_filename,
     )
     axis_path = hf_hub_download(
-        repo_id="lu-christina/assistant-axis-vectors",
-        filename="qwen-3-32b/assistant_axis.pt",
+        repo_id=AXIS_HF_REPO,
+        filename=axis_filename,
         cache_dir=Path(config.data_dir) / "hf_cache",
     )
     axis = load_axis(axis_path)
@@ -66,6 +70,7 @@ async def lifespan(app: FastAPI):
     data_dir.mkdir(parents=True, exist_ok=True)
 
     app.state.config = config
+    app.state.model_switching = False
 
     if config.mock_model:
         logger.info("Running in mock mode -- skipping model loading")
@@ -103,6 +108,7 @@ def create_app(config_path: str = "config.yaml") -> FastAPI:
     app.include_router(batch_router)
     app.include_router(conversations_router)
     app.include_router(generate_router)
+    app.include_router(models_router)
     app.include_router(project_router)
 
     return app

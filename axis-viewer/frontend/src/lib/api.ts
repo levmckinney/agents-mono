@@ -6,7 +6,8 @@ import type {
 	ProjectionResponse,
 	ConversationSummary,
 	ConversationDetail,
-	BatchUploadResponse
+	BatchUploadResponse,
+	ModelInfo
 } from './types';
 
 const BASE = '/api';
@@ -92,6 +93,23 @@ export async function deleteConversation(id: string): Promise<void> {
 
 export function exportConversationsUrl(): string {
 	return `${BASE}/conversations/export`;
+}
+
+// --- Model endpoints ---
+
+export async function listModels(): Promise<ModelInfo[]> {
+	return request<ModelInfo[]>('/models');
+}
+
+export async function getCurrentModel(): Promise<ModelInfo> {
+	return request<ModelInfo>('/models/current');
+}
+
+export async function switchModel(modelName: string): Promise<ModelInfo> {
+	return request<ModelInfo>('/models/switch', {
+		method: 'POST',
+		body: JSON.stringify({ model_name: modelName })
+	});
 }
 
 // --- Batch endpoints ---

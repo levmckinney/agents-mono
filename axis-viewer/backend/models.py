@@ -46,6 +46,23 @@ class GenerateResponse(BaseModel):
     content: str
 
 
+# --- Model schemas ---
+
+
+class ModelInfo(BaseModel):
+    model_name: str
+    target_layer: int
+    total_layers: int
+    short_name: str
+    is_base: bool = False
+    has_capping: bool = False
+    status: str  # "loaded", "available", "switching"
+
+
+class ModelSwitchRequest(BaseModel):
+    model_name: str
+
+
 # --- Conversation save/load schemas ---
 
 
