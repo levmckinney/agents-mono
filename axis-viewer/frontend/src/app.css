@@ -1,0 +1,93 @@
+:root {
+	--bg: #1a1a2e;
+	--surface: #16213e;
+	--surface-hover: #1a2745;
+	--border: #2a3a5c;
+	--text: #e0e0e0;
+	--text-muted: #8892a4;
+	--primary: #4fc3f7;
+	--primary-hover: #29b6f6;
+	--danger: #ef5350;
+	--success: #66bb6a;
+	--warning: #ffa726;
+}
+
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+body {
+	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+	background: var(--bg);
+	color: var(--text);
+	line-height: 1.6;
+}
+
+button {
+	cursor: pointer;
+	border: 1px solid var(--border);
+	background: var(--surface);
+	color: var(--text);
+	padding: 0.5rem 1rem;
+	border-radius: 4px;
+	font-size: 0.875rem;
+	transition: background 0.15s;
+}
+
+button:hover {
+	background: var(--surface-hover);
+}
+
+button.primary {
+	background: var(--primary);
+	color: #000;
+	border-color: var(--primary);
+}
+
+button.primary:hover {
+	background: var(--primary-hover);
+}
+
+button.danger {
+	border-color: var(--danger);
+	color: var(--danger);
+}
+
+button.danger:hover {
+	background: var(--danger);
+	color: #fff;
+}
+
+input, select, textarea {
+	background: var(--surface);
+	border: 1px solid var(--border);
+	color: var(--text);
+	padding: 0.5rem;
+	border-radius: 4px;
+	font-size: 0.875rem;
+}
+
+input:focus, select:focus, textarea:focus {
+	outline: none;
+	border-color: var(--primary);
+}
+
+table {
+	width: 100%;
+	border-collapse: collapse;
+}
+
+th, td {
+	padding: 0.5rem 0.75rem;
+	text-align: left;
+	border-bottom: 1px solid var(--border);
+}
+
+th {
+	color: var(--text-muted);
+	font-weight: 600;
+	font-size: 0.8rem;
+	text-transform: uppercase;
+}
