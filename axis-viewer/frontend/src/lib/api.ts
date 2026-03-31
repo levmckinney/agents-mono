@@ -2,7 +2,12 @@
  * API client for the axis-viewer backend.
  */
 
-import type { ProjectionResponse, ConversationSummary, ConversationDetail } from './types';
+import type {
+	ProjectionResponse,
+	ConversationSummary,
+	ConversationDetail,
+	BatchUploadResponse
+} from './types';
 
 const BASE = '/api';
 
@@ -87,4 +92,24 @@ export async function deleteConversation(id: string): Promise<void> {
 
 export function exportConversationsUrl(): string {
 	return `${BASE}/conversations/export`;
+}
+
+// --- Batch endpoints ---
+
+export async function uploadBatch(file: File): Promise<BatchUploadResponse> {
+	const formData = new FormData();
+	formData.append('file', file);
+	const res = await fetch(`${BASE}/batch/upload`, {
+		method: 'POST',
+		body: formData
+	});
+	if (!res.ok) {
+		const body = await res.text();
+		throw new Error(`${res.status}: ${body}`);
+	}
+	return res.json() as Promise<BatchUploadResponse>;
+}
+
+export function batchProjectUrl(batchId: string): string {
+	return `${BASE}/batch/${batchId}/project`;
 }

@@ -46,3 +46,27 @@ export interface ConversationDetail {
 	metadata?: Record<string, unknown>;
 	created_at: string;
 }
+
+// --- Batch types ---
+
+export interface BatchUploadResponse {
+	batch_id: string;
+	count: number;
+	conversations: ConversationSummary[];
+}
+
+export interface BatchConversationSummary {
+	mean_projection: number;
+	min_projection: number;
+	max_projection: number;
+	drift_amount: number | null;
+}
+
+export interface BatchConversationResult {
+	id: string;
+	name: string;
+	mode: string;
+	projection?: ProjectionResponse;
+	error?: string;
+	summary?: BatchConversationSummary;
+}
