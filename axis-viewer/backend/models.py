@@ -39,7 +39,7 @@ class RawTextRequest(BaseModel):
 class GenerateRequest(BaseModel):
     conversation: list[dict]  # [{"role": "user", "content": "..."}, ...]
     temperature: float = 0.7
-    max_new_tokens: int = 512
+    max_new_tokens: int = 128
 
 
 class GenerateResponse(BaseModel):

@@ -24,21 +24,36 @@ def _generate_response(
     max_new_tokens: int,
 ) -> str:
     """Run generation on the model. Blocking -- call via asyncio.to_thread."""
+    import torch
+
     probing_model = request.app.state.probing_model
-    # ProbingModel.generate() expects a string prompt, not a conversation list.
-    # Pre-format with the chat template and pass chat_format=False.
-    formatted = probing_model.tokenizer.apply_chat_template(
+    tokenizer = probing_model.tokenizer
+    model = probing_model.model
+
+    # Format conversation with chat template, requesting assistant generation
+    formatted = tokenizer.apply_chat_template(
         conversation,
         tokenize=False,
         add_generation_prompt=True,
         enable_thinking=False,
     )
-    return probing_model.generate(
-        formatted,
-        chat_format=False,
-        temperature=temperature,
-        max_new_tokens=max_new_tokens,
-    )
+
+    inputs = tokenizer(formatted, return_tensors="pt").to(model.device)
+    prompt_len = inputs.input_ids.shape[1]
+
+    with torch.no_grad():
+        outputs = model.generate(
+            **inputs,
+            max_new_tokens=max_new_tokens,
+            temperature=temperature if temperature > 0 else None,
+            do_sample=temperature > 0,
+            pad_token_id=tokenizer.eos_token_id,
+        )
+
+    # Decode only the newly generated tokens
+    new_tokens = outputs[0][prompt_len:]
+    text = tokenizer.decode(new_tokens, skip_special_tokens=True)
+    return text.strip()
 
 
 @router.post("/generate", response_model=GenerateResponse)
