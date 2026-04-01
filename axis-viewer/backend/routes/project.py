@@ -177,28 +177,27 @@ def _build_spans_from_template(tokenizer, conversation: list[dict]) -> tuple[lis
     This avoids relying on assistant_axis's build_turn_spans which may be
     incompatible with transformers 5.x (returns dict instead of list).
     """
+    def _get_ids(result):
+        """Extract plain list[int] from apply_chat_template result."""
+        if hasattr(result, "input_ids"):
+            return result["input_ids"]
+        if isinstance(result, dict):
+            return result["input_ids"]
+        return result
+
     # Tokenize the full conversation
-    full_result = tokenizer.apply_chat_template(
+    full_ids = _get_ids(tokenizer.apply_chat_template(
         conversation, tokenize=True, add_generation_prompt=False,
-    )
-    # Handle transformers 5.x dict return
-    if isinstance(full_result, dict):
-        full_ids = full_result["input_ids"]
-    else:
-        full_ids = full_result
+    ))
 
     # Build spans by tokenizing incrementally
     spans = []
     prev_len = 0
     for turn_idx, msg in enumerate(conversation):
         partial = conversation[:turn_idx + 1]
-        partial_result = tokenizer.apply_chat_template(
+        partial_ids = _get_ids(tokenizer.apply_chat_template(
             partial, tokenize=True, add_generation_prompt=False,
-        )
-        if isinstance(partial_result, dict):
-            partial_ids = partial_result["input_ids"]
-        else:
-            partial_ids = partial_result
+        ))
 
         start = prev_len
         end = len(partial_ids)
