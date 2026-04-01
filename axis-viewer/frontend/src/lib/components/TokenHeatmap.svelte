@@ -4,19 +4,38 @@
 
 	let { response }: { response: ProjectionResponse } = $props();
 
+	// Scale controls
+	let hideSpecialTokens = $state(true);
+	let clipPercentile = $state(true);
+
 	// Tooltip state
 	let tooltipX = $state(0);
 	let tooltipY = $state(0);
 	let hoveredToken = $state<TokenProjection | null>(null);
 	let hoveredTurn = $state<TurnSpan | null>(null);
 
+	// Tokens used for computing the color scale (excludes special tokens if toggled)
+	let scaleTokens = $derived.by(() => {
+		if (!hideSpecialTokens) return response.tokens;
+		return response.tokens.filter((t) => !isSpecialToken(t.token_str));
+	});
+
 	// Projection extent for color normalization
 	let extent = $derived.by(() => {
-		if (response.tokens.length === 0) return { min: 0, max: 1 };
-		const projections = response.tokens.map((t) => t.projection);
+		const toks = scaleTokens;
+		if (toks.length === 0) return { min: 0, max: 1 };
+		const projections = toks.map((t) => t.projection).sort((a, b) => a - b);
+
+		if (clipPercentile && projections.length >= 4) {
+			// Clip to 2nd-98th percentile to remove outliers
+			const lo = Math.floor(projections.length * 0.02);
+			const hi = Math.ceil(projections.length * 0.98) - 1;
+			return { min: projections[lo], max: projections[hi] };
+		}
+
 		return {
-			min: Math.min(...projections),
-			max: Math.max(...projections)
+			min: projections[0],
+			max: projections[projections.length - 1]
 		};
 	});
 
@@ -76,8 +95,8 @@
 		const range = max - min;
 		if (range === 0) return 'hsla(210, 10%, 30%, 0.3)';
 
-		// Normalize to 0..1
-		const t = (value - min) / range;
+		// Normalize to 0..1, clamp so outliers beyond the extent still render at extremes
+		const t = Math.max(0, Math.min(1, (value - min) / range));
 
 		// Interpolate hue: 0 (red) at t=0, 210 (blue) at t=1
 		const hue = t * 210;
@@ -155,9 +174,21 @@
 
 <!-- svelte-ignore a11y_no_static_element_interactions -->
 <div class="heatmap-container" onmousemove={handleMouseMove}>
+	<!-- Scale controls -->
+	<div class="scale-controls">
+		<label class="control-toggle">
+			<input type="checkbox" bind:checked={hideSpecialTokens} />
+			Ignore special tokens in scale
+		</label>
+		<label class="control-toggle">
+			<input type="checkbox" bind:checked={clipPercentile} />
+			Clip outliers (2-98th percentile)
+		</label>
+	</div>
+
 	<!-- Color scale legend -->
 	<div class="legend">
-		<span class="legend-label">{extent.min.toFixed(3)}</span>
+		<span class="legend-label">{extent.min.toFixed(2)}</span>
 		<div class="legend-bar">
 			{#each legendStops as color, i}
 				<div
@@ -166,7 +197,7 @@
 				></div>
 			{/each}
 		</div>
-		<span class="legend-label">{extent.max.toFixed(3)}</span>
+		<span class="legend-label">{extent.max.toFixed(2)}</span>
 		<span class="legend-desc">low (red) --- high (blue)</span>
 	</div>
 
@@ -236,6 +267,26 @@
 <style>
 	.heatmap-container {
 		position: relative;
+	}
+
+	/* Scale controls */
+	.scale-controls {
+		display: flex;
+		gap: 1.25rem;
+		margin-bottom: 0.5rem;
+	}
+	.control-toggle {
+		display: flex;
+		align-items: center;
+		gap: 0.35rem;
+		font-size: 0.75rem;
+		color: var(--text-muted);
+		cursor: pointer;
+		user-select: none;
+	}
+	.control-toggle input[type='checkbox'] {
+		accent-color: var(--primary);
+		cursor: pointer;
 	}
 
 	/* Color legend */
